@@ -82,7 +82,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   & .showtime-details {
-    overflow: scroll;
+    
   }
 }
 
