@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urgoo cinema</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/x-icon" href="pics/favicon-urgoo.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manrope:wght@200..800&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=play_circle"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="phone-nav">
+        <ul>
+          <li>
+            <a href="#"
+              ><img src="pics/logo-urgoo.png" alt="Urgoo logo" class="logo"
+            /></a>
+          </li>
+          <li><a class="phone-collapse">☰</a></li>
+        </ul>
+      </nav>
+      <nav class="desktop-nav">
+        <ul>
+          <li>
+            <a href="#"
+              ><img src="pics/logo-urgoo.png" alt="Urgoo logo" class="logo"
+            /></a>
+          </li>
+          <li><a href="#" class="active">НҮҮР</a></li>
+          <li><a href="#">УДАХГҮЙ ДЭЛГЭЦНЭЭ</a></li>
+          <li><a href="#">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
+          <li><a href="#">БЭЛГИЙН КАРТ</a></li>
+          <li><a href="#">ПРОФАЙЛ</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="featured">
+        <div class="slideshow-container">
+          <article class="mySlides fade">
+            <div class="featured-info">
+              <span
+                class="material-symbols-outlined play-icon"
+                style="font-size: 4rem"
+              >
+                play_circle
+              </span>
+              <div class="featured-details">
+                <h2 class="featured-name">A MINECRAFT MOVIE</h2>
+                <p>
+                  1 цаг 45 мин • Адал явдалт • Инээдмийн • Уран зөгнөлт
+                  <span class="age-pg13">PG-13</span>
+                </p>
+              </div>
+              <button class="button-featured">ЗАХИАЛАХ</button>
+            </div>
+            <img src="pics/minecraft.jpg" />
+          </article>
+
+          <article class="mySlides fade">
+            <div class="featured-info">
+              <span
+                class="material-symbols-outlined play-icon"
+                style="font-size: 4rem"
+              >
+                play_circle
+              </span>
+              <div class="featured-details">
+                <h2 class="featured-name">DISNEY: SNOW WHITE</h2>
+                <p>
+                  1 цаг 49 мин • Хөгжмийн • Уран зөгнөлт • Гэр бүлийн
+                  <span class="age-pg">PG</span>
+                </p>
+              </div>
+              <button class="button-featured">ЗАХИАЛАХ</button>
+            </div>
+            <img src="pics/snowwhite.png" />
+          </article>
+
+          <article class="mySlides fade">
+            <div class="featured-info">
+              <span
+                class="material-symbols-outlined play-icon"
+                style="font-size: 4rem"
+              >
+                play_circle
+              </span>
+              <div class="featured-details">
+                <h2 class="featured-name">ДЭЛХИЙ ДЭЛБЭРСЭН ӨДӨР!</h2>
+                <p>
+                  1 цаг 31 мин • Инээдмийн • Хүүхэлдэйн
+                  <span class="age-g">G</span>
+                </p>
+              </div>
+              <button class="button-featured">ЗАХИАЛАХ</button>
+            </div>
+            <img src="pics/thedaytheearthblewup.png" />
+          </article>
+
+          <article class="mySlides fade">
+            <div class="featured-info">
+              <span
+                class="material-symbols-outlined play-icon"
+                style="font-size: 4rem"
+              >
+                play_circle
+              </span>
+              <div class="featured-details">
+                <h2 class="featured-name">THE MONKEY</h2>
+                <p>
+                  1 цаг 38 мин • Аймшгийн
+                  <span class="age-r">R</span>
+                </p>
+              </div>
+              <button class="button-featured">ЗАХИАЛАХ</button>
+            </div>
+            <img src="pics/image.png" />
+          </article>
+
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+      </section>
+
+      <section class="ongoing">
+        <h1 class="section-title"><span>Манай дэлгэцнээ</span></h1>
+        <div class="flex-container">
+          <article class="movie">
+            <div class="poster">
+              <img
+                src="pics/snowwhite-portrait.jpg"
+                alt="Poster of Snow White"
+              />
+            </div>
+            <div class="info">
+              <div class="info-details">
+                <h2 class="title">
+                  ДИСНЕЙН ЦАСАН ГУА<span class="rating age-pg">PG</span>
+                </h2>
+                <p class="caption">
+                  Энэхүү ид шидийн аялал таныг мөнхийн түүх рүү буцаан авчирна.
+                </p>
+                <p class="cast">
+                  Гол дүр:
+                  <span class="gray"
+                    >Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл
+                    Кармайкл, Ансу Кабиа</span
+                  >
+                </p>
+                <p class="duration">
+                  Үргэлжлэх хугацаа: <span class="gray">1ц 49м</span>
+                </p>
+                <p class="lang">
+                  <svg
+                    class="cc-icon gray"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="white"
+                  >
+                    <path
+                      d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                    /></svg>
+                  <span class="gray">Монгол хэл</span>
+                </p>
+              </div>
+              <div class="showtime-details">
+                <div class="today">
+                  <h3 class="day">ӨНӨӨДӨР</h3>
+                  <div class="branch branch-1">
+                    <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-2">
+                    <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                      <a href="#" class="time">23:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-3">
+                    <h4>
+                      Өргөө 3 <span class="location">IMAX Шангри-Ла</span>
+                    </h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-4">
+                    <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="movie">
+            <div class="poster">
+              <img
+                src="pics/snowwhite-portrait.jpg"
+                alt="Poster of Snow White"
+              />
+            </div>
+            <div class="info">
+              <div class="info-details">
+                <h2 class="title">
+                  ДИСНЕЙН ЦАСАН ГУА<span class="rating age-pg">PG</span>
+                </h2>
+                <p class="caption">
+                  Энэхүү ид шидийн аялал таныг мөнхийн түүх рүү буцаан авчирна.
+                </p>
+                <p class="cast">
+                  Гол дүр:
+                  <span class="gray"
+                    >Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл
+                    Кармайкл, Ансу Кабиа</span
+                  >
+                </p>
+                <p class="duration">
+                  Үргэлжлэх хугацаа: <span class="gray">1ц 49м</span>
+                </p>
+                <p class="lang">
+                  <svg
+                    class="cc-icon gray"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="white"
+                  >
+                    <path
+                      d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                    /></svg>
+                  <span class="gray">Монгол хэл</span>
+                </p>
+              </div>
+              <div class="showtime-details">
+                <div class="today">
+                  <h3 class="day">ӨНӨӨДӨР</h3>
+                  <div class="branch branch-1">
+                    <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-2">
+                    <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                      <a href="#" class="time">23:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-3">
+                    <h4>
+                      Өргөө 3 <span class="location">IMAX Шангри-Ла</span>
+                    </h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-4">
+                    <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="movie">
+            <div class="poster">
+              <img
+                src="pics/snowwhite-portrait.jpg"
+                alt="Poster of Snow White"
+              />
+            </div>
+            <div class="info">
+              <div class="info-details">
+                <h2 class="title">
+                  ДИСНЕЙН ЦАСАН ГУА<span class="rating age-pg">PG</span>
+                </h2>
+                <p class="caption">
+                  Энэхүү ид шидийн аялал таныг мөнхийн түүх рүү буцаан авчирна.
+                </p>
+                <p class="cast">
+                  Гол дүр:
+                  <span class="gray"
+                    >Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл
+                    Кармайкл, Ансу Кабиа</span
+                  >
+                </p>
+                <p class="duration">
+                  Үргэлжлэх хугацаа: <span class="gray">1ц 49м</span>
+                </p>
+                <p class="lang">
+                  <svg
+                    class="cc-icon gray"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="white"
+                  >
+                    <path
+                      d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                    /></svg>
+                  <span class="gray">Монгол хэл</span>
+                </p>
+              </div>
+              <div class="showtime-details">
+                <div class="today">
+                  <h3 class="day">ӨНӨӨДӨР</h3>
+                  <div class="branch branch-1">
+                    <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-2">
+                    <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                      <a href="#" class="time">23:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-3">
+                    <h4>
+                      Өргөө 3 <span class="location">IMAX Шангри-Ла</span>
+                    </h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-4">
+                    <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="movie">
+            <div class="poster">
+              <img
+                src="pics/snowwhite-portrait.jpg"
+                alt="Poster of Snow White"
+              />
+            </div>
+            <div class="info">
+              <div class="info-details">
+                <h2 class="title">
+                  ДИСНЕЙН ЦАСАН ГУА<span class="rating age-pg">PG</span>
+                </h2>
+                <p class="caption">
+                  Энэхүү ид шидийн аялал таныг мөнхийн түүх рүү буцаан авчирна.
+                </p>
+                <p class="cast">
+                  Гол дүр:
+                  <span class="gray"
+                    >Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл
+                    Кармайкл, Ансу Кабиа</span
+                  >
+                </p>
+                <p class="duration">
+                  Үргэлжлэх хугацаа: <span class="gray">1ц 49м</span>
+                </p>
+                <p class="lang">
+                  <svg
+                    class="cc-icon gray"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="white"
+                  >
+                    <path
+                      d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                    /></svg>
+                  <span class="gray">Монгол хэл</span>
+                </p>
+              </div>
+              <div class="showtime-details">
+                <div class="today">
+                  <h3 class="day">ӨНӨӨДӨР</h3>
+                  <div class="branch branch-1">
+                    <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-2">
+                    <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                      <a href="#" class="time">23:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-3">
+                    <h4>
+                      Өргөө 3 <span class="location">IMAX Шангри-Ла</span>
+                    </h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-4">
+                    <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <article class="movie">
+            <div class="poster">
+              <img
+                src="pics/snowwhite-portrait.jpg"
+                alt="Poster of Snow White"
+              />
+            </div>
+            <div class="info">
+              <div class="info-details">
+                <h2 class="title">
+                  ДИСНЕЙН ЦАСАН ГУА<span class="rating age-pg">PG</span>
+                </h2>
+                <p class="caption">
+                  Энэхүү ид шидийн аялал таныг мөнхийн түүх рүү буцаан авчирна.
+                </p>
+                <p class="cast">
+                  Гол дүр:
+                  <span class="gray"
+                    >Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл
+                    Кармайкл, Ансу Кабиа</span
+                  >
+                </p>
+                <p class="duration">
+                  Үргэлжлэх хугацаа: <span class="gray">1ц 49м</span>
+                </p>
+                <p class="lang">
+                  <svg
+                    class="cc-icon gray"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="white"
+                  >
+                    <path
+                      d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                    /></svg>
+                  <span class="gray">Монгол хэл</span>
+                </p>
+              </div>
+              <div class="showtime-details">
+                <div class="today">
+                  <h3 class="day">ӨНӨӨДӨР</h3>
+                  <div class="branch branch-1">
+                    <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-2">
+                    <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                      <a href="#" class="time">23:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-3">
+                    <h4>
+                      Өргөө 3 <span class="location">IMAX Шангри-Ла</span>
+                    </h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                  <div class="branch branch-4">
+                    <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+                    <div class="schedule">
+                      <a href="#" class="time">11:00</a>
+                      <a href="#" class="time">14:00</a>
+                      <a href="#" class="time">17:00</a>
+                      <a href="#" class="time">20:00</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer></footer>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
