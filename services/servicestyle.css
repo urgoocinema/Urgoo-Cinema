@@ -1,0 +1,160 @@
+@import "https://unpkg.com/open-props";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(22, 22, 22);
+  color: white;
+  font-family: "Roboto Condensed";
+}
+
+.logo {
+  width: 2.8125em;
+  height: 3.4375em;
+}
+
+.active {
+  color: orange;
+}
+
+/* .grid-container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 200px 1fr; 
+  grid-template-rows: auto 1fr auto; 
+  gap: 10px;
+}*/
+
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 1rem;
+  background-color: hsl(210, 100%, 10%);
+}
+
+nav ul a {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+}
+
+/* sercise section */
+main {
+  margin-top: 3vh;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vw;
+
+  padding-left: 15vw;
+  padding-right: 15vw;
+ 
+}
+@keyframes fadeColor {
+  from {
+    background-color: #626262;
+  }
+  to {
+    background-color: #232323;
+  }
+}
+
+main>div {
+  text-align: center;
+  width: 100%;
+  height: 80%;
+  padding: 5vw;
+  border-radius: 8px;
+  animation: fadeColor linear;
+  animation-timeline: scroll();
+
+}
+main>div p{
+  text-align: justify;
+}
+
+
+/* main>div:focus-within{
+  background-color: red;
+}
+body:has(main>div:focus-within){
+  transition: background-color 3s ease-in-out;
+} */
+.slider-wrapper{
+  max-width: 48rem;
+  margin: 0 auto;
+}
+.slider{
+  display: flex;
+  aspect-ratio: 16/9;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+  border-radius: 0.5rem;
+}
+.slider img{
+  flex:1 0 100%;
+  scroll-snap-align: start;
+}
+.slider-nav{
+  display: flex;
+  column-gap: 1rem;
+  position: absolute;
+  bottom: 1.25rem;
+  left:50%;
+  transform: translateX(-50%);
+  z-index:1;
+}
+.slider-nav a{
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #fff;
+  opacity: 0.75;
+  transition: opacity ease 250ms;
+}
+.slider-nav a:hover{
+  opacity: 1;
+}
+
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+footer {
+  background-color: rgba(53, 53, 53, 0.24);
+  padding: 5vw;
+  text-align: center;
+  min-height: 50vh;
+  display: flex;
+  justify-content: space-around;
+}
+
+footer section {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+
+  h2 {
+    border-bottom: 1px solid white;
+  }
+}
