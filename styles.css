@@ -28,7 +28,7 @@ body {
 }
 
 .section-title {
-  margin: 4rem;
+  margin: clamp(3.2rem, 5vw, 4rem) 0.5rem;
   text-align: center;   
   & span {
     padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 5rem);
@@ -41,7 +41,7 @@ body {
 }
 
 .flex-container {
-  margin: 5rem 2rem;
+  margin: clamp(4rem, 6vw, 5rem) 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: clamp(3rem, 4vw, 5rem) 5rem;
@@ -51,16 +51,19 @@ body {
 .movie {
   display: flex;
   gap: 1rem;
+  border: 2px solid orange;
   & .poster {
-    width: 100%;
+    min-width: 40%;
     max-width: 300px;
     max-height: 700px;
     aspect-ratio: 3 / 4;
+    border: 2px solid orange;
     & img {
       border-radius: 5em;
       width: 100%;
       height: 100%;
       object-fit: cover;
+
     }
   }
   & .title {
@@ -163,6 +166,15 @@ nav ul {
   gap: 0.8rem;
   width: 100%;
   max-height: 30%;
+  & .play-icon {
+    font-size: clamp(3.2rem, 5vw, 4rem);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    animation: pulsing 1s infinite;
+  }
+  & .play-icon:hover {
+    text-shadow: 0 0 10px #f08000, 0 0 10px orange;
+  }
 }
 
 .featured-details {
@@ -170,6 +182,14 @@ nav ul {
   & .featured-name {
     font-size: clamp(1.2rem, 4vw, 1.5rem);
     letter-spacing: 0.3rem;
+  }
+  & p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 3 mornii hyazgaar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -180,7 +200,7 @@ nav ul {
   color: white;
   padding: 0.3em 1em;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   border-radius: 0.25em;
   border-color: orange;
   transition: 0.3s ease-in-out;
@@ -190,16 +210,6 @@ nav ul {
   box-shadow: 0 0 100px orange, 0 0 500px yellow;
   text-shadow: 0 0 10px orange;
   backdrop-filter: brightness(0.8) blur(2px);
-}
-
-.play-icon {
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  animation: pulsing 1s infinite;
-}
-
-.play-icon:hover {
-  text-shadow: 0 0 10px #f08000, 0 0 10px orange;
 }
 
 @keyframes pulsing {
@@ -257,6 +267,7 @@ nav ul {
 .slideshow-container img {
   width: 100%;
   height: 70vh;
+  max-height: 37.5em;
   object-fit: cover;
 }
 
