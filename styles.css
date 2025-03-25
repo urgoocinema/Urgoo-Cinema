@@ -227,32 +227,40 @@ nav ul {
 }
 
 .age-pg13 {
+  display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(233, 0, 78, 0.5);
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
+  whitespace: nowrap;
 }
 .age-pg {
+  display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(27, 233, 0, 0.5);
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
+  whitespace: nowrap;
 }
 .age-g {
+  display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(27, 233, 0, 0.5);
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
+  whitespace: nowrap;
 }
 .age-r {
+  display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(255, 5, 5, 0.5);
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
+  whitespace: nowrap;
 }
 .slideshow-container {
   width: 100%;
