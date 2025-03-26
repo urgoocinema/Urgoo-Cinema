@@ -53,6 +53,7 @@ body {
   gap: 1rem;
   border: 2px solid orange;
   transition: transform 0.3s ease;
+  box-shadow: 0 0 10px 5px #fff;
   & .poster {
     min-width: 40%;
     max-width: 300px;
