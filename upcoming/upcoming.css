@@ -307,13 +307,13 @@ nav ul a {
 
 footer{
     background-color: rgba(53, 53, 53, 0.24);
-    padding: 5vw;
+    padding: 1.5vw;
     text-align: center;
-    min-height: 50vh;
+    min-height: 20vh;
     display: flex;
     justify-content: space-around;
-}
-
+  }
+  
 footer section{
     display: flex;
     flex-direction: column;
