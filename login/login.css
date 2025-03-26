@@ -230,7 +230,7 @@ main {
   transform:translateX(200%);
 }
 
-footer {
+footer{
   background-color: rgba(53, 53, 53, 0.24);
   padding: 5vw;
   text-align: center;
@@ -239,12 +239,23 @@ footer {
   justify-content: space-around;
 }
 
-footer section {
+footer section{
   display: flex;
   flex-direction: column;
-  gap: 1vh; 
-
-  h2 {
-    border-bottom: 1px solid white;
+  gap: 1vh;
+  h2{
+      border-bottom: 1px solid white;
   }
+  font-size: 3vh;
+}
+
+footer section ul{
+  margin-top: 1vh;
+  list-style: none;
+  text-decoration: none;
+  line-height: 3rem;
+}
+ul li a{
+  text-decoration: none;
+  color: white;
 }
