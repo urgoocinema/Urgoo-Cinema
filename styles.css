@@ -148,11 +148,17 @@ nav ul {
   align-items: center;
   list-style: none;
   padding: 1rem;
-  background-color: hsl(210, 100%, 10%);
+  /* background-color: hsl(210, 100%, 10%); */
+  background-color: var(--bg-color);
+  
+  transition: border-bottom 1s ease;
   & a {
     text-decoration: none;
     color: white;
     padding: 1rem;
+  }
+  & a:hover{
+    border-bottom: 3px solid white;
   }
 }
 
