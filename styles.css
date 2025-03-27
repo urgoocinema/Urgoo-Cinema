@@ -350,6 +350,8 @@ nav ul {
   justify-content: space-around;
   align-items: center;
   background-color: var(--primary-color);
+  border-radius: 10px;
+  
   min-height: 50px;
   width: 100vw;
   position: fixed;
@@ -357,6 +359,9 @@ nav ul {
   bottom: 0;
   & *{
     color: black;
+  }
+  & select{
+    height: 90%;
   }
 }
 footer{
