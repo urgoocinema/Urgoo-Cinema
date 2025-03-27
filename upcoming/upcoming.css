@@ -26,11 +26,18 @@
     overflow:hidden;
     transition: transform 0.3s ease;
     min-height: 50vh;
-    box-shadow: 0 0 10px 5px #fff;
+    box-shadow: 
+  0 0 20px rgba(255, 255, 255, 0.3),  
+  0 0 40px rgba(255, 255, 255, 0.1),  
+  0 8px 16px rgba(255, 255, 255, 0.08); 
 }
 
 .arriving-element:hover {
     transform: translateY(-10px);
+    box-shadow: 
+    0 0 40px rgba(255, 255, 255, 0.4),  
+    0 0 80px rgba(255, 255, 255, 0.2), 
+    0 12px 24px rgba(255, 255, 255, 0.1); 
 }
 
 .image-wrapper {
