@@ -1,24 +1,24 @@
 @import "https://unpkg.com/open-props";
 main {
-  margin-top: 3vh;
+  margin-top: 1vh;
   display: flex;
   width: 100%;
   flex-direction: column;
   align-items: center;
-  gap: 5vw;
+  gap: 3vw;
 
   padding-left: 15vw;
   padding-right: 15vw;
  
 }
-@keyframes fadeColor {
+/* @keyframes fadeColor {
   from {
     background-color: #626262;
   }
   to {
     background-color: #232323;
   }
-}
+} */
 
 main>div {
   text-align: center;
