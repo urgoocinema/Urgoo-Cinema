@@ -344,6 +344,21 @@ nav ul {
     gap: 1rem;
   }
 }
+
+.quickbook{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--primary-color);
+  min-height: 50px;
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  & *{
+    color: black;
+  }
+}
 footer{
   background-color: rgba(53, 53, 53, 0.24);
   padding: 1.5vw;
