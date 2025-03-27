@@ -64,7 +64,6 @@ body {
     max-width: 300px;
     max-height: 700px;
     aspect-ratio: 3 / 4;
-    border: 2px solid orange;
     & img {
       border-radius: 5em;
       width: 100%;
@@ -153,6 +152,10 @@ nav ul {
     text-decoration: none;
     color: white;
     padding: 1rem;
+    transition: 0.3s ease-in-out;
+  }
+  & a:hover {
+    color: orange;
   }
 }
 
