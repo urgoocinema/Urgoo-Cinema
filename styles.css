@@ -128,7 +128,6 @@ body {
   flex-direction: column;
   justify-content: space-between;
 
-  & .showtime-details {}
 }
 
 .location {
@@ -174,16 +173,12 @@ body {
   display: flex;
   align-items: center;
 }
-.cast{
 
-}
 .gray {
   /* opacity: 0.5; */
   color: var(--white-text);
 }
-.white{
-  /* color: var(--white-text); */
-}
+
 
 nav ul {
   display: flex;
@@ -191,7 +186,6 @@ nav ul {
   align-items: center;
   list-style: none;
   padding: 1rem;
-  /* background-color: hsl(210, 100%, 10%); */
   background-color: var(--bg-color);
 
   transition: border-bottom 1s ease;
@@ -206,9 +200,6 @@ nav ul {
     color: orange;
   }
 
-  & a:hover {
-    /* border-bottom: 3px solid white; */
-  }
 }
 
 .phone-nav {
@@ -326,7 +317,7 @@ nav ul {
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
-  whitespace: nowrap;
+  
 }
 
 .age-pg {
@@ -336,7 +327,7 @@ nav ul {
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
-  whitespace: nowrap;
+
 }
 
 .age-g {
@@ -346,7 +337,7 @@ nav ul {
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
-  whitespace: nowrap;
+  
 }
 
 .age-r {
@@ -356,7 +347,7 @@ nav ul {
   padding: 0 10px;
   border-radius: 0.5em;
   backdrop-filter: blur(10px);
-  whitespace: nowrap;
+  
 }
 
 .slideshow-container {
