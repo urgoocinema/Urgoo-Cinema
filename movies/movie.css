@@ -68,13 +68,16 @@ main {
 .also-showing {
   /* padding:  2rem */
 }
-.gray{
-  color: var(--gray-text);
+.info-details{
   
+  & p {
+    color: var(--gray-text);
+  }
 }
-/* .white{
+.white{
   color:var(--white-text);
-} */
+  font-weight: bold;
+}
 
 .also-showing h2 {
   /* text-align: center; */
