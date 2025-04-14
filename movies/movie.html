@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Urgoo cinema</title>
-    <link rel="stylesheet" href="../styles.css" />
     <link rel="stylesheet" href="./movie.css" />
+    <link rel="stylesheet" href="../styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="icon" type="image/x-icon" href="../pics/favicon-urgoo.ico" />
@@ -55,7 +55,7 @@
           alt="minecraft movie poster"
         />
         <div>
-          <h1>The minecraft movie</h1>
+          <h1>The minecraft movie<span class="rating age-pg">PG</span></h1>
           <p>
             Four misfits — Garrett “The Garbage Man” Garrison, Henry, Natalie
             and Dawn —find themselves struggling with ordinary problems.
@@ -71,7 +71,7 @@
             magical quest with an unexpected, expert crafter, Steve (Jack
             Black).
           </p>
-          <div class="movie-details">
+          <!-- <div class="movie-details">
             <div class="movie-details-elements">
               <h2>release date</h2>
               <p>4th Apr 2025</p>
@@ -88,6 +88,34 @@
               <h2>Cast</h2>
               <p>Jack Black, Jason Momoa, Jemaine Clement and more</p>
             </div>
+          </div> -->
+          <div class="info-details">
+            <p class="cast gray">
+              Гол дүр:
+
+              <span>
+                Гал Гадот, Рэйчел Зеглер, Эндрю Бернап, Колин Майкл Кармайкл,
+                Ансу Кабиа
+              </span>
+            </p>
+            <p class="duration gray">
+              Үргэлжлэх хугацаа: <span class="white">1ц 49м</span>
+            </p>
+            <p class="lang gray">
+              <svg
+                class="cc-icon gray"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="white"
+              >
+                <path
+                  d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
+                />
+              </svg>
+              <span class="white">Монгол хэл</span>
+            </p>
           </div>
         </div>
       </section>
@@ -208,6 +236,12 @@
 
       <section class="quickbook">
         <h1>Quickbook</h1>
+        <select name="theather" id="theather">
+          <option value="theater1">Urguu 1</option>
+          <option value="theater2">Urguu 2</option>
+          <option value="theater3">Urguu 3</option>
+          <option value="theater4">Urguu 4</option>
+        </select>
         <select name="movie" id="movie">
           <option value="movie1">The snow white</option>
           <option value="movie2">The minecraft movie</option>
