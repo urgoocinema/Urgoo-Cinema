@@ -201,6 +201,7 @@ main {
     flex-direction: column;
     /* justify-content: center; */
     align-content: center;
+    gap: 0.3em;
 
     
     /* background-color: orange; */
@@ -210,6 +211,7 @@ main {
       display: flex;
       flex-wrap: nowrap;
       justify-content: center;
+      gap: 0.2em;
     }
   }
   & .seat {
