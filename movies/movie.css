@@ -3,8 +3,11 @@
   --secondary-color: #ffb733;
   --text-color: white;
   --bg-color: rgb(22, 22, 22);
+  --screen-color:rgb(154, 153, 153);
+  --screen-hover:rgb(42, 42, 42);
 
   --black-text: black;
+  --lighter-black: rgb(32, 32, 32);
   --gray-text: gray;
   --gray-lighter-text: rgb(174, 173, 173);
   --white-text: white;
@@ -62,13 +65,16 @@ main {
 }
 .first-div {
   & > p {
-    line-height: 2rem;
+    line-height: 2.5rem;
     border-bottom: 1px solid var(--gray-text);
   }
-  & select{
+  & .gray {
+    color: var(--gray-text);
+  }
+  & select {
     appearance: none;
     background-color: transparent;
-    border:none;
+    border: none;
     padding: 0 1em 0 0;
     margin: 0;
     width: 100%;
@@ -80,16 +86,15 @@ main {
 
     outline: none;
   }
-  & select option{
+  & select option {
     background-color: var(--black-text);
     color: var(--white-text);
     padding-left: 3em;
     border: 2.3px solid var(--gray-text);
     border-radius: 8px;
-
   }
 
-  & .select{
+  & .select {
     width: 100%;
     border: 2.3px solid var(--gray-text);
     border-radius: 8px;
@@ -102,15 +107,16 @@ main {
     grid-template-areas: "select";
     align-items: center;
   }
-  & .select::after{
-    content:"";
+  & .select::after {
+    content: "";
     width: 0.8em;
     height: 0.5em;
     background-color: var(--white-text);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
     justify-self: end;
   }
-  & select, .select::after{
+  & select,
+  .select::after {
     grid-area: select;
   }
 }
@@ -139,22 +145,26 @@ main {
       border-radius: 8px;
       border: 2.3px solid var(--gray-text);
 
-      transition: transform 0.5s ease, border-color 0.5s ease;
+      transition: transform 0.5s ease, border-color 0.5s ease,
+        background-color 0.5s ease;
 
       & p {
         color: var(--gray-lighter-text);
+        line-height: 2em;
       }
       & span {
         color: var(--white-text);
         font-weight: 800;
       }
       & p:nth-child(2) {
+        color: var(--screen-color);
       }
     }
     & .screen:hover {
       transform: translateY(-10px);
       cursor: pointer;
       border-color: azure;
+      background-color: var(--screen-hover);
     }
   }
 }
