@@ -16,6 +16,10 @@ main {
   display: flex;
   flex-direction: column;
   /* background-color: yellow; */
+
+  & select{
+    min-width: 20px;
+  }
 }
 .movie-info {
   display: flex;
@@ -28,19 +32,14 @@ main {
     border-radius: 1em;
   }
 
-  & div {
+  & > div {
+    
     display: flex;
     flex-direction: column;
     gap: 2rem;
     & h1 {
       font-size: 3rem;
     }
-
-    &  p {
-      line-height: 2rem;
-      border-bottom: 1px solid var(--gray-text);
-    }
-
     & .movie-details {
       display: grid;
       grid-template-columns: 50% 50%;
@@ -61,13 +60,46 @@ main {
     }
   }
 }
+.first-div>p{
+    line-height: 2rem;
+    border-bottom: 1px solid var(--gray-text);
+}
+
+.screensAvailable{
+  display: flex;
+  flex-direction: column;
+  & .day{
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  & .day{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  & .screen-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    & .screen{
+      padding: 10px;
+      background-color: gray;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+    & .screen:hover{
+      transform: translateY(-10px);
+      cursor: pointer;
+    }
+  }
+}
 
 .also-showing {
   margin-top: 5rem;
 }
-.also-showing {
-  /* padding:  2rem */
-}
+
 .info-details{
   
   & p {
