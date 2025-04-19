@@ -1,5 +1,5 @@
+// seat layout 
 const seatWrapper = document.querySelector('.seatWrapper');
-
 const layout = [
     [5,5,5,5],
     [2,2,2,2],
@@ -8,7 +8,6 @@ const layout = [
     [5,5,5,5]
 ];
 let seatHTML = '';
-
 layout.forEach((row) =>{
     seatHTML+='<div class = "aisle">';
     for(let i = 0 ; i < row.length ; i++){
@@ -20,7 +19,4 @@ layout.forEach((row) =>{
     }
     seatHTML+='</div>';
 });
-
 seatWrapper.innerHTML+=seatHTML;
-
-

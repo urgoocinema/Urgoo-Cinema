@@ -199,10 +199,8 @@ main {
   }
   & .seatWrapper {
     display: flex;
-    /* flex-direction: column; */
-    /* justify-content: center; */
     justify-content: center;
-    gap: 2em;
+    gap: 1.5em;
     padding: 2em;
     & .aisle {
       display: flex;
@@ -210,7 +208,6 @@ main {
       justify-content: center;
       flex-wrap: nowrap;
       gap: 1em;
-      
 
       & .row {
         display: flex;
