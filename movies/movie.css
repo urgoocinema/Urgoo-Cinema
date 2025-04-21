@@ -19,7 +19,6 @@ main {
   padding-right: 15rem;
   display: flex;
   flex-direction: column;
-  /* background-color: yellow; */
 
   & select {
     min-width: 20px;
@@ -172,6 +171,23 @@ main {
     }
   }
 }
+.seatSelectionWrapper{
+  display: flex;
+  flex-direction: row;
+
+  & details{
+    display: flex;
+    flex-direction: column;
+    & selected-movie-detail{
+      display: flex;
+      flex-direction: column;
+    }
+    & selected-seat-detail{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
 .seatSelection {
   margin-top: 5em;
   margin-bottom: 5em;
@@ -253,7 +269,7 @@ main {
 }
 
 .also-showing h2 {
-  /* text-align: center; */
+ 
   margin-bottom: 2rem;
   color: white;
   font-size: 2rem;
@@ -278,23 +294,14 @@ main {
   transition: transform 0.3s ease;
   min-height: 50vh;
   min-width: 40vw;
-  /* box-shadow: 
-  0 0 20px rgba(255, 255, 255, 0.3),  
-  0 0 40px rgba(255, 255, 255, 0.1),  
-  0 8px 16px rgba(255, 255, 255, 0.08);  */
 }
 
 .showing-element:hover {
   transform: translateY(-10px);
-  /* box-shadow: 
-    0 0 40px rgba(255, 255, 255, 0.4),  
-    0 0 80px rgba(255, 255, 255, 0.2), 
-    0 12px 24px rgba(255, 255, 255, 0.1);  */
 }
 
 .image-wrapper {
   width: 35%;
-  /* flex-shrink: 0; */
 }
 
 .image-wrapper img {
