@@ -5,6 +5,7 @@
   --bg-color: rgb(22, 22, 22);
   --screen-color: rgb(154, 153, 153);
   --screen-hover: rgb(42, 42, 42);
+  --border-color:white;
 
   --black-text: black;
   --lighter-black: rgb(32, 32, 32);
@@ -176,6 +177,7 @@ main {
   flex-direction: row;
 
   & details{
+    
     display: flex;
     flex-direction: column;
     & selected-movie-detail{
@@ -251,6 +253,42 @@ main {
   & .index:hover {
     background-color: transparent;
     cursor:default;
+  }
+}
+.details{
+  /* background-color: red; */
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 30px;
+  & h1{
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+  }
+  & p{
+    line-height: 1.7em;
+  }
+  & .seat-detail-wrapper{
+    /* background-color: orange; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    & .seatTable{
+      /* background-color: red; */
+      min-width: 200px;
+      display: grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 50% 50%;
+      gap: 30px;
+      margin-bottom: 20px;
+      & div{
+        display: flex;
+        gap: 30px;
+      }
+    }
   }
 }
 
