@@ -1,0 +1,920 @@
+/* --- CSS Variables --- */
+:root {
+    --primary-color: #ffa500;
+    --secondary-color: #ffb733;
+    --text-color: white; /* Consider renaming to --general-text-color or similar if needed */
+    --bg-color: rgb(22, 22, 22);
+    --screen-color: rgb(154, 153, 153); /* Color for the screen element */
+    --screen-hover: rgb(42, 42, 42); /* Hover color for screens */
+    --border-color: white; /* General border color */
+  
+    --black-text: black; /* Use these more clearly where black text is needed */
+    --lighter-black: rgb(32, 32, 32);
+    --gray-text: gray; /* Standard gray text */
+    --gray-lighter-text: rgb(174, 173, 173); /* Lighter gray text */
+    --white-text: white; /* Standard white text */
+  }
+  
+  /* --- General / Body Styles (Assuming these might be in ../styles.css) --- */
+  /* If these styles are only for this page, they are fine here. */
+  /* Ensure ../styles.css is linked BEFORE movie.css in the HTML <head> */
+  
+  body {
+    /* Add or ensure basic body styles like font-family, background-color */
+    font-family: 'Fira Sans', sans-serif; /* Example from your fonts */
+    background-color: var(--bg-color);
+    color: var(--text-color); /* Use a variable for default text color */
+    margin: 0; /* Reset default body margin */
+    padding: 0; /* Reset default body padding */
+  }
+  
+  a {
+    color: inherit; /* Links inherit text color by default */
+    text-decoration: none; /* Remove default underline */
+  }
+  
+  /* --- Main Content Layout --- */
+  main {
+    margin: 2rem 15rem; /* Combine margin properties */
+    padding: 0; /* Remove padding if margins define the space */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; /* Use gap for spacing between sections */
+  }
+  
+  /* Style for select elements specifically within main, if needed globally */
+  main select {
+    min-width: 20px; /* Consider a more fluid width */
+  }
+  
+  
+  /* --- Movie Info Section --- */
+  .movie-info {
+    display: flex;
+    gap: 5rem; /* Spacing between image and text block */
+    /* Adjust flex-direction for smaller screens in media query */
+  }
+  
+  .movie-info img {
+    height: 50vh; /* Responsive height */
+    width: auto; /* Maintain aspect ratio */
+    max-width: 40%; /* Prevent image from getting too wide */
+    box-shadow: 0 0 20px var(--primary-color), 0 0 40px rgba(255, 255, 255, 0.1),
+      0 8px 16px rgba(255, 255, 255, 0.08);
+    border-radius: 1em;
+  }
+  
+  .movie-info > div { /* Target the direct content div */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Spacing between elements inside this div */
+    flex-grow: 1; /* Allow content div to take available space */
+  }
+  
+  .movie-info h1 {
+    font-size: 3rem;
+    /* Add margin-bottom if needed, or use gap in parent */
+  }
+  
+  /* Style for the age rating span */
+  .movie-info h1 .rating {
+    /* Add specific styles for the rating badge */
+    margin-left: 10px; /* Space from the title */
+    padding: 5px 10px;
+    background-color: #f08000; /* Example background */
+    color: var(--white-text);
+    font-size: 1rem; /* Smaller font size */
+    border-radius: 5px;
+    vertical-align: middle; /* Align with text */
+  }
+  
+  /* Style for the specific PG rating */
+  .movie-info h1 .age-pg {
+      background-color: green; /* Example specific color for PG */
+  }
+  
+  
+  /* Style the first descriptive paragraph */
+  .movie-info .first-div > p:first-of-type {
+      /* If this paragraph has unique styling not shared by the second */
+  }
+  
+  /* Style paragraphs in the info section */
+  .movie-info p {
+    line-height: 2.5rem; /* Consistent line height */
+    /* Use margin-bottom instead of border-bottom on paragraph itself if preferred */
+    /* border-bottom: 1px solid var(--gray-text); /* Keep border if intended */
+  }
+  
+  /* Style for the div containing detailed info (cast, duration, lang) */
+  .movie-info .info-details {
+    display: flex; /* Use flex for layout */
+    flex-direction: column; /* Stack details vertically */
+    gap: 10px; /* Space between detail lines */
+    padding-bottom: 20px; /* Add padding if the border is on the parent */
+    border-bottom: 1px solid var(--gray-text); /* Apply border here if it's a separator */
+  }
+  
+  /* Styles for spans used as labels (e.g., "Гол дүр:") */
+  .info-details .gray {
+    color: var(--gray-text);
+    font-weight: normal; /* Labels might not need to be bold */
+  }
+  
+  /* Styles for spans used as values (e.g., actor names) */
+  .info-details .white {
+    color: var(--white-text);
+    font-weight: bold;
+  }
+  
+  /* Style the CC icon */
+  .info-details .cc-icon {
+      vertical-align: middle; /* Align icon with text */
+      margin-right: 5px; /* Space between icon and text */
+      /* Ensure SVG fill color matches your text color */
+  }
+  
+  /* --- Select Dropdown Styling --- */
+  .select { /* Container for the custom select */
+    width: 100%;
+    border: 2.3px solid var(--gray-text);
+    border-radius: 8px;
+    padding: 0.25em 0.5em;
+    font-size: 1.25rem;
+    cursor: pointer;
+    background-color: var(--black-text);
+    display: grid;
+    grid-template-areas: "select"; /* Allows positioning the arrow */
+    align-items: center;
+    position: relative; /* Needed for absolute positioning of the arrow */
+  }
+  
+  .select select { /* The actual select element */
+    appearance: none; /* Hide default dropdown arrow */
+    background-color: transparent;
+    border: none;
+    padding: 0; /* Remove default padding */
+    margin: 0;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    color: var(--white-text);
+    outline: none; /* Remove outline on focus */
+    grid-area: select; /* Position over the grid area */
+    z-index: 1; /* Ensure select is clickable */
+  }
+  
+  /* Custom dropdown arrow */
+  .select::after {
+    content: "";
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--white-text);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+    grid-area: select; /* Position over the grid area */
+    justify-self: end; /* Align to the end */
+    pointer-events: none; /* Make sure the arrow doesn't block clicks on select */
+    z-index: 0; /* Below the actual select */
+  }
+  
+  /* Styles for select options (styling is browser-dependent) */
+  .select select option {
+    background-color: var(--black-text);
+    color: var(--white-text);
+    /* padding-left: 3em; /* This padding might not work consistently */
+    /* border: 2.3px solid var(--gray-text); /* Borders on options are not standard */
+    /* border-radius: 8px; /* Border radius on options is not standard */
+    cursor: pointer;
+  }
+  
+  
+  /* --- Available Screens Section --- */
+  .screensAvailable {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Space between days */
+  }
+  
+  .screensAvailable .day {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between day title and screen container */
+    margin-top: 1em; /* Added for clarity, could be part of gap */
+    margin-bottom: 1em; /* Added for clarity, could be part of gap */
+  }
+  
+  .screensAvailable .day h3 {
+      margin-bottom: 0; /* Remove default margin if gap is used */
+  }
+  
+  .screensAvailable .screen-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Space between individual screen blocks */
+  }
+  
+  .screensAvailable .screen {
+    padding: 10px;
+    background-color: var(--black-text);
+    border-radius: 8px;
+    border: 2.3px solid var(--gray-text);
+    transition: transform 0.5s ease, border-color 0.5s ease, background-color 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; /* Add a small gap between paragraphs */
+  }
+  
+  .screensAvailable .screen p {
+    color: var(--gray-lighter-text);
+    line-height: 1.5em; /* Adjust line height for better readability */
+    margin: 0; /* Remove default paragraph margin */
+  }
+  
+  .screensAvailable .screen p:first-child {
+    color: var(--white-text); /* Style for time range */
+    font-weight: 800;
+  }
+  
+  .screensAvailable .screen p:nth-child(2) {
+    color: var(--screen-color); /* Style for screen number */
+  }
+  
+  .screensAvailable .screen p span { /* Target the start time span specifically */
+    color: var(--white-text);
+    font-weight: 800;
+  }
+  
+  .screensAvailable .screen:hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+    border-color: azure; /* Consider using a variable for hover border */
+    background-color: var(--screen-hover);
+  }
+  
+  /* --- Seat Selection Wrapper --- */
+  .seatSelectionWrapper {
+    display: flex;
+    flex-direction: row; /* Default for larger screens */
+    gap: 30px; /* Space between seat map and details */
+    /* Adjust flex-direction and gap in media query */
+  }
+  
+  .seatSelection { /* Contains the theater screen and seats */
+    margin: 5em 0; /* Apply vertical margin */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allow seat selection to take available space */
+    /* Adjust width/flex-grow in media query */
+  }
+  
+  .seatSelection .theaterScreen {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #e0f7fa; /* Consider using a variable */
+    margin-bottom: 2rem;
+    padding: 1rem 0;
+    width: 80%;
+    margin-left: auto; /* Center the screen */
+    margin-right: auto; /* Center the screen */
+    background: linear-gradient(to right, #1e1e1e, #2a2a2a); /* Consider using variables */
+    border-radius: 0 0 100% 100% / 0 0 30% 30%;
+    box-shadow: 0 8px 20px var(--white-text),
+      0 0 60px var(--gray-lighter-text) inset;
+  }
+  
+  .seatSelection .seatWrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em; /* Space between aisles */
+    padding: 0 2em; /* Apply horizontal padding */
+    flex-wrap: wrap; /* Allow aisles to wrap if needed */
+  }
+  
+  .seatSelection .aisle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em; /* Space between rows in an aisle */
+    flex-shrink: 0; /* Prevent aisles from shrinking too much */
+  }
+  
+  .seatSelection .row {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent seats in a row from wrapping */
+    justify-content: center;
+    gap: 0.2em; /* Space between seats in a row */
+  }
+  
+  /* Style for individual seats */
+  .seatSelection .seat {
+    background-color: var(--gray-text);
+    height: 25px; /* Fixed size */
+    width: 20px; /* Fixed size */
+    margin: 0; /* Remove margin if gap is used in row */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    /* Add styles for selected/occupied states if needed */
+  }
+  
+  /* Style for row/column index elements */
+  .seatSelection .index {
+    background-color: transparent;
+    /* Ensure index elements have a defined size if needed for alignment */
+    height: 25px;
+    width: 20px;
+    display: flex; /* Use flex to center text */
+    justify-content: center;
+    align-items: center;
+    color: var(--gray-text); /* Color for index numbers/letters */
+    font-size: 0.8rem; /* Smaller font for index */
+  }
+  
+  .seatSelection .seat:hover {
+    background-color: var(--white-text);
+    cursor: pointer;
+  }
+  
+  .seatSelection .index:hover {
+    background-color: transparent; /* Keep background transparent on hover */
+    cursor: default; /* Default cursor for index */
+  }
+  
+  /* --- Details Section (Selected Movie/Seats) --- */
+  .details { /* Contains selected movie and seat details */
+    min-width: 400px; /* Minimum width for this section */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between detail blocks */
+    /* Adjust min-width/width/flex-basis in media query */
+  }
+  
+  .details h1 {
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    padding-bottom: 10px; /* Add padding below the border */
+    margin-bottom: 20px; /* Add space after the heading */
+  }
+  
+  .details p {
+    line-height: 1.7em; /* Consistent line height */
+    margin: 0; /* Remove default paragraph margin */
+  }
+  
+  .details p span { /* Style for labels within detail paragraphs */
+      font-weight: bold;
+      color: var(--white-text); /* Ensure labels are clearly visible */
+      margin-right: 5px; /* Space between label and value */
+  }
+  
+  /* Style for the seat detail wrapper */
+  .details .seat-detail-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Space between elements inside wrapper */
+    padding: 15px; /* Add some padding */
+    border: 1px solid var(--gray-text); /* Optional: Add a border */
+    border-radius: 8px;
+  }
+  
+  /* Style for the seat table structure (currently using divs) */
+  .details .seatTable {
+    min-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns of equal width */
+    /* grid-template-rows: 50% 50%; /* This might not be needed with content */
+    gap: 10px 30px; /* Gap between rows and columns */
+    margin-bottom: 20px;
+    /* If this is meant to be a table, consider using <table>, <thead>, <tbody>, <tr>, <th>, <td> for semantics */
+  }
+  
+  .details .seatTable div {
+      /* Styles for the individual cells */
+      display: flex; /* Can still use flex for content alignment within cell */
+      align-items: center; /* Vertically center text */
+      /* Remove gap if grid gap is used */
+  }
+  .details .seatTable div:nth-child(odd) {
+      font-weight: bold; /* Style column headers or labels */
+  }
+  
+  
+  /* Style for the total amount paragraph */
+  .details .seat-detail-wrapper p:last-child {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: var(--primary-color); /* Highlight total amount */
+      margin-top: 10px; /* Add space above total */
+  }
+  
+  
+  /* --- Payment Info Section --- */
+  .payment-info-Wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Space between elements in this section */
+  }
+  
+  .payment-info-Wrapper h2,
+  .payment-info-Wrapper h3 {
+      text-align: center;
+  }
+  
+  
+  .payment-info-Wrapper form {
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%; /* Ensure form takes max-width when available */
+    margin-top: 0; /* Use gap in parent instead */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between form groups */
+    padding: 20px;
+    border: 1px solid var(--gray-text); /* Optional: Add form border */
+    border-radius: 8px;
+    background-color: var(--lighter-black); /* Optional: Add background */
+  }
+  
+  .payment-info-Wrapper form div { /* Wrapper for label and input */
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Space between label and input */
+  }
+  
+  .payment-info-Wrapper form label {
+      font-weight: bold;
+      color: var(--white-text); /* Ensure labels are visible */
+  }
+  
+  .payment-info-Wrapper form input[type="text"],
+  .payment-info-Wrapper form input[type="email"],
+  .payment-info-Wrapper form input[type="tel"] {
+      padding: 10px;
+      border: 1px solid var(--gray-text);
+      border-radius: 4px;
+      background-color: var(--bg-color); /* Input background */
+      color: var(--white-text); /* Input text color */
+      font-size: 1rem;
+  }
+  
+  .payment-info-Wrapper form input[type="submit"][value="continue"] {
+    width: 100%;
+    background-color: var(--primary-color); /* Using variable */
+    color: var(--black-text);
+    padding: 12px 20px; /* Adjust padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem; /* Slightly larger font */
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s ease; /* Add transition */
+  }
+  
+  .payment-info-Wrapper form input[type="submit"][value="continue"]:hover {
+      background-color: var(--secondary-color); /* Hover effect */
+  }
+  
+  
+  /* --- Payment Method Section --- */
+  .payment-method-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px 0; /* Combine vertical margins */
+    gap: 30px; /* Space between elements */
+  }
+  
+  .payment-method-wrapper h2 {
+      text-align: center;
+  }
+  
+  .payment-method-wrapper .payment-details {
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%; /* Ensure details block takes max-width */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between detail lines */
+    margin-bottom: 20px; /* Space below details block */
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--gray-text); /* Separator */
+  }
+  
+  .payment-method-wrapper .payment-details h2 {
+      text-align: left; /* Align text left within details block */
+      font-size: 1.2em;
+      margin: 0; /* Remove default heading margin */
+  }
+  
+  
+  .payment-method-wrapper .payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center payment method items */
+    gap: 20px; /* Space between payment method items */
+  }
+  
+  .payment-method-wrapper .payment-methods div { /* Individual payment method item */
+    margin-top: 0; /* Use gap in parent instead */
+    min-height: 150px;
+    min-width: 150px;
+    padding: 10px;
+    background-color: var(--black-text);
+    border-radius: 8px;
+    border: 2.3px solid var(--gray-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* Center text if any */
+    transition: transform 0.5s ease, border-color 0.5s ease,
+      background-color 0.5s ease;
+    flex-basis: 180px; /* Suggest a base width for flex items */
+    flex-grow: 1; /* Allow items to grow */
+    max-width: 200px; /* Max width for items */
+  }
+  
+  .payment-method-wrapper .payment-methods div:hover {
+    transform: translateY(-10px);
+    cursor: pointer;
+    border-color: azure; /* Consider using a variable */
+    background-color: var(--screen-hover);
+  }
+  
+  
+  /* --- Also Showing Section --- */
+  .also-showing {
+    margin-top: 5rem;
+    /* Use gap in main for bottom spacing */
+  }
+  
+  .also-showing h2 {
+    margin-bottom: 2rem;
+    color: var(--white-text); /* Use variable */
+    font-size: 2rem;
+    text-align: center; /* Center the heading */
+  }
+  
+  .showing-container {
+    display: flex;
+    flex-direction: row; /* Horizontal scroll */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    gap: 5vw; /* Space between showing elements */
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    /* Add scrollbar styling if needed */
+  }
+  
+  .showing-element {
+    padding: 1rem;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.05); /* Using rgba is fine */
+    border-radius: 10px;
+    overflow: hidden; /* Ensure content stays within border-radius */
+    transition: transform 0.3s ease;
+    min-height: 50vh; /* Minimum height relative to viewport */
+    min-width: 40vw; /* Minimum width relative to viewport */
+    flex-shrink: 0; /* Prevent elements from shrinking below min-width */
+    /* Adjust min-width in media query for better control */
+  }
+  
+  .showing-element:hover {
+    transform: translateY(-10px);
+  }
+  
+  .showing-element .image-wrapper {
+    width: 35%; /* Fixed width for image column */
+    flex-shrink: 0; /* Prevent image wrapper from shrinking */
+  }
+  
+  .showing-element .image-wrapper img {
+    border-radius: 10px; /* Apply border radius to image */
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Crop image to fit without distorting */
+    display: block;
+  }
+  
+  .showing-element .content-wrapper {
+    padding: 1.5rem;
+    padding-top: 0; /* Remove top padding if h3 has margin-top */
+    display: flex;
+    flex-direction: column;
+    width: 60%; /* Fixed width for content column */
+    flex-grow: 1; /* Allow content wrapper to grow */
+  }
+  
+  .content-wrapper h3 {
+    color: #f08000; /* Consider using a variable */
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    margin-top: 0; /* Ensure no extra top margin */
+  }
+  
+  .showing-element .description {
+    color: #ccc; /* Consider using a variable */
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  
+  .showing-element .movie-details { /* List of details within showing element */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    margin-top: auto; /* Push details to the bottom */
+  }
+  
+  .movie-details li {
+    margin-bottom: 0.5rem;
+    color: #fff; /* Use variable */
+  }
+  
+  .movie-details .label {
+    color: #f08000; /* Use variable */
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+  
+  /* --- Quickbook Section --- */
+  .quickbook {
+    display: flex;
+    justify-content: center; /* Center align items */
+    align-items: center; /* Vertically align items */
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    gap: 20px; /* Space between form elements */
+    padding: 20px;
+    background-color: var(--lighter-black); /* Background color */
+    border-radius: 8px;
+    margin-top: 2rem; /* Add space above quickbook */
+    /* Use gap in main for bottom spacing */
+  }
+  
+  .quickbook h1 {
+      font-size: 1.8rem; /* Adjust size */
+      margin-right: 20px; /* Space from elements */
+      /* Consider making this less prominent if it's a utility section */
+  }
+  
+  .quickbook select,
+  .quickbook input[type="date"],
+  .quickbook input[type="time"] {
+      padding: 10px;
+      border: 1px solid var(--gray-text);
+      border-radius: 4px;
+      background-color: var(--bg-color);
+      color: var(--white-text);
+      font-size: 1rem;
+      cursor: pointer;
+  }
+  
+  /* Style for the search button */
+  .quickbook button[type="submit"] {
+      padding: 10px 15px;
+      background-color: var(--primary-color);
+      color: var(--black-text);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+  }
+  
+  .quickbook button[type="submit"]:hover {
+      background-color: var(--secondary-color);
+  }
+  
+  .quickbook button[type="submit"] svg {
+      fill: var(--black-text); /* Set SVG icon color */
+  }
+  
+  
+  /* --- Section Title (if used globally) --- */
+  /* Assuming this is a general style based on the class name */
+  .section-title {
+    margin: clamp(3.2rem, 5vw, 4rem) auto; /* Center horizontally */
+    text-align: center;
+  }
+  
+  .section-title span {
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 5rem);
+    border: 5px rgb(228, 155, 15) dashed; /* Consider using a variable */
+    border-radius: 0.5em;
+    backdrop-filter: blur(10px);
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    display: inline-block; /* Ensure padding/margin works */
+  }
+  
+  
+  /* --- Footer --- */
+  footer {
+      background-color: var(--lighter-black); /* Example background */
+      padding: 2rem 15rem; /* Match main padding */
+      display: flex;
+      justify-content: space-between; /* Space out sections */
+      flex-wrap: wrap; /* Allow sections to wrap */
+      gap: 2rem; /* Space between footer sections */
+  }
+  
+  footer section {
+      display: flex;
+      flex-direction: column;
+      /* Consider flex-basis for better control of section width */
+  }
+  
+  footer h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color); /* Highlight headings */
+  }
+  
+  footer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem; /* Space between list items */
+  }
+  
+  footer ul li a {
+      color: var(--gray-lighter-text); /* Link color */
+      transition: color 0.3s ease;
+  }
+  
+  footer ul li a:hover {
+      color: var(--white-text); /* Hover effect */
+      text-decoration: underline; /* Add underline on hover */
+  }
+  
+  
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 1200px) {
+      main,
+      footer {
+          padding-left: 5rem;
+          padding-right: 5rem;
+      }
+  
+      .movie-info {
+          flex-direction: column; /* Stack movie info vertically */
+          align-items: center; /* Center items when stacked */
+          gap: 3rem; /* Adjust gap */
+      }
+  
+      .movie-info img {
+          max-width: 60%; /* Allow image to be wider when stacked */
+          height: auto; /* Ensure height adjusts */
+      }
+  
+       .details {
+          min-width: auto; /* Remove min-width constraint */
+          width: 100%; /* Allow details to take full width */
+       }
+  
+      .seatSelectionWrapper {
+          flex-direction: column; /* Stack seat selection and details */
+          gap: 3rem;
+      }
+  
+      .seatSelection {
+          margin-top: 0; /* Adjust margin */
+          margin-bottom: 2em;
+          width: 100%; /* Allow seat selection to take full width */
+      }
+  
+      .payment-info-Wrapper form,
+      .payment-method-wrapper .payment-details {
+          padding: 15px; /* Adjust padding */
+      }
+  }
+  
+  
+  @media (max-width: 768px) {
+      main,
+      footer {
+          padding-left: 1rem;
+          padding-right: 1rem;
+      }
+  
+      .movie-info {
+          gap: 2rem;
+      }
+  
+      .movie-info img {
+          max-width: 80%;
+      }
+  
+      .movie-info > div {
+          gap: 1.5rem;
+      }
+  
+      .movie-info h1 {
+          font-size: 2rem; /* Reduce font size */
+      }
+  
+      .movie-info .info-details {
+          flex-direction: column; /* Stack details */
+          gap: 5px; /* Adjust gap */
+      }
+  
+      .showing-element {
+          flex-direction: column; /* Stack image and content */
+          min-width: 70vw; /* Adjust minimum width for scroll items */
+          min-height: auto; /* Allow height to adjust */
+      }
+  
+      .showing-element .image-wrapper,
+      .showing-element .content-wrapper {
+          width: 100%; /* Full width when stacked */
+      }
+  
+      .showing-element .image-wrapper {
+          height: auto; /* Auto height */
+      }
+       .showing-element .image-wrapper img {
+           max-height: 300px; /* Optional: cap image height */
+           width: auto; /* Allow image width to adjust */
+           margin: 0 auto; /* Center image */
+       }
+  
+  
+      .content-wrapper h3 {
+          font-size: 1.3rem; /* Reduce font size */
+      }
+  
+      .description,
+      .movie-details li {
+          font-size: 0.8rem; /* Reduce font size */
+      }
+  
+      .quickbook {
+          flex-direction: column; /* Stack quickbook items */
+          align-items: stretch; /* Stretch items */
+          gap: 15px;
+      }
+  
+      .quickbook h1 {
+          margin-right: 0;
+          text-align: center;
+      }
+  
+      .quickbook select,
+      .quickbook input[type="date"],
+      .quickbook input[type="time"],
+      .quickbook button[type="submit"] {
+          width: 100%; /* Full width items */
+          box-sizing: border-box; /* Include padding/border in width */
+      }
+  
+      footer {
+          flex-direction: column; /* Stack footer sections */
+          align-items: center; /* Center align footer content */
+          text-align: center;
+          gap: 1.5rem;
+      }
+      footer section {
+          width: 100%; /* Sections take full width */
+      }
+      footer ul {
+          align-items: center; /* Center list items */
+      }
+  
+  }
+  
+  @media (max-width: 480px) {
+      .movie-info h1 {
+          font-size: 1.8rem; /* Further reduce font size */
+      }
+       .showing-element {
+          min-width: 85vw; /* Adjust minimum width for scroll items */
+       }
+  
+      .seatSelection .theaterScreen {
+           width: 95%; /* Wider screen on very small screens */
+      }
+  
+      .seatSelection .seatWrapper {
+          gap: 0.5em; /* Reduce gap between aisles */
+      }
+       .seatSelection .aisle {
+          gap: 0.5em; /* Reduce gap between rows */
+      }
+      .seatSelection .row {
+          gap: 0.1em; /* Reduce gap between seats */
+      }
+  
+      .seatSelection .seat,
+      .seatSelection .index {
+           height: 20px; /* Smaller seats */
+           width: 16px; /* Smaller seats */
+      }
+  }
