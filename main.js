@@ -1,27 +1,23 @@
-let slideIndex = 1;
-let index = document.querySelectorAll
-const schedDaysBtns = document.querySelectorAll('.time-button');
-showSlides(slideIndex);
+import { createMovieCard } from './modules/movie-card-component.js';
+import showSlides from './modules/slideshow.js';
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
+showSlides(1);
 
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
+// Fetch movies and generate components
+async function loadMovies() {
+  try {
+    const movieData = await fetch('./data/movies-list.json');
+    const ongoingSection = document.querySelector('.ongoing .flex-container');
 
-function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
+    const data = await movieData.json();
+
+    data.movies.forEach(movie => {
+      const movieCard = createMovieCard(movie);
+      ongoingSection.appendChild(movieCard);
+    });
+  } catch (error) {
+    console.error('Error loading movies:', error);
   }
-  slides[slideIndex-1].style.display = "block";
 }
 
+loadMovies();
