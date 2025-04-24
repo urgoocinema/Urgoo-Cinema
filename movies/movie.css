@@ -19,7 +19,8 @@ main {
   padding-left: 15rem;
   padding-right: 15rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
+  gap: 50px;
 
   & select {
     min-width: 20px;
@@ -177,6 +178,7 @@ main {
   margin-top: 60px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   & .details {
     font-size: 1.15rem;
@@ -328,6 +330,23 @@ main {
       font-weight: bold;
       color: var(--primary-color);
       margin-top: 10px;
+    }
+    & input[type="submit"][value="continue"]{
+      width: 100%;
+      background-color: var(--primary-color);
+      color: var(--black-text);
+      padding: 12px 20px;
+      border:none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+
+    }
+    & input[type="submit"][value="continue"]:hover{
+      background-color: var(--secondary-color);
     }
   }
   & .seatTable {
@@ -597,6 +616,7 @@ main {
     padding-right: 0;
     display: flex;
     flex-direction: column;
+    
 
     & select {
       min-width: 20px;

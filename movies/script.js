@@ -32,3 +32,15 @@ for(let i = 1 ; i <= max ; i++){
 
 indexHTML += '</div>';//seat indexes
 seatWrapper.innerHTML += (indexHTML+seatHTML+indexHTML);
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  const movieinfo = document.getElementById("movie-info-section");
+  const screensAvailable = document.getElementById("screensAvailable");
+  const seatSelection = document.getElementById("seatSelectionWrapper-section");
+  const paymentInfo = document.getElementById("payment-info-Wrapper-section");
+  const paymentMethod = document.getElementById("payment-method-wrapper-section");
+
+  const screen = movieinfo.getElementsByClassName("screen");
+  const confirmSeat = document.getElementById("proceed-to-info-input");
+  const 
+});

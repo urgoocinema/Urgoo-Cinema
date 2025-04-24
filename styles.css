@@ -487,7 +487,7 @@ nav ul {
   bottom: 0;
 
   & * {
-    color: black; /* This sets default color for all descendants, including option text */
+    color: black;
   }
 
   & select,
@@ -497,27 +497,24 @@ nav ul {
     border: 1px solid var(--gray-text);
     border-radius: 4px;
     background-color: var(--bg-color);
-    color: var(--white-text); /* This sets the color of the selected value in the select box */
+    color: var(--white-text); 
     font-size: 1rem;
     cursor: pointer;
   }
 
-  /* === Add these styles to target the options === */
+
   & select option {
-    color: var(--black-text); /* Target the text color of options */
-    background-color: white; /* Target the background color of options */
+    color: var(--black-text); 
+    background-color: white; 
   }
 
-  /* You might also want to style the option when it's hovered or selected in the dropdown */
+
   & select option:hover,
   & select option:checked {
-      background-color: #f0f0f0; /* Light grey on hover/selection in dropdown */
-      color: #333; /* Darker text for contrast */
+      background-color: #f0f0f0; 
+      color: #333; 
   }
-  /* ============================================== */
 
-
-  /* Style for the search button */
   & button[type="submit"] {
     padding: 10px 15px;
     background-color: var(--black-text);
@@ -536,7 +533,7 @@ nav ul {
   }
 
   & button[type="submit"] svg {
-    fill: var(--primary-color); /* Set SVG icon color */
+    fill: var(--primary-color); 
   }
 }
 footer {
