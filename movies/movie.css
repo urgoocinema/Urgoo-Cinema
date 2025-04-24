@@ -292,6 +292,83 @@ main {
   }
 }
 
+.payment-info-Wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & form{
+    min-width: 300px;
+    max-width: 600px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    & input[type="submit"][value="continue"]{
+      width:100%;
+    }
+
+    & div{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+}
+.payment-method-wrapper{
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  align-items: center;
+  & .payment-details{
+    min-width: 300px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+  & .payment-methods{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    & div{
+      margin-top: 20px;
+      min-height: 150px;
+      min-width: 150px;
+      padding: 10px;
+      background-color: var(--black-text);
+      border-radius: 8px;
+      border: 2.3px solid var(--gray-text);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      transition: transform 0.5s ease, border-color 0.5s ease,
+        background-color 0.5s ease;
+
+      & p {
+        color: var(--gray-lighter-text);
+        line-height: 2em;
+      }
+      & span {
+        color: var(--white-text);
+        font-weight: 800;
+      }
+      & p:nth-child(2) {
+        color: var(--screen-color);
+      }
+    }
+    & div:hover {
+      transform: translateY(-10px);
+      cursor: pointer;
+      border-color: azure;
+      background-color: var(--screen-hover);
+    }
+  }
+}
 .also-showing {
   margin-top: 5rem;
 }
