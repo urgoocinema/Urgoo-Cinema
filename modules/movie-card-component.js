@@ -1,4 +1,5 @@
-// Function to generate a movie card component
+import { durationConverter } from './duration-converter.js';
+
 export function createMovieCard(movie) {
     const movieCard = document.createElement('article');
     movieCard.classList.add('movie');
@@ -10,7 +11,7 @@ export function createMovieCard(movie) {
       <div class="info">
         <div class="info-details">
           <h2 class="title">
-            ${movie.title}<span class="rating age-pg">${movie.age_rating}</span>
+            ${movie.title}<span class="rating ${movie.age_rating}">${movie.age_rating}</span>
           </h2>
           <p class="caption">
             ${movie.description}
@@ -20,7 +21,7 @@ export function createMovieCard(movie) {
             <span class="gray">${movie.cast.join(', ')}</span>
           </p>
           <p class="duration">
-            Үргэлжлэх хугацаа: <span class="gray">${movie.duration}ц</span>
+            Үргэлжлэх хугацаа: <span class="gray">${durationConverter(movie.duration)}</span>
           </p>
           <p class="lang">
             <svg
@@ -35,7 +36,7 @@ export function createMovieCard(movie) {
                 d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
               />
             </svg>
-            <span class="gray">Монгол хэл</span>
+            <span class="gray">${movie.cc === 'mongolian' ? 'Монгол хэл' : 'Англи хэл'}</span>
           </p>
         </div>
         <div class="showtime-details">
