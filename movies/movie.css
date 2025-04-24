@@ -5,7 +5,7 @@
   --bg-color: rgb(22, 22, 22);
   --screen-color: rgb(154, 153, 153);
   --screen-hover: rgb(42, 42, 42);
-  --border-color:white;
+  --border-color: white;
 
   --black-text: black;
   --lighter-black: rgb(32, 32, 32);
@@ -25,6 +25,7 @@ main {
     min-width: 20px;
   }
 }
+
 .movie-info {
   display: flex;
   gap: 5rem;
@@ -172,31 +173,30 @@ main {
     }
   }
 }
-.seatSelectionWrapper{
+.seatSelectionWrapper {
+  margin-top: 60px;
   display: flex;
   flex-direction: row;
 
-  & details{
-    
+  & .details {
+    font-size: 1.15rem;
     display: flex;
     flex-direction: column;
-    & selected-movie-detail{
+    & selected-movie-detail {
       display: flex;
       flex-direction: column;
     }
-    & selected-seat-detail{
+    & selected-seat-detail {
       display: flex;
       flex-direction: column;
     }
   }
 }
 .seatSelection {
-  margin-top: 5em;
-  margin-bottom: 5em;
+  margin-top: 5em 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  flex-grow: 1;
 
   & .theaterScreen {
     text-align: center;
@@ -252,31 +252,31 @@ main {
   }
   & .index:hover {
     background-color: transparent;
-    cursor:default;
+    cursor: default;
   }
 }
-.details{
+.details {
   /* background-color: red; */
   min-width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: start;
   gap: 30px;
-  & h1{
+  & h1 {
     border-bottom: 1px solid var(--border-color);
     text-align: center;
   }
-  & p{
+  & p {
     line-height: 1.7em;
   }
-  & .seat-detail-wrapper{
+  & .seat-detail-wrapper {
     /* background-color: orange; */
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
 
-    & .seatTable{
+    & .seatTable {
       /* background-color: red; */
       min-width: 200px;
       display: grid;
@@ -284,7 +284,7 @@ main {
       grid-template-rows: 50% 50%;
       gap: 30px;
       margin-bottom: 20px;
-      & div{
+      & div {
         display: flex;
         gap: 30px;
       }
@@ -292,48 +292,152 @@ main {
   }
 }
 
-.payment-info-Wrapper{
+.details {
+  min-width: 400px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  & form{
-    min-width: 300px;
-    max-width: 600px;
-    margin-top: 20px;
+  gap: 30px;
+
+  & h1 {
+    border-bottom: 1px solid var(--border-color);
+    text-align: center;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  & p {
+    line-height: 1.7em;
+    margin: 0;
+
+    & span {
+      font-weight: bold;
+      color: var(--white-text);
+      margin-right: 5px;
+    }
+  }
+  & .seat-detail-wrapper {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
+    padding: 15px;
+    border: 1px solid var(--gray-text);
+    border-radius: 8px;
 
-    & input[type="submit"][value="continue"]{
-      width:100%;
+    & p:last-child {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-top: 10px;
     }
+  }
+  & .seatTable {
+    min-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 30px;
+    margin-bottom: 20px;
 
-    & div{
+    & div {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      align-items: center;
+    }
+    & div:nth-child(1),
+    div:nth-child(2) {
+      font-weight: bold;
     }
   }
 }
-.payment-method-wrapper{
+
+.payment-info-Wrapper {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
-  margin-bottom: 50px;
   align-items: center;
-  & .payment-details{
+  gap: 20px;
+  & form {
     min-width: 300px;
     max-width: 600px;
+    width: 100%;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid var(--gray-text);
+    border-radius: 8px;
+    background-color: var(--lighter-black);
+
+    & input[type="submit"][value="continue"] {
+      width: 100%;
+    }
+
+    & div {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    & label{
+      font-weight: bold;
+      color: var(--white-text);
+    }
+    & input[type="text"], input[type="email"],input[type="tel"]{
+      padding: 10px;
+      border:1px solid var(--gray-text);
+      border-radius: 4px;
+      background-color: var(--bg-color);
+      color: var(--white-text);
+      font-size: 1rem;
+    }
+    & input[type="submit"][value="continue"]{
+      width: 100%;
+      background-color: var(--primary-color);
+      color: var(--black-text);
+      padding: 12px 20px;
+      border:none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    & input[type="submit"][value="continue"]:hover{
+      background-color: var(--secondary-color);
+    }
   }
-  & .payment-methods{
+}
+.payment-method-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 50px 0;
+  gap: 30px;
+  align-items: center;
+  & h2{
+    text-align: center;
+  }
+  & .payment-details {
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%;
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--gray-text);
+
+    & h2{
+      text-align: left;
+      font-size: 1.2em;
+      margin: 0;
+    }
+  }
+  & .payment-methods {
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 20px;
 
-    & div{
+    & div {
       margin-top: 20px;
       min-height: 150px;
       min-width: 150px;
@@ -384,7 +488,6 @@ main {
 }
 
 .also-showing h2 {
- 
   margin-bottom: 2rem;
   color: white;
   font-size: 2rem;
@@ -487,6 +590,18 @@ main {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  main {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+
+    & select {
+      min-width: 20px;
+    }
+  }
   .also-showing-element {
     flex-direction: column;
   }
