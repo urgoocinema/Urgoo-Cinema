@@ -1,3 +1,5 @@
+import { durationConverter } from "../utils/duration-converter.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
@@ -311,7 +313,8 @@ export class MovieCard extends HTMLElement {
       this.container.querySelector(".caption").textContent = newVal;
     }
     if (attr === "duration") {
-      this.container.querySelector(".duration span").textContent = newVal;
+      this.container.querySelector(".duration span").textContent =
+        durationConverter(newVal);
     }
     if (attr === "poster_url") {
       this.container.querySelector(".poster img").src = newVal;
@@ -319,7 +322,9 @@ export class MovieCard extends HTMLElement {
     }
     if (attr === "age_rating") {
       this.container.querySelector(".rating").textContent = newVal;
-      this.container.querySelector(".title-flex .rating").classList.add(`${newVal}`);
+      this.container
+        .querySelector(".title-flex .rating")
+        .classList.add(`${newVal}`);
     }
     if (attr === "cc") {
       this.container.querySelector(".lang span").textContent = `${
@@ -351,7 +356,9 @@ export class MovieCard extends HTMLElement {
     const currentDayName = currentDay
       .toLocaleDateString("en-US", { weekday: "long" })
       .toLowerCase();
-    const todayShowtimes = this.container.querySelector(".showtime-details .today");
+    const todayShowtimes = this.container.querySelector(
+      ".showtime-details .today"
+    );
     for (let i = 1; i <= 4; i++) {
       const branch = todayShowtimes.querySelector(`.branch-${i}`);
       const showtimes = this.showtimes?.[`branch${i}`]?.[currentDayName];

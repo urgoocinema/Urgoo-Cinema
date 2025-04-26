@@ -22,4 +22,4 @@ async function loadMovies() {
   }
 }
 
-loadMovies();
+//loadMovies();
