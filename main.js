@@ -1,5 +1,7 @@
-import { createMovieCard } from './modules/movie-card-component.js';
-import showSlides from './modules/slideshow.js';
+import { createMovieCard } from './utils/movie-card-component.js';
+import showSlides from './utils/slideshow.js';
+import './components/movieCard.js';
+import './components/movieList.js';
 
 showSlides(1);
 

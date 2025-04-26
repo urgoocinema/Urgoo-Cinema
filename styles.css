@@ -11,9 +11,6 @@
   --white-text: white;
 }
 
-:root {
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -349,7 +346,8 @@ nav ul {
   letter-spacing: normal;
 }
 
-.age-pg13, .PG-13 {
+.age-pg13,
+.PG-13 {
   display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(233, 0, 78, 0.5);
@@ -358,7 +356,8 @@ nav ul {
   backdrop-filter: blur(10px);
 }
 
-.age-pg, .PG {
+.age-pg,
+.PG {
   display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(27, 233, 0, 0.5);
@@ -367,7 +366,8 @@ nav ul {
   backdrop-filter: blur(10px);
 }
 
-.age-g, .G {
+.age-g,
+.G {
   display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(27, 233, 0, 0.5);
@@ -376,7 +376,8 @@ nav ul {
   backdrop-filter: blur(10px);
 }
 
-.age-r, .R {
+.age-r,
+.R {
   display: inline-block;
   font-size: 0.8rem;
   background-color: rgba(255, 5, 5, 0.5);
@@ -498,22 +499,20 @@ nav ul {
     border: 1px solid var(--gray-text);
     border-radius: 4px;
     background-color: var(--bg-color);
-    color: var(--white-text); 
+    color: var(--white-text);
     font-size: 1rem;
     cursor: pointer;
   }
 
-
   & select option {
-    color: var(--black-text); 
-    background-color: white; 
+    color: var(--black-text);
+    background-color: white;
   }
-
 
   & select option:hover,
   & select option:checked {
-      background-color: #f0f0f0; 
-      color: #333; 
+    background-color: #f0f0f0;
+    color: #333;
   }
 
   & button[type="submit"] {
@@ -534,7 +533,7 @@ nav ul {
   }
 
   & button[type="submit"] svg {
-    fill: var(--primary-color); 
+    fill: var(--primary-color);
   }
 }
 footer {
@@ -544,7 +543,7 @@ footer {
   min-height: 20vh;
   display: flex;
   justify-content: space-around;
-  padding-bottom: 85px;  
+  padding-bottom: 85px;
 }
 
 footer section {
