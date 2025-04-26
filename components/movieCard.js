@@ -39,7 +39,7 @@ template.innerHTML = `
 
       & .title-flex {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         gap: 0.4rem;
       }
@@ -167,49 +167,34 @@ template.innerHTML = `
       color: var(--white-text);
     }
     .rating {
+      display: inline-block;
+      font-size: 0.8rem;
       font-family: "Roboto Condensed";
       letter-spacing: normal;
       color: var(--white-text);
+      padding: 0 10px;
+      border-radius: 0.5em;
+      backdrop-filter: blur(10px);
     }
 
     .age-pg13,
     .PG-13 {
-      display: inline-block;
-      font-size: 0.8rem;
       background-color: rgba(233, 0, 78, 0.5);
-      padding: 0 10px;
-      border-radius: 0.5em;
-      backdrop-filter: blur(10px);
     }
 
     .age-pg,
     .PG {
-      display: inline-block;
-      font-size: 0.8rem;
       background-color: rgba(27, 233, 0, 0.5);
-      padding: 0 10px;
-      border-radius: 0.5em;
-      backdrop-filter: blur(10px);
     }
 
     .age-g,
     .G {
-      display: inline-block;
-      font-size: 0.8rem;
       background-color: rgba(27, 233, 0, 0.5);
-      padding: 0 10px;
-      border-radius: 0.5em;
-      backdrop-filter: blur(10px);
     }
 
     .age-r,
     .R {
-      display: inline-block;
-      font-size: 0.8rem;
       background-color: rgba(255, 5, 5, 0.5);
-      padding: 0 10px;
-      border-radius: 0.5em;
-      backdrop-filter: blur(10px);
     }
   </style>
   <div class="poster">
