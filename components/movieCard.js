@@ -3,14 +3,25 @@ import { durationConverter } from "../utils/duration-converter.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
+    :root {
+      --primary-color: #ffa500;
+      --secondary-color: #ffb733;
+      --text-color: white;
+      --bg-color: rgb(22, 22, 22);
+
+      --black-text: black;
+      --gray-text: gray;
+      --white-text: white;
+    }
     * {
       padding: 0;
       margin: 0;
       box-sizing: border-box;
     }
+      
     .movie {
       display: flex;
-      width: 900px;
+      
       gap: 1rem;
       border-left: 5px rgb(228, 155, 15) dashed;
       border-top: 2px rgb(228, 155, 15) solid;
@@ -67,13 +78,14 @@ template.innerHTML = `
         0 0 80px rgba(255, 255, 255, 0.2), 0 12px 24px rgba(255, 255, 255, 0.1);
     }
     .info {
+      width: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
     .location {
-      /* background-color: rgba(39, 178, 245, 0.65); */
+      display: inline-block;
       background-color: var(--secondary-color);
       color: var(--black-text);
       padding: 0 10px;
@@ -132,6 +144,11 @@ template.innerHTML = `
         opacity: 1;
       }
 
+      & .schedule {
+        display: flex;
+        flex-wrap: wrap; 
+      }
+
       & .day,
       .schedule {
         margin: 0.5rem 0;
@@ -148,7 +165,7 @@ template.innerHTML = `
         border-radius: 0.5em;
         backdrop-filter: blur(10px);
         font-size: 1.2rem;
-        line-height: 1.7;
+        line-height: 1.5rem;
         color: white;
         text-decoration: none;
         transition: 0.1s ease-in-out;
