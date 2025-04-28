@@ -305,6 +305,13 @@ template.innerHTML = `
       }
     }
 
+    @media (max-width: 305px) {
+      .mobile-poster {
+        max-height: 100px;
+        min-width: 100px;
+      }
+    }
+
   </style>
     <div class="poster desktop-poster">
       <img />
@@ -363,7 +370,7 @@ template.innerHTML = `
               d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
             />
           </svg>
-          БҮХ ЦАГ ХАРАХ
+          БҮХ ЦАГ
         </button>
       </div>
       <div class="timetable-container"></div>
