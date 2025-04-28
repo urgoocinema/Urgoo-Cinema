@@ -1,7 +1,15 @@
 // import { createMovieCard } from './utils/movie-card-component.js';
-import showSlides from './utils/slideshow.js';
+import showSlides, {plusSlides, currentSlide} from './utils/slideshow.js';
 import './components/movieCard.js';
 import './components/movieList.js';
+
+document.querySelector(".prev").addEventListener("click", () => {
+    plusSlides(-1);
+});
+document.querySelector(".next").addEventListener("click", () => {
+    plusSlides(1);
+});
+
 
 showSlides(1);
 

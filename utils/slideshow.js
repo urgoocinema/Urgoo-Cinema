@@ -1,15 +1,14 @@
 let slideIndex = 1;
 let index = document.querySelectorAll
-const schedDaysBtns = document.querySelectorAll('.time-button');
 showSlides(slideIndex);
 
 // Next/previous controls
-function plusSlides(n) {
+export function plusSlides(n) {
   showSlides(slideIndex += n);
 }
 
 // Thumbnail image controls
-function currentSlide(n) {
+export function currentSlide(n) {
   showSlides(slideIndex = n);
 }
 
