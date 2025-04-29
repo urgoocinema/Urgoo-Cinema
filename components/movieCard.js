@@ -309,6 +309,7 @@ template.innerHTML = `
       }
     }
     @media (max-width: 350px) {
+      
       #cast {
         display: none;
       }
@@ -334,6 +335,10 @@ template.innerHTML = `
       .mobile-poster {
         max-height: 120px;
         min-width: 120px;
+        margin: 0 auto;
+      }
+      .info-text {
+        display: none;
       }
     }
   </style>

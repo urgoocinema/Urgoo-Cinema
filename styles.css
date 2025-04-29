@@ -127,12 +127,12 @@ nav ul {
   width: 50%;
 
   & .featured-name {
-    font-size: clamp(1.2rem, 4vw, 1.5rem);
+    font-size: clamp(1rem, 4vw, 1.5rem);
     letter-spacing: 0.3rem;
   }
 
   & p {
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     /* 3 mornii hyazgaar */
@@ -416,4 +416,22 @@ footer section ul {
 ul li a {
   text-decoration: none;
   color: white;
+}
+
+@media (max-width: 400px) {
+  .button-featured {
+    font-size: clamp(0.6rem, 2vw, 0.8rem);
+  }
+}
+
+@media (max-width: 310px) {
+  .play-icon {
+    display: none !important;
+  }
+}
+
+@media (max-width: 260px) {
+  .section-title {
+    display: none;
+  }
 }
