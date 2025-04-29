@@ -277,7 +277,7 @@ template.innerHTML = `
 
     @media (max-width: 440px) {
       .time-button {
-        font-size: clamp(0.6rem, 3.6vw, 0.8rem) !important;
+        font-size: clamp(0.6rem, 4vw, 0.8rem) !important;
       }
     }
     @media (max-width: 426px) {
