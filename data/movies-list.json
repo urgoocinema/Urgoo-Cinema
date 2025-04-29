@@ -53,8 +53,8 @@
     {
       "id": 2,
       "title": "The Day the Earth Blew Up",
-      "description": "A thrilling sci-fi adventure about humanity's fight for survival.",
-      "cast": ["John Doe", "Jane Smith", "Alan Grant"],
+      "description": "Porky Pig болон Daffy Duck нар санамсаргүй харь гаригийн хуйвалдааныг илрүүлж, дэлхийг удахгүй болох халдлагаас аврах ёстой .",
+      "cast": ["Эрик Бауза", "Канди Мило", "Питер МакНиколь"],
       "duration": 120,
       "poster_url": "./pics/thedaytheearthblewup-portrait.webp",
       "age_rating": "G",

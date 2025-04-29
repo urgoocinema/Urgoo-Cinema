@@ -67,9 +67,10 @@ template.innerHTML = `
 
       & .info .caption {
         margin: 1.3rem 0;
+        margin-right: 0.5rem;
         color: var(--white-text);
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -255,8 +256,8 @@ template.innerHTML = `
       }
       .mobile-poster {
         display: block;
-        max-height: 210px;
-        min-height: 210px;
+        max-height: 220px;
+        min-height: 220px;
         aspect-ratio: 3 / 4;
       }
       .desktop-poster {
