@@ -18,6 +18,7 @@ export class MovieList extends HTMLElement {
 
     this.container = document.createElement("div");
     this.container.classList.add("container");
+    
 
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));

@@ -3,12 +3,26 @@
   --secondary-color: #ffb733;
   --text-color: white;
   --bg-color: rgb(22, 22, 22);
+  --text-primary:white;
+
+  --quickbook:#ffa500;
+  --quickbook-element:black;
+
+  --footer-color:#ffa500;
+  --footer-background:rgba(53, 53, 53, 0.24);
+  --footer-text:white;
+  --box-shadow:rgba(255, 255, 255, 0.1);
 
   --black-text: black;
   --gray-text: gray;
   --white-text: white;
 }
-
+/* @media (prefers-color-scheme: dark){
+  :root {
+    --bg-color:white;
+    --text-primary:black;
+  }
+} */
 * {
   padding: 0;
   margin: 0;
@@ -17,7 +31,7 @@
 
 body {
   background-color: rgb(22, 22, 22);
-  color: white;
+  color: var(--text-primary);
   font-family: "Roboto Condensed";
 }
 
@@ -36,10 +50,11 @@ body {
 
   & span {
     padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 5rem);
-    border-left: 7px rgb(228, 155, 15) dashed;
-    border-top: 5px rgb(228, 155, 15) solid;
-    border-right: rgb(228, 155, 15) solid;
-    border-bottom: rgb(228, 155, 15) solid;
+
+    border-left: 7px var(--primary-color) dashed;
+    border-top: 5px var(--primary-color) solid;
+    border-right: var(--primary-color) solid;
+    border-bottom: var(--primary-color) solid;
     border-radius: 0.5em;
     backdrop-filter: blur(10px);
     font-size: clamp(1.2rem, 4vw, 1.6rem);
@@ -58,15 +73,15 @@ body {
   display: flex;
   width: 900px;
   gap: 1rem;
-  border-left: 5px rgb(228, 155, 15) dashed;
-  border-top: 2px rgb(228, 155, 15) solid;
-  border-right: rgb(228, 155, 15) solid;
-  border-bottom: rgb(228, 155, 15) solid;
+  border-left: 5px var(--primary-color) dashed;
+  border-top: 2px var(--primary-color) solid;
+  border-right: var(--primary-color) solid;
+  border-bottom: var(--primary-color) solid;
   border-radius: 1em;
   padding: 1.5rem 0.8rem;
   transition: all 0.3s ease;
-  box-shadow: 0 0 20px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
-    0 8px 16px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 20px var(--primary-color), 0 0 40px var(--box-shadow),
+    0 8px 16px var(--box-shadow);
 
   & .poster {
     min-width: 40%;
@@ -145,7 +160,7 @@ body {
   }
 
   & .time-button:hover {
-    border-color: #e49b0f;
+    border-color: var(--primary-color);
     background-color: var(--secondary-color);
     color: var(--black-text);
     & svg {
@@ -225,7 +240,7 @@ nav ul {
   & a {
     text-decoration: none;
     font-size: clamp(0.8rem, 1.5vw, 1rem);
-    color: white;
+    color: var(--text-primary);
     padding: 1rem;
   }
 
@@ -489,7 +504,7 @@ nav ul {
   bottom: 0;
 
   & * {
-    color: black;
+    color: var(--quickbook-element);
   }
 
   & select,
@@ -537,7 +552,7 @@ nav ul {
   }
 }
 footer {
-  background-color: rgba(53, 53, 53, 0.24);
+  background-color: var(--footer-background);
   padding: 1.5vw;
   text-align: center;
   min-height: 20vh;
