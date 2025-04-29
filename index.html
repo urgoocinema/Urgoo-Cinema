@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Киноны тасалбарыг онлайнаар хялбархан захиалаарай. Өргөө кино театрт үзвэрийн цагаа сонгож, өөрт ойр салбартаа шууд суудлаа захиалаарай."
+    />
     <title>Urgoo cinema</title>
     <!-- <link rel="preload" as="image" href="./pics/minecraft.webp" /> -->
     <link rel="stylesheet" href="styles.css" />
@@ -40,7 +44,7 @@
                 height="55"
             /></a>
           </li>
-          <li><a class="phone-collapse">☰</a></li>
+          <li><a class="phone-collapse" href="#">☰</a></li>
         </ul>
       </nav>
       <nav class="desktop-nav">
@@ -82,14 +86,14 @@
               <button class="button-featured">ЗАХИАЛАХ</button>
             </div>
             <img
-            src="./pics/minecraft.webp"
-            alt="Minecraft movie"
-            srcset="
-              ./pics/minecraft-portrait.webp 800w,
-              ./pics/minecraft.webp 1000w
-            "
-            sizes="(max-width: 800px) 100vw, 1000px"
-          />
+              src="./pics/minecraft.webp"
+              alt="Minecraft movie"
+              srcset="
+                ./pics/minecraft-portrait.webp  800w,
+                ./pics/minecraft.webp          1000w
+              "
+              sizes="(max-width: 800px) 100vw, 1000px"
+            />
           </article>
 
           <article class="mySlides fade">
@@ -143,8 +147,8 @@
             <img src="pics/image.webp" loading="lazy" />
           </article>
 
-          <a class="prev">&#10094;</a>
-          <a class="next">&#10095;</a>
+          <span class="prev">&#10094;</span>
+          <span class="next">&#10095;</span>
         </div>
       </section>
 
