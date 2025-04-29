@@ -293,7 +293,7 @@ template.innerHTML = `
         margin: auto 0;
       }
       .info-text {
-        font-size: clamp(0.7rem, 2.5vw, 1rem);
+        font-size: clamp(0.7rem, 3vw, 1rem);
       }
       .info {
         .title {
