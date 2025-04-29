@@ -58,99 +58,43 @@ class MovieDetails extends HTMLElement {
           : movieData.cc
             ? "Англи хэл"
             : "N/A"; // Assuming JSON has cc field
-      const grayTextColor = '#aaa'; // Example
-      const whiteTextColor = '#eee'; // Example
-      const bodyBackgroundColor = '#222'; // Example
+    
 
       this.shadowRoot.innerHTML = `
+      <style>
+      .movie-info {
+  display: flex;
+  gap: 5rem;
 
-            <style>
-          /* Style the component ('host') itself */
-          :host {
-            display: flex;
-            gap: 3rem; /* Adjusted gap slightly */
-            padding: 20px; /* Add some padding */
-            background-color: ${bodyBackgroundColor}; /* Match outer background? */
-            color: ${whiteTextColor}; /* Default text color */
-            font-family: 'Manrope', sans-serif; /* Apply font */
-            border-radius: 8px; /* Optional rounded corners */
-            max-width: 900px; /* Optional max width */
-            margin: 20px auto; /* Optional centering */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Optional shadow */
-          }
+  & img {
+    height: 50vh;
+    width: auto;
+    box-shadow: 0 0 20px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
+      0 8px 16px rgba(255, 255, 255, 0.08);
+    border-radius: 1em;
+  }
+  & p{
+    line-height: 2rem;
+  }
 
-          /* Style elements directly inside the shadow DOM */
-          img {
-            /* height: 50vh; Maybe use max-height or max-width instead? */
-            max-height: 450px; /* Example max height */
-            max-width: 300px; /* Example max width */
-            width: auto; /* Maintain aspect ratio */
-            height: auto; /* Maintain aspect ratio */
-            object-fit: cover;
-            box-shadow: 0 0 15px rgb(228, 155, 15), 0 0 30px rgba(255, 255, 255, 0.1);
-            border-radius: 8px; /* Consistent rounding */
-            align-self: flex-start; /* Align image to the top */
-          }
+  &>div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
-          /* Style the main text container div */
-          div {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem; /* Adjust gap inside text container */
-            flex: 1; /* Allow text container to grow */
-          }
-
-          h1 {
-            font-size: 2.5rem; /* Slightly smaller */
-            margin: 0; /* Remove default margin */
-            color: #fff; /* Ensure white heading */
-            display: flex; /* Align rating nicely */
-            align-items: center;
-            gap: 10px;
-          }
-
-          .rating {
-             /* Add styles for your rating span */
-             font-size: 0.8em;
-             padding: 3px 8px;
-             border-radius: 4px;
-             font-weight: bold;
-             line-height: 1; /* Ensure consistent height */
-          }
-          .age-pg { /* Assuming this class is for the rating */
-             background-color: orange;
-             color: black;
-          }
-
-          p {
-            line-height: 1.6; /* Improved readability */
-            margin: 0; /* Remove default paragraph margin */
-          }
-
-          /* Style the inner div containing details */
-          div > div {
-             margin-top: 1rem; /* Add some space above details block */
-             display: flex;
-             flex-direction: column;
-             gap: 0.8rem; /* Space between detail lines */
-          }
-
-          .gray {
-            color: ${grayTextColor};
-            margin-right: 8px; /* Space after label */
-            font-weight: 500;
-          }
-
-          .white {
-            color: ${whiteTextColor};
-          }
-
-          /* Specific detail paragraphs if needed */
-          .cast, .duration, .lang, .imdb {
-             /* Add specific styles if needed */
-          }
-
-        </style>
+    & h1 {
+      font-size: 3rem;
+    }
+    & .gray{
+      color: var(--gray-text);
+    }
+    & .white{
+      color: var(--white-text);
+    }
+  }
+}
+  </style>
+  <div class="movie-info">
                 <img src=".${posterSrc}" alt="${movieTitle} poster}" />
       <div>
         <h1>${movieTitle}<span class="rating age-pg">${ratingText}</span></h1>
@@ -180,6 +124,7 @@ class MovieDetails extends HTMLElement {
             <span class="white">${imdbRating}</span>
           </p>
         </div>
+      </div>
       </div>
             `;
     } catch (error) {
