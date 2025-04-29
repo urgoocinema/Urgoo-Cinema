@@ -13,6 +13,10 @@ document.querySelector(".next").addEventListener("click", () => {
 
 showSlides(1);
 
+// const res = await fetch("./data/movies-list.json");
+// const data = await res.json();
+// const ongoingContainer = document.querySelector(".ongoing");
+
 // Fetch movies and generate components
 // async function loadMovies() {
 //   try {
@@ -31,3 +35,4 @@ showSlides(1);
 // }
 
 //loadMovies();
+

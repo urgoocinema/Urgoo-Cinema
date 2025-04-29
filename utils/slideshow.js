@@ -1,5 +1,4 @@
 let slideIndex = 1;
-let index = document.querySelectorAll
 showSlides(slideIndex);
 
 // Next/previous controls

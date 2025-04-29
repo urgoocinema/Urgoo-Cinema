@@ -25,7 +25,8 @@ export class MovieList extends HTMLElement {
 
   static get observedAttributes() {}
 
-  attributeChangedCallback(attr, oldVal, newVal) {}
+  attributeChangedCallback(attr, oldVal, newVal) {
+  }
 
   connectedCallback() {
     this.render();

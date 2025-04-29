@@ -246,7 +246,7 @@ template.innerHTML = `
 
     @media (max-width: 695px) {
       .movie {
-        padding: 1.5rem 1.5rem; 
+        padding: 1.5rem 1.5rem;
         max-width: 500px;
       }
       .mobile-poster {
@@ -276,10 +276,10 @@ template.innerHTML = `
       }
     }
     @media (max-width: 426px) {
-        .time-button {
-          max-height: 25px;
-          font-size: 0.6rem !important;
-       }
+      .time-button {
+        max-height: 25px;
+        font-size: 0.6rem !important;
+      }
     }
 
     @media (max-width: 420px) {
@@ -289,14 +289,14 @@ template.innerHTML = `
         margin: auto 0;
       }
       .info-text {
-        font-size: clamp(0.7rem, 2vw, 1rem);
+        font-size: clamp(0.7rem, 2.5vw, 1rem);
       }
       .info {
         .title {
           margin-bottom: 0;
         }
         .caption {
-          margin: 0.8rem 0 !important; 
+          margin: 0.8rem 0 !important;
         }
       }
       .time {
@@ -310,8 +310,12 @@ template.innerHTML = `
       .lang {
         display: none;
       }
+      .timetable-container {
+        max-height: 265px;
+        overflow: scroll;
+      }
     }
-      
+
     @media (max-width: 340px) {
       .duration-caption {
         display: none;
@@ -327,16 +331,15 @@ template.innerHTML = `
         min-width: 120px;
       }
     }
-
   </style>
-    <div class="poster desktop-poster">
-      <img />
-    </div>
+  <div class="poster desktop-poster">
+    <img />
+  </div>
   <div class="info">
     <div class="info-details">
       <div class="mobile-poster">
         <div class="poster">
-          <img />
+          <img/>
         </div>
       </div>
       <div class="info-text">
@@ -389,23 +392,24 @@ template.innerHTML = `
           БҮХ ЦАГ
         </button>
       </div>
-      <div class="timetable-container"></div>
-      <div class="today">
-        <div class="branch branch-1">
-          <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-2">
-          <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-3">
-          <h4>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></h4>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-4">
-          <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
-          <div class="schedule"></div>
+      <div class="timetable-container">
+        <div class="today">
+          <div class="branch branch-1">
+            <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+            <div class="schedule"></div>
+          </div>
+          <div class="branch branch-2">
+            <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+            <div class="schedule"></div>
+          </div>
+          <div class="branch branch-3">
+            <h4>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></h4>
+            <div class="schedule"></div>
+          </div>
+          <div class="branch branch-4">
+            <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+            <div class="schedule"></div>
+          </div>
         </div>
       </div>
     </div>
