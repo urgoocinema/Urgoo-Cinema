@@ -21,7 +21,7 @@ template.innerHTML = `
 
     .movie {
       display: flex;
-
+      max-width: 750px;
       gap: 1rem;
       border-left: 5px rgb(228, 155, 15) dashed;
       border-top: 2px rgb(228, 155, 15) solid;
@@ -50,27 +50,48 @@ template.innerHTML = `
         color: var(--gray-text);
       }
 
+      /*
       & .title-flex {
         display: flex;
+        flex-wrap: wrap;
         justify-content: flex-start;
         align-items: center;
         gap: 0.4rem;
-      }
+      }*/
 
       & .title {
+        display: inline;
         letter-spacing: 0.1rem;
         color: var(--white-text);
       }
 
       & .info .caption {
-        margin: 1.5rem 0;
+        margin: 1.3rem 0;
         color: var(--white-text);
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & .info .cast {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       & .info .duration {
         margin-bottom: 0.5rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
-      & .duration span {
+      & .duration-text {
         display: inline-block;
       }
     }
@@ -223,9 +244,10 @@ template.innerHTML = `
       display: none;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 695px) {
       .movie {
         padding: 1.5rem 1.5rem; 
+        max-width: 500px;
       }
       .mobile-poster {
         display: block;
@@ -243,7 +265,69 @@ template.innerHTML = `
       .info-text {
         font-size: clamp(0.8rem, 3vw, 1rem);
       }
+      .rating {
+        font-size: clamp(0.6rem, 2.5vw, 0.8rem);
+      }
     }
+
+    @media (max-width: 440px) {
+      .time-button {
+        font-size: clamp(0.6rem, 3.6vw, 0.8rem) !important;
+      }
+    }
+    @media (max-width: 426px) {
+        .time-button {
+          max-height: 25px;
+          font-size: 0.6rem !important;
+       }
+    }
+
+    @media (max-width: 420px) {
+      .mobile-poster {
+        max-height: 180px;
+        min-height: 180px;
+        margin: auto 0;
+      }
+      .info-text {
+        font-size: clamp(0.7rem, 2vw, 1rem);
+      }
+      .info {
+        .title {
+          margin-bottom: 0;
+        }
+        .caption {
+          margin: 0.8rem 0 !important; 
+        }
+      }
+      .time {
+        font-size: clamp(0.7rem, 4vw, 1rem) !important;
+      }
+    }
+    @media (max-width: 350px) {
+      #cast {
+        display: none;
+      }
+      .lang {
+        display: none;
+      }
+    }
+      
+    @media (max-width: 340px) {
+      .duration-caption {
+        display: none;
+      }
+      .duration-text {
+        color: var(--gray-text);
+      }
+    }
+
+    @media (max-width: 305px) {
+      .mobile-poster {
+        max-height: 120px;
+        min-width: 120px;
+      }
+    }
+
   </style>
     <div class="poster desktop-poster">
       <img />
@@ -258,16 +342,16 @@ template.innerHTML = `
       <div class="info-text">
         <div class="title-flex">
           <h2 class="title"></h2>
-          <span class="rating"></span>
+          <sup class="rating"></sup>
         </div>
         <p class="caption"></p>
-        <p class="cast">
+        <p class="cast" id="cast">
           <span class="white">Гол дүр:</span>
           <span class="gray"></span>
         </p>
         <p class="duration">
-          Үргэлжлэх хугацаа:
-          <span class="gray"></span>
+          <span class="duration-caption">Үргэлжлэх хугацаа:</span>
+          <span class="gray duration-text"></span>
         </p>
         <p class="lang">
           <svg
@@ -302,7 +386,7 @@ template.innerHTML = `
               d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
             />
           </svg>
-          БҮХ ЦАГ ХАРАХ
+          БҮХ ЦАГ
         </button>
       </div>
       <div class="timetable-container"></div>
@@ -366,7 +450,7 @@ export class MovieCard extends HTMLElement {
       this.container.querySelector(".caption").textContent = newVal;
     }
     if (attr === "duration") {
-      this.container.querySelector(".duration span").textContent =
+      this.container.querySelector(".duration-text").textContent =
         durationConverter(newVal);
     }
     if (attr === "poster_url") {
