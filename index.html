@@ -22,6 +22,8 @@
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=play_circle"
+      media="print"
+      onload="this.media='all'"
     />
   </head>
   <body>
@@ -32,10 +34,10 @@
             <a href="#"
               ><img
                 src="pics/logo-urgoo.webp"
-                width="50px"
-                height="50px"
                 alt="Urgoo logo"
                 class="logo"
+                width="50"
+                height="55"
             /></a>
           </li>
           <li><a class="phone-collapse">☰</a></li>
@@ -45,7 +47,12 @@
         <ul>
           <li>
             <a href="#"
-              ><img src="pics/logo-urgoo.webp" alt="Urgoo logo" class="logo"
+              ><img
+                src="pics/logo-urgoo.webp"
+                alt="Urgoo logo"
+                class="logo"
+                width="50"
+                height="55"
             /></a>
           </li>
           <li><a href="#" class="active">НҮҮР</a></li>
@@ -75,10 +82,14 @@
               <button class="button-featured">ЗАХИАЛАХ</button>
             </div>
             <img
-              src="pics/minecraft.webp"
-              srcset="./pics/minecraft-low.webp 600w, ./pics/minecraft.webp 1000w"
-              sizes="(max-width: 600px) 600px, 1000px"
-            />
+            src="./pics/minecraft.webp"
+            alt="Minecraft movie"
+            srcset="
+              ./pics/minecraft-portrait.webp 800w,
+              ./pics/minecraft.webp 1000w
+            "
+            sizes="(max-width: 800px) 100vw, 1000px"
+          />
           </article>
 
           <article class="mySlides fade">

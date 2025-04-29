@@ -180,6 +180,10 @@ template.innerHTML = `
 
       & .branch {
         margin: 0.8rem 0;
+        & p {
+          font-size: 1rem;
+          font-weight: bold;
+        }
       }
 
       & .time {
@@ -395,19 +399,19 @@ template.innerHTML = `
       <div class="timetable-container">
         <div class="today">
           <div class="branch branch-1">
-            <h4>Өргөө 1 <span class="location">Хороолол</span></h4>
+            <p>Өргөө 1 <span class="location">Хороолол</span></p>
             <div class="schedule"></div>
           </div>
           <div class="branch branch-2">
-            <h4>Өргөө 2 <span class="location">IT Парк</span></h4>
+            <p>Өргөө 2 <span class="location">IT Парк</span></p>
             <div class="schedule"></div>
           </div>
           <div class="branch branch-3">
-            <h4>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></h4>
+            <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
             <div class="schedule"></div>
           </div>
           <div class="branch branch-4">
-            <h4>Өргөө 4 <span class="location">Дархан хот</span></h4>
+            <p>Өргөө 4 <span class="location">Дархан хот</span></p>
             <div class="schedule"></div>
           </div>
         </div>
@@ -461,7 +465,7 @@ export class MovieCard extends HTMLElement {
       this.container
         .querySelectorAll(".poster img")
         .forEach((img) => (img.src = newVal));
-      this.container.querySelector(".poster img").alt = `${newVal}'s poster`;
+      this.container.querySelectorAll(".poster img").forEach((img)=>(img.alt = `${newVal}'s poster`));
     }
     if (attr === "age_rating") {
       this.container.querySelector(".rating").textContent = newVal;
