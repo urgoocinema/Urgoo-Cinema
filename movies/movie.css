@@ -13,23 +13,28 @@
   --gray-lighter-text: rgb(174, 173, 173);
   --white-text: white;
 }
+
+body {
+  & header {
+    box-shadow: 0 0 20px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
+      0 8px 16px rgba(255, 255, 255, 0.08);
+  }
+}
+
 main {
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding-left: 15rem;
   padding-right: 15rem;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 50px;
-
-  & select {
-    min-width: 20px;
-  }
 }
 
 .movie-info {
   display: flex;
   gap: 5rem;
+
   & img {
     height: 50vh;
     width: auto;
@@ -37,45 +42,41 @@ main {
       0 8px 16px rgba(255, 255, 255, 0.08);
     border-radius: 1em;
   }
+  & p{
+    line-height: 2rem;
+  }
 
-  & > div {
+  &>div {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+
     & h1 {
       font-size: 3rem;
     }
-    & .movie-details {
-      display: grid;
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 50% 50%;
-
-      & p {
-        font-size: 1.3rem;
-        font-weight: bold;
-      }
-
-      & h2 {
-        color: var(--gray-ligh);
-      }
-
-      & .movie-details-elements {
-        line-height: 1rem;
-      }
+    & .gray{
+      color: var(--gray-text);
+    }
+    & .white{
+      color: var(--white-text);
     }
   }
 }
+
 .first-div {
   display: flex;
   flex-direction: column;
   align-items: start;
-  & > p {
+
+  &>p {
     line-height: 2.5rem;
     border-bottom: 1px solid var(--gray-text);
   }
+
   & .gray {
     color: var(--gray-text);
   }
+
   & select {
     appearance: none;
     background-color: transparent;
@@ -91,6 +92,7 @@ main {
 
     outline: none;
   }
+
   & select option {
     background-color: var(--black-text);
     color: var(--white-text);
@@ -113,6 +115,7 @@ main {
     grid-template-areas: "select";
     align-items: center;
   }
+
   & .select::after {
     content: "";
     width: 0.8em;
@@ -121,6 +124,7 @@ main {
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
     justify-self: end;
   }
+
   & select,
   .select::after {
     grid-area: select;
@@ -130,15 +134,18 @@ main {
 .screensAvailable {
   display: flex;
   flex-direction: column;
+
   & .day {
     margin-top: 1em;
     margin-bottom: 1em;
   }
+
   & .day {
     display: flex;
     flex-direction: column;
     gap: 2rem;
   }
+
   & .screen-container {
     display: flex;
     flex-direction: row;
@@ -158,14 +165,17 @@ main {
         color: var(--gray-lighter-text);
         line-height: 2em;
       }
+
       & span {
         color: var(--white-text);
         font-weight: 800;
       }
+
       & p:nth-child(2) {
         color: var(--screen-color);
       }
     }
+
     & .screen:hover {
       transform: translateY(-10px);
       cursor: pointer;
@@ -174,6 +184,7 @@ main {
     }
   }
 }
+
 .seatSelectionWrapper {
   margin-top: 60px;
   display: flex;
@@ -184,16 +195,19 @@ main {
     font-size: 1.15rem;
     display: flex;
     flex-direction: column;
+
     & selected-movie-detail {
       display: flex;
       flex-direction: column;
     }
+
     & selected-seat-detail {
       display: flex;
       flex-direction: column;
     }
   }
 }
+
 .seatSelection {
   margin-top: 5em 0;
   display: flex;
@@ -217,11 +231,13 @@ main {
     box-shadow: 0 8px 20px var(--white-text),
       0 0 60px var(--gray-lighter-text) inset;
   }
+
   & .seatWrapper {
     display: flex;
     justify-content: center;
     gap: 1.5em;
     padding: 2em;
+
     & .aisle {
       display: flex;
       flex-direction: column;
@@ -237,6 +253,7 @@ main {
       }
     }
   }
+
   & .seat {
     background-color: var(--gray-text);
     height: 25px;
@@ -245,18 +262,22 @@ main {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }
+
   & .index {
     background-color: transparent;
   }
+
   & .seat:hover {
     background-color: var(--white-text);
     cursor: pointer;
   }
+
   & .index:hover {
     background-color: transparent;
     cursor: default;
   }
 }
+
 .details {
   /* background-color: red; */
   min-width: 400px;
@@ -264,13 +285,16 @@ main {
   flex-direction: column;
   justify-content: start;
   gap: 30px;
+
   & h1 {
     border-bottom: 1px solid var(--border-color);
     text-align: center;
   }
+
   & p {
     line-height: 1.7em;
   }
+
   & .seat-detail-wrapper {
     /* background-color: orange; */
     display: flex;
@@ -286,6 +310,7 @@ main {
       grid-template-rows: 50% 50%;
       gap: 30px;
       margin-bottom: 20px;
+
       & div {
         display: flex;
         gap: 30px;
@@ -306,6 +331,7 @@ main {
     padding-bottom: 10px;
     margin-bottom: 20px;
   }
+
   & p {
     line-height: 1.7em;
     margin: 0;
@@ -316,6 +342,7 @@ main {
       margin-right: 5px;
     }
   }
+
   & .seat-detail-wrapper {
     display: flex;
     flex-direction: column;
@@ -331,12 +358,13 @@ main {
       color: var(--primary-color);
       margin-top: 10px;
     }
-    & input[type="submit"][value="continue"]{
+
+    & input[type="submit"][value="continue"] {
       width: 100%;
       background-color: var(--primary-color);
       color: var(--black-text);
       padding: 12px 20px;
-      border:none;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
       font-size: 1.2rem;
@@ -345,10 +373,12 @@ main {
       transition: background-color 0.3s ease;
 
     }
-    & input[type="submit"][value="continue"]:hover{
+
+    & input[type="submit"][value="continue"]:hover {
       background-color: var(--secondary-color);
     }
   }
+
   & .seatTable {
     min-width: 200px;
     display: grid;
@@ -360,6 +390,7 @@ main {
       display: flex;
       align-items: center;
     }
+
     & div:nth-child(1),
     div:nth-child(2) {
       font-weight: bold;
@@ -372,6 +403,7 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
   & form {
     min-width: 300px;
     max-width: 600px;
@@ -394,24 +426,29 @@ main {
       flex-direction: column;
       gap: 8px;
     }
-    & label{
+
+    & label {
       font-weight: bold;
       color: var(--white-text);
     }
-    & input[type="text"], input[type="email"],input[type="tel"]{
+
+    & input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
       padding: 10px;
-      border:1px solid var(--gray-text);
+      border: 1px solid var(--gray-text);
       border-radius: 4px;
       background-color: var(--bg-color);
       color: var(--white-text);
       font-size: 1rem;
     }
-    & input[type="submit"][value="continue"]{
+
+    & input[type="submit"][value="continue"] {
       width: 100%;
       background-color: var(--primary-color);
       color: var(--black-text);
       padding: 12px 20px;
-      border:none;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
       font-size: 1.2rem;
@@ -419,20 +456,24 @@ main {
       margin-top: 10px;
       transition: background-color 0.3s ease;
     }
-    & input[type="submit"][value="continue"]:hover{
+
+    & input[type="submit"][value="continue"]:hover {
       background-color: var(--secondary-color);
     }
   }
 }
+
 .payment-method-wrapper {
   display: flex;
   flex-direction: column;
   margin: 50px 0;
   gap: 30px;
   align-items: center;
-  & h2{
+
+  & h2 {
     text-align: center;
   }
+
   & .payment-details {
     min-width: 300px;
     max-width: 600px;
@@ -444,12 +485,13 @@ main {
     padding-bottom: 15px;
     border-bottom: 1px solid var(--gray-text);
 
-    & h2{
+    & h2 {
       text-align: left;
       font-size: 1.2em;
       margin: 0;
     }
   }
+
   & .payment-methods {
     display: flex;
     justify-content: center;
@@ -476,14 +518,17 @@ main {
         color: var(--gray-lighter-text);
         line-height: 2em;
       }
+
       & span {
         color: var(--white-text);
         font-weight: 800;
       }
+
       & p:nth-child(2) {
         color: var(--screen-color);
       }
     }
+
     & div:hover {
       transform: translateY(-10px);
       cursor: pointer;
@@ -492,6 +537,7 @@ main {
     }
   }
 }
+
 .also-showing {
   margin-top: 5rem;
 }
@@ -501,6 +547,7 @@ main {
     color: var(--gray-text);
   }
 }
+
 .white {
   color: var(--white-text);
   font-weight: bold;
@@ -578,9 +625,11 @@ main {
   padding: 0;
   font-size: 0.9rem;
 }
+
 .section-title {
   margin: clamp(3.2rem, 5vw, 4rem) 0.5rem;
   text-align: center;
+
   & span {
     padding: clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 5rem);
 
@@ -607,7 +656,7 @@ main {
   margin-top: auto;
 }
 
-.awaiting-input{
+.awaiting-input {
   opacity: 0.2;
   transition: opacity 0.5 ease;
 }
@@ -621,12 +670,13 @@ main {
     padding-right: 0;
     display: flex;
     flex-direction: column;
-    
+
 
     & select {
       min-width: 20px;
     }
   }
+
   .also-showing-element {
     flex-direction: column;
   }

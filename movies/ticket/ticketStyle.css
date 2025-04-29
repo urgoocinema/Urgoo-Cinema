@@ -1,0 +1,119 @@
+body {
+    background-color: #f8f8f8; /* Light background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif; /* Classic font */
+  }
+  
+  .movie-ticket {
+    width: 400px; /* Slightly wider for classic look */
+    height: 150px; /* Slightly shorter */
+    margin: 20px auto;
+    background-color: #ffffff; /* White or light background */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    display: flex;
+    color: #333; /* Darker text color */
+    position: relative; /* Needed for pseudo-elements */
+    overflow: hidden; /* To keep everything within border-radius */
+  }
+  
+  .ticket-left {
+    width: 70%; /* Main part */
+    padding: 15px 20px; /* Adjust padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 2px dashed #ccc; /* The perforated line */
+    box-sizing: border-box; /* Include padding and border in width */
+  }
+  
+  .ticket-right {
+    width: 30%; /* Stub part */
+    padding: 15px 10px; /* Adjust padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box; /* Include padding in width */
+    background-color: #f0f0f0; /* Slightly different background for stub */
+  }
+  
+  /* Remove the complex tear effect pseudo-elements from the main container */
+  .movie-ticket::before,
+  .movie-ticket::after {
+    content: none;
+  }
+  
+  /* Ensure the dashed line pseudo-element on ticket-right is not active in this classic style */
+  .ticket-right::before {
+      content: none; /* Remove the previous dashed line pseudo-element */
+  }
+  
+  
+  .title h2 {
+    font-size: 1.4em; /* Slightly smaller font */
+    margin: 0 0 3px 0;
+    color: #000; /* Ensure title is dark */
+  }
+  
+  .title p {
+    font-size: 0.8em;
+    opacity: 0.9;
+    margin: 0;
+    color: #555; /* Slightly lighter for genre */
+  }
+  
+  .details {
+    margin-top: 10px; /* Less space above details */
+  }
+  
+  .detail-item {
+    margin-bottom: 4px; /* Less space between items */
+    font-size: 0.85em; /* Slightly smaller font */
+    line-height: 1.2; /* Adjust line height */
+  }
+  
+  .detail-item:last-child {
+      margin-bottom: 0;
+  }
+  
+  .detail-item .label {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #555; /* Label color */
+  }
+  
+  .detail-item .value {
+      color: #333; /* Value color */
+  }
+  
+  .logo p {
+    font-size: 1em; /* Smaller logo text */
+    font-weight: bold;
+     margin: 0;
+     color: #555;
+  }
+  
+  .ticket-number p {
+    font-size: 0.7em; /* Smaller ticket number */
+    opacity: 0.8;
+    margin: 5px 0; /* Add some margin */
+     color: #666;
+  }
+  
+  .barcode {
+      /* Style for barcode area if needed */
+  }
+  
+  .barcode p {
+    font-size: 0.7em; /* Smaller barcode text */
+    margin-top: 8px;
+    margin-bottom: 0;
+     color: #555;
+  }
