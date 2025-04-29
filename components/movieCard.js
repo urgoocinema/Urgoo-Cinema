@@ -255,8 +255,8 @@ template.innerHTML = `
       }
       .mobile-poster {
         display: block;
-        max-height: 220px;
-        min-height: 220px;
+        max-height: 210px;
+        min-height: 210px;
         aspect-ratio: 3 / 4;
       }
       .desktop-poster {
@@ -288,8 +288,8 @@ template.innerHTML = `
 
     @media (max-width: 420px) {
       .mobile-poster {
-        max-height: 190px;
-        min-height: 190px;
+        max-height: 180px;
+        min-height: 180px;
         margin: auto 0;
       }
       .info-text {
