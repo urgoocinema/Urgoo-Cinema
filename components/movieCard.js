@@ -134,8 +134,7 @@ template.innerHTML = `
           top: -1px;
           right: 0;
           color: var(--gray-text);
-          margin-right: 1rem;
-          opacity: 0.8;
+          margin-right: 1.3rem;
           & span {
             color: var(--primary-color);
           }
