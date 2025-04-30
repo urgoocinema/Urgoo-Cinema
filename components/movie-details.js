@@ -74,13 +74,13 @@ class MovieDetails extends HTMLElement {
     border-radius: 1em;
   }
   & p{
-    line-height: 2rem;
+    // line-height: 1.5rem;
   }
 
   &>div {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 
     & h1 {
       font-size: 3rem;
