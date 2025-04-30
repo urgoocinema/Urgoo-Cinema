@@ -127,6 +127,21 @@ template.innerHTML = `
         gap: 8px;
       }
 
+      & .timetable-container {
+        position: relative;
+        & .selected-date {
+          position: absolute;
+          top: -1px;
+          right: 0;
+          color: var(--gray-text);
+          margin-right: 1rem;
+          opacity: 0.8;
+          & span {
+            color: var(--primary-color);
+          }
+        }
+      }
+
       & .time-button {
         padding: 0.4rem 1rem;
         border: 2px solid #ccc;
@@ -273,6 +288,9 @@ template.innerHTML = `
       .rating {
         font-size: clamp(0.6rem, 2.5vw, 0.8rem);
       }
+      .selected-date {
+        margin-right: 0 !important;
+      }
     }
 
     @media (max-width: 440px) {
@@ -284,6 +302,10 @@ template.innerHTML = `
       .time-button {
         max-height: 25px;
         font-size: 0.6rem !important;
+      }
+      .selected-date {
+        font-size: 0.9rem;
+        top: 0;
       }
     }
 
@@ -308,6 +330,14 @@ template.innerHTML = `
         font-size: clamp(0.7rem, 4vw, 1rem) !important;
       }
     }
+
+    @media (max-width: 381px) {
+      .selected-date {
+        position: static !important;
+        text-align: center;
+      }
+    }
+
     @media (max-width: 350px) {
       
       #cast {
@@ -385,9 +415,9 @@ template.innerHTML = `
     </div>
     <div class="showtime-details">
       <div class="button-group">
-        <button class="time-button active">ӨНӨӨДӨР</button>
-        <button class="time-button">МАРГААШ</button>
-        <button class="time-button show-all-times">
+        <button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+        <button class="time-button" id="day-1">МАРГААШ</button>
+        <button class="time-button show-all-times" id="day-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
@@ -403,7 +433,7 @@ template.innerHTML = `
         </button>
       </div>
       <div class="timetable-container">
-        <div class="today">
+      <div class="selected-date">Сонгогдсон өдөр: <span>5/1</span></div>
           <div class="branch branch-1">
             <p>Өргөө 1 <span class="location">Хороолол</span></p>
             <div class="schedule"></div>
@@ -420,7 +450,6 @@ template.innerHTML = `
             <p>Өргөө 4 <span class="location">Дархан хот</span></p>
             <div class="schedule"></div>
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -471,7 +500,9 @@ export class MovieCard extends HTMLElement {
       this.container
         .querySelectorAll(".poster img")
         .forEach((img) => (img.src = newVal));
-      this.container.querySelectorAll(".poster img").forEach((img)=>(img.alt = `${newVal}'s poster`));
+      this.container
+        .querySelectorAll(".poster img")
+        .forEach((img) => (img.alt = `${newVal}'s poster`));
     }
     if (attr === "age_rating") {
       this.container.querySelector(".rating").textContent = newVal;
@@ -488,6 +519,24 @@ export class MovieCard extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.renderShowtimes(0);
+    this.timeButtons = Array.from(
+      this.container.querySelectorAll(".time-button")
+    );
+    let activeButton = this.container.querySelector(".time-button.active");
+    this.timeButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        if (e.target.closest(".time-button") !== activeButton) {
+          activeButton.classList.remove("active");
+          e.target.closest(".time-button").classList.add("active");
+          activeButton = e.target.closest(".time-button");
+          const day = parseInt(
+            e.target.closest(".time-button").id.split("-")[1]
+          );
+          this.renderShowtimes(day);
+        }
+      });
+    });
     // this.shadowRoot.querySelector("button").addEventListener("click", () => {
     //   this.dispatchEvent(
     //     new CustomEvent("remove-me", {
@@ -504,14 +553,16 @@ export class MovieCard extends HTMLElement {
   render() {
     this.container.querySelector(".cast .gray").textContent =
       this.cast.join(", ");
+  }
 
+  renderShowtimes(day) {
     const currentDay = new Date();
+    currentDay.setDate(currentDay.getDate() + day);
+
     const currentDayName = currentDay
       .toLocaleDateString("en-US", { weekday: "long" })
       .toLowerCase();
-    const todayShowtimes = this.container.querySelector(
-      ".showtime-details .today"
-    );
+    const todayShowtimes = this.container.querySelector(".showtime-details");
     for (let i = 1; i <= 4; i++) {
       const branch = todayShowtimes.querySelector(`.branch-${i}`);
       const showtimes = this.showtimes?.[`branch${i}`]?.[currentDayName];
@@ -522,6 +573,10 @@ export class MovieCard extends HTMLElement {
             .join("")
         : `<span class="time">No showtimes available</span>`;
     }
+
+    this.container.querySelector(".selected-date span").innerHTML = `${
+      currentDay.getMonth() + 1
+    }/${currentDay.getDate()}`;
   }
 
   disconnectedCallback() {}
