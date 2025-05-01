@@ -121,9 +121,9 @@ template.innerHTML = `
 
     .showtime-details {
       & .button-group {
+        display: flex;
         margin: 1rem 0 1.2rem;
         display: flex;
-        flex-wrap: wrap;
         gap: 8px;
       }
 
@@ -135,7 +135,8 @@ template.innerHTML = `
           right: 0;
           color: var(--gray-text);
           margin-right: 1.3rem;
-          & span {
+          & .mo-day,
+          .garig {
             color: var(--primary-color);
           }
         }
@@ -175,12 +176,25 @@ template.innerHTML = `
         display: inline-flex;
         align-items: center;
         opacity: 0.6;
+        gap: 0.3rem;
         & svg {
           color: var(--primary-color);
+        }
+        & .colored {
+          color: #FFBF00;
         }
       }
       & .show-all-times:hover {
         opacity: 1;
+        & .colored {
+          color: var(--black-text);
+        }
+      }
+      & .show-all-times.active {
+        color: var(--black-text);
+        & .colored {
+          color: var(--black-text);
+        }
       }
 
       & .schedule {
@@ -263,6 +277,14 @@ template.innerHTML = `
       display: none;
     }
 
+    @media (max-width: 750px) {
+      .selected-date {
+        & .desktop {
+          display: none;
+        }
+      }
+    }
+
     @media (max-width: 695px) {
       .movie {
         padding: 1.5rem 1.5rem;
@@ -338,7 +360,6 @@ template.innerHTML = `
     }
 
     @media (max-width: 350px) {
-      
       #cast {
         display: none;
       }
@@ -378,7 +399,7 @@ template.innerHTML = `
     <div class="info-details">
       <div class="mobile-poster">
         <div class="poster">
-          <img/>
+          <img />
         </div>
       </div>
       <div class="info-text">
@@ -428,27 +449,31 @@ template.innerHTML = `
               d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
             />
           </svg>
+          <span class="colored"></span>
           БҮХ ЦАГ
         </button>
       </div>
       <div class="timetable-container">
-      <div class="selected-date">Сонгогдсон өдөр: <span>5/1</span></div>
-          <div class="branch branch-1">
-            <p>Өргөө 1 <span class="location">Хороолол</span></p>
-            <div class="schedule"></div>
-          </div>
-          <div class="branch branch-2">
-            <p>Өргөө 2 <span class="location">IT Парк</span></p>
-            <div class="schedule"></div>
-          </div>
-          <div class="branch branch-3">
-            <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
-            <div class="schedule"></div>
-          </div>
-          <div class="branch branch-4">
-            <p>Өргөө 4 <span class="location">Дархан хот</span></p>
-            <div class="schedule"></div>
-          </div>
+        <div class="selected-date">
+          Сонгогдсон<span class="desktop"> өдөр</span>:
+          <span class="mo-day"></span> <span class="garig"></span>
+        </div>
+        <div class="branch branch-1">
+          <p>Өргөө 1 <span class="location">Хороолол</span></p>
+          <div class="schedule"></div>
+        </div>
+        <div class="branch branch-2">
+          <p>Өргөө 2 <span class="location">IT Парк</span></p>
+          <div class="schedule"></div>
+        </div>
+        <div class="branch branch-3">
+          <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
+          <div class="schedule"></div>
+        </div>
+        <div class="branch branch-4">
+          <p>Өргөө 4 <span class="location">Дархан хот</span></p>
+          <div class="schedule"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -468,7 +493,15 @@ export class MovieCard extends HTMLElement {
     this.cast = [];
     this.genres = [];
     this.showtimes = [];
-    this.selectedDay = [1, 2, 3, 4, 5, 6, 7];
+    this.mongolianWeekdays = [
+      "Ням", // Sunday
+      "Даваа", // Monday
+      "Мягмар", // Tuesday
+      "Лхагва", // Wednesday
+      "Пүрэв", // Thursday
+      "Баасан", // Friday
+      "Бямба", // Saturday
+    ];
   }
 
   static get observedAttributes() {
@@ -522,6 +555,15 @@ export class MovieCard extends HTMLElement {
     this.timeButtons = Array.from(
       this.container.querySelectorAll(".time-button")
     );
+
+    const dayAfterTomorrow = new Date();
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    this.timeButtons[2].innerHTML = `<span class="colored">${
+      dayAfterTomorrow.getMonth() + 1
+    }/${dayAfterTomorrow.getDate()}</span> ${
+      this.mongolianWeekdays[new Date().getDay() + 2]
+    }`;
+
     let activeButton = this.container.querySelector(".time-button.active");
     this.timeButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
@@ -573,9 +615,22 @@ export class MovieCard extends HTMLElement {
         : `<span class="time">No showtimes available</span>`;
     }
 
-    this.container.querySelector(".selected-date span").innerHTML = `${
-      currentDay.getMonth() + 1
-    }/${currentDay.getDate()}`;
+    if (
+      this.container
+        .querySelector(".time-button.active")
+        .classList.contains("show-all-times")
+    ) {
+      this.container.querySelector(".selected-date .mo-day").textContent = "";
+      this.container.querySelector(".selected-date .garig").textContent =
+        "Нөгөөдөр";
+    } else {
+      this.container.querySelector(".selected-date .mo-day").innerHTML = `${
+        currentDay.getMonth() + 1
+      }/${currentDay.getDate()}`;
+      this.container.querySelector(".selected-date .garig").innerHTML = `${
+        this.mongolianWeekdays[currentDay.getDay()]
+      }`;
+    }
   }
 
   disconnectedCallback() {}
