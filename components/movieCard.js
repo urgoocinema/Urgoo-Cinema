@@ -121,6 +121,8 @@ template.innerHTML = `
 
     .showtime-details {
       & .button-group {
+        display: flex;
+        flex-wrap: wrap;
         margin: 1rem 0 1.2rem;
         gap: 8px;
       }
@@ -131,16 +133,19 @@ template.innerHTML = `
           position: absolute;
           top: -1px;
           right: 0;
+          font-size: 0.9rem;
           color: var(--gray-text);
           margin-right: 1.3rem;
           & .mo-day,
           .garig {
+            font-size: 1rem;
             color: var(--primary-color);
           }
         }
       }
 
-      & .time-button {
+      & .time-button,
+      .show-all-times {
         padding: 0.4rem 1rem;
         border: 2px solid #ccc;
         border-radius: 8px;
@@ -158,6 +163,9 @@ template.innerHTML = `
         & svg {
           color: #ffff8f;
         }
+        & .colored {
+          color: var(--white-text);
+        }
       }
 
       & .time-button.active {
@@ -168,20 +176,27 @@ template.innerHTML = `
         & svg {
           color: white;
         }
+        & .colored {
+          color: var(--white-text);
+        }
       }
 
       & .show-all-times {
         display: inline-flex;
         align-items: center;
         opacity: 0.6;
-        gap: 0.3rem;
         & svg {
           color: var(--primary-color);
         }
         & .colored {
-          color: #FFBF00;
+          color: #ffbf00;
         }
       }
+
+      & .time-button .colored {
+        color: var(--primary-color);
+      }
+
       & .show-all-times:hover {
         opacity: 1;
         & .colored {
@@ -193,6 +208,16 @@ template.innerHTML = `
         & .colored {
           color: var(--black-text);
         }
+      }
+
+      & .show-less-times {
+        padding-left: 2px;
+        padding-top: 10px;
+        font-size: 0.8rem;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--primary-color);
       }
 
       & .schedule {
@@ -435,7 +460,7 @@ template.innerHTML = `
       <div class="button-group">
         <button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
         <button class="time-button" id="day-1">МАРГААШ</button>
-        <button class="time-button show-all-times" id="day-2">
+        <button class="show-all-times">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
@@ -447,7 +472,6 @@ template.innerHTML = `
               d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
             />
           </svg>
-          <span class="colored"></span>
           БҮХ ЦАГ
         </button>
       </div>
@@ -492,13 +516,13 @@ export class MovieCard extends HTMLElement {
     this.genres = [];
     this.showtimes = [];
     this.mongolianWeekdays = [
-      "Ням", 
-      "Даваа", 
-      "Мягмар", 
-      "Лхагва", 
+      "Ням",
+      "Даваа",
+      "Мягмар",
+      "Лхагва",
       "Пүрэв",
-      "Баасан", 
-      "Бямба", 
+      "Баасан",
+      "Бямба",
     ];
   }
 
@@ -564,8 +588,8 @@ export class MovieCard extends HTMLElement {
             day,
             hour,
           },
-          bubbles: true, 
-          composed: true, 
+          bubbles: true,
+          composed: true,
         })
       );
     });
@@ -605,7 +629,10 @@ export class MovieCard extends HTMLElement {
               (time) =>
                 `<a href="#" class="time" data-day="${currentDay
                   .toISOString()
-                  .slice(0, 10)}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+                  .slice(
+                    0,
+                    10
+                  )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
             )
             .join("")
         : `<span class="time">No showtimes available</span>`;
@@ -629,20 +656,22 @@ export class MovieCard extends HTMLElement {
     }
   }
 
-  renderButtons() {
+  renderButtons(activeChangeIndex = -1) {
     this.timeButtons = Array.from(
       this.container.querySelectorAll(".time-button")
     );
 
-    const dayAfterTomorrow = new Date();
-    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-    this.timeButtons[2].innerHTML = `<span class="colored">${
-      dayAfterTomorrow.getMonth() + 1
-    }/${dayAfterTomorrow.getDate()}</span> ${
-      this.mongolianWeekdays[new Date().getDay() + 2]
-    }`;
+    if (activeChangeIndex !== -1) {
+      this.timeButtons.forEach((button) => {
+        button.classList.remove("active");
+      });
+      this.timeButtons[activeChangeIndex].classList.add("active");
+      this.renderShowtimes(activeChangeIndex);
+    }
 
-    let activeButton = this.container.querySelector(".time-button.active");
+    let activeButton =
+      this.container.querySelector(".time-button.active") ||
+      this.timeButtons[0];
     this.timeButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
         if (e.target.closest(".time-button") !== activeButton) {
@@ -655,6 +684,52 @@ export class MovieCard extends HTMLElement {
           this.renderShowtimes(day);
         }
       });
+    });
+    if (this.container.querySelector(".show-all-times")) {
+      this.container
+        .querySelector(".show-all-times")
+        .addEventListener("click", () => {
+          this.renderMoreButtons();
+        });
+    }
+  }
+
+  renderMoreButtons() {
+    const btnGrp = this.container.querySelector(
+      ".showtime-details .button-group"
+    );
+    this.container.querySelector(".show-all-times").remove();
+
+    for (let i = 0; i < 4; i++) {
+      const nextDayBtn = document.createElement("button");
+      nextDayBtn.classList.add("time-button");
+      nextDayBtn.classList.add("additional-day");
+      nextDayBtn.id = `day-${i + 2}`;
+      const daysAfterTomorrow = new Date();
+      daysAfterTomorrow.setDate(daysAfterTomorrow.getDate() + (i + 2));
+      nextDayBtn.innerHTML = `<span class="colored">${
+        daysAfterTomorrow.getMonth() + 1
+      }/${daysAfterTomorrow.getDate()}</span> ${
+        this.mongolianWeekdays[daysAfterTomorrow.getDay()]
+      }`;
+      btnGrp.appendChild(nextDayBtn);
+      this.renderButtons(2);
+    }
+
+    const showLessBtn = document.createElement("button");
+    showLessBtn.classList.add("show-less-times");
+    showLessBtn.textContent = "⤺ Хураах";
+    btnGrp.appendChild(showLessBtn);
+    showLessBtn.addEventListener("click", () => {
+      this.container.querySelectorAll(".additional-day").forEach((btn) => {
+        btn.remove();
+      });
+      const showAllBtn = document.createElement("button");
+      showAllBtn.classList.add("show-all-times");
+      showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ `;
+      showLessBtn.remove();
+      btnGrp.appendChild(showAllBtn);
+      this.renderButtons(0);
     });
   }
 

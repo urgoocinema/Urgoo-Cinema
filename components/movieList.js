@@ -31,7 +31,7 @@ export class MovieList extends HTMLElement {
 
   connectedCallback() {  
     this.render();
-    this.addEventListener('time-selected', this.onTimeSelected(e));
+    // this.addEventListener('time-selected', this.onTimeSelected(e));
   }
 
   async render() {
