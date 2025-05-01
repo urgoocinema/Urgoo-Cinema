@@ -135,7 +135,7 @@ template.innerHTML = `
           right: 0;
           color: var(--gray-text);
           margin-right: 1.3rem;
-          & span {
+          & .mo-day, .garig {
             color: var(--primary-color);
           }
         }
@@ -261,6 +261,14 @@ template.innerHTML = `
 
     .mobile-poster {
       display: none;
+    }
+
+    @media(max-width: 750px) {
+      .selected-date {
+        & .desktop {
+          display: none;
+        }
+      }
     }
 
     @media (max-width: 695px) {
@@ -432,7 +440,7 @@ template.innerHTML = `
         </button>
       </div>
       <div class="timetable-container">
-      <div class="selected-date">Сонгогдсон өдөр: <span class="mo-day"></span> <span class="garig"></span></div>
+      <div class="selected-date">Сонгогдсон<span class="desktop"> өдөр</span>: <span class="mo-day"></span> <span class="garig"></span></div>
           <div class="branch branch-1">
             <p>Өргөө 1 <span class="location">Хороолол</span></p>
             <div class="schedule"></div>
