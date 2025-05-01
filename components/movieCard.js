@@ -221,6 +221,11 @@ template.innerHTML = `
         color: var(--primary-color);
       }
 
+      & #forbidden {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+
       & .schedule {
         display: flex;
         flex-wrap: wrap;
@@ -378,6 +383,9 @@ template.innerHTML = `
         font-size: 0.9rem;
         top: 0;
       }
+      .show-all-times {
+        font-size: 0.6rem !important;
+      }
     }
 
     @media (max-width: 420px) {
@@ -499,7 +507,7 @@ template.innerHTML = `
               d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
             />
           </svg>
-          БҮХ ЦАГ
+          БҮХ ЦАГ (<span></span>)
         </button>
       </div>
       <div class="timetable-container">
@@ -542,6 +550,9 @@ export class MovieCard extends HTMLElement {
     this.cast = [];
     this.genres = [];
     this.showtimes = [];
+    this.allowedPreorderDays = 3;
+    this.startDate = new Date();
+    this.endDate = new Date();
     this.mongolianWeekdays = [
       "Ням",
       "Даваа",
@@ -600,6 +611,27 @@ export class MovieCard extends HTMLElement {
 
   connectedCallback() {
     this.renderCast();
+    if (this.hasMovieStarted(this.startDate) === false) {
+      const today = new Date();
+      const timeDifference = this.startDate - today;
+      const daysUntilStart = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hoursUntilStart = Math.floor(
+        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutesUntilStart = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const secondsUntilStart = Math.floor(
+        (timeDifference % (1000 * 60)) / 1000
+      );
+
+      this.container.querySelector(
+        ".showtime-details"
+      ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;text-align:center;cursor:not-allowed;height:100%;">
+      <span style="margin: 2rem 0;"><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2><countdown-live days="${daysUntilStart}" hours="${hoursUntilStart}" seconds="${secondsUntilStart}"></countdown-live></span></div>`;
+      this.container.querySelector(".showtime-details").style.height = "100%";
+      return;
+    }
     this.renderShowtimes(0);
     this.renderButtons();
 
@@ -720,14 +752,33 @@ export class MovieCard extends HTMLElement {
         }
       });
     });
+
     if (this.container.querySelector(".show-all-times")) {
-      this.container
-        .querySelector(".show-all-times")
-        .addEventListener("click", () => {
-          setTimeout(() => {
-            this.renderMoreButtons();
-          }, 0);
-        });
+      if (this.allowedPreorderDays > 2) {
+        this.container
+          .querySelector(".show-all-times")
+          .addEventListener("click", () => {
+            setTimeout(() => {
+              this.renderMoreButtons();
+            }, 0);
+          });
+        this.container.querySelector(".show-all-times span").textContent =
+          this.allowedPreorderDays - 2;
+      } else if (this.allowedPreorderDays === 2) {
+        this.container.querySelector(".show-all-times").remove();
+      } else if (this.allowedPreorderDays === 1) {
+        this.container.querySelector(".show-all-times").remove();
+        this.container
+          .querySelector(".showtime-details .button-group #day-1")
+          .remove();
+      } else if (this.allowedPreorderDays === 0) {
+        this.container.querySelector(".desktop-poster").style.maxHeight =
+          "350px";
+        this.container.querySelector(
+          ".showtime-details"
+        ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;padding-top:1rem;text-align:center;cursor:not-allowed;height:100%;"><span><h3 style="">Тасалбар захиалга  эхлээгүй байна.</h3><p>☎️7010-7711</p></span></div>`;
+        this.container.querySelector(".showtime-details").style.height = "100%";
+      }
     }
   }
 
@@ -737,7 +788,7 @@ export class MovieCard extends HTMLElement {
     );
     this.container.querySelector(".show-all-times").remove();
 
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < this.allowedPreorderDays - 2; i++) {
       const nextDayBtn = document.createElement("button");
       nextDayBtn.classList.add("time-button");
       nextDayBtn.classList.add("additional-day");
@@ -753,7 +804,13 @@ export class MovieCard extends HTMLElement {
     }
 
     this.renderButtons();
+    this.buttonResetter();
+  }
 
+  buttonResetter() {
+    const btnGrp = this.container.querySelector(
+      ".showtime-details .button-group"
+    );
     const showLessBtn = document.createElement("button");
     showLessBtn.classList.add("show-less-times");
     showLessBtn.textContent = "⤺ Хураах";
@@ -764,11 +821,16 @@ export class MovieCard extends HTMLElement {
       });
       const showAllBtn = document.createElement("button");
       showAllBtn.classList.add("show-all-times");
-      showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ `;
+      showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ (<span></span>)`;
       showLessBtn.remove();
       btnGrp.appendChild(showAllBtn);
       this.renderButtons(0);
     });
+  }
+
+  hasMovieStarted(startDate) {
+    const today = new Date();
+    return startDate <= today;
   }
 
   disconnectedCallback() {}

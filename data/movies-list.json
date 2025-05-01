@@ -11,6 +11,9 @@
       "cc": "mongolian",
       "genres": ["Уран зөгнөлт", "Хөгжмийн", "Гэр бүлийн"],
       "imdb_rating": 1.5,
+      "allowed_preorder_days": 6,
+      "start_date": "2025-06-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["11:00", "13:20", "16:30", "20:00"],
@@ -61,6 +64,9 @@
       "cc": "mongolian",
       "genres": ["Science Fiction", "Action", "Thriller"],
       "imdb_rating": 7.8,
+      "allowed_preorder_days": 14,
+      "start_date": "2025-01-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["11:30", "14:30", "17:30", "20:30"],
@@ -111,6 +117,9 @@
       "cc": "mongolian",
       "genres": ["Адал явдалт", "Уран зөгнөлт", "Гэр бүлийн"],
       "imdb_rating": 6.5,
+      "allowed_preorder_days": 5,
+      "start_date": "2025-01-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["10:00", "12:00", "16:30", "19:20"],
@@ -161,6 +170,9 @@
       "cc": "mongolian",
       "genres": ["Адал явдалт", "Инээдмийн"],
       "imdb_rating": 7.2,
+      "allowed_preorder_days": 2,
+      "start_date": "2025-01-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["11:30", "13:50", "16:30", "21:30"],
@@ -211,6 +223,9 @@
       "cc": "mongolian",
       "genres": ["Шинжлэх ухааны", "Уран зөгнөлт", "Триллер"],
       "imdb_rating": 8.1,
+      "allowed_preorder_days": 1,
+      "start_date": "2025-01-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["10:20", "13:00", "16:50", "19:00"],
@@ -261,6 +276,9 @@
       "cc": "mongolian",
       "genres": ["Триллер", "Драм"],
       "imdb_rating": 6.8,
+      "allowed_preorder_days": 3,
+      "start_date": "2025-01-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["11:30", "14:30", "17:30", "20:30"],
@@ -311,6 +329,9 @@
       "cc": "mongolian",
       "genres": ["Инээдмийн", "Драм"],
       "imdb_rating": 7.5,
+      "allowed_preorder_days": 0,
+      "start_date": "2025-06-01",
+      "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
           "monday": ["10:00", "12:00", "16:30", "19:20"],

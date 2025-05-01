@@ -53,6 +53,9 @@ export class MovieList extends HTMLElement {
       movieCard.cast = movie.cast;
       movieCard.genres = movie.genres;
       movieCard.showtimes = movie.showtimes;
+      movieCard.allowedPreorderDays = movie.allowed_preorder_days;
+      movieCard.startDate = new Date(movie.start_date);
+      movieCard.endDate = new Date(movie.end_date);
 
       this.container.appendChild(movieCard);
     }
