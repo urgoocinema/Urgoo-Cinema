@@ -121,9 +121,7 @@ template.innerHTML = `
 
     .showtime-details {
       & .button-group {
-        display: flex;
         margin: 1rem 0 1.2rem;
-        display: flex;
         gap: 8px;
       }
 
@@ -494,13 +492,13 @@ export class MovieCard extends HTMLElement {
     this.genres = [];
     this.showtimes = [];
     this.mongolianWeekdays = [
-      "Ням", // Sunday
-      "Даваа", // Monday
-      "Мягмар", // Tuesday
-      "Лхагва", // Wednesday
-      "Пүрэв", // Thursday
-      "Баасан", // Friday
-      "Бямба", // Saturday
+      "Ням", 
+      "Даваа", 
+      "Мягмар", 
+      "Лхагва", 
+      "Пүрэв",
+      "Баасан", 
+      "Бямба", 
     ];
   }
 
