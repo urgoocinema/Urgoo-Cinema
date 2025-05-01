@@ -102,11 +102,21 @@ class theaterSelector extends HTMLElement {
                 </style>
                 <div class = "select">
                 <select name="theather" id="theather">
-                <option value="DefaultSelection></option>
+                <option value="DefaultSelection"></option>
                 ${selectString}
                 </select>
                 </div>
             `;
+
+            const selectElement = this.shadowRoot.querySelector("#theather");
+            selectElement.addEventListener("change",(event)=>{
+                const selectedTheater = event.target.value;
+                this.dispatchEvent(new CustomEvent('theater-selected', {
+                    detail: {theater: selectedTheater},
+                    bubbles: true, //understand those code!!!
+                    composed: true
+                }));
+            });
         } catch (error) {
             console.error("Error fetching movie data:", error);
             this.shadowRoot.innerHTML = `<p>Error fetching movie data. Please try again later.</p>`;
