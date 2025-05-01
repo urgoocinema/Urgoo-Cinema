@@ -12,7 +12,7 @@
       "genres": ["Уран зөгнөлт", "Хөгжмийн", "Гэр бүлийн"],
       "imdb_rating": 1.5,
       "allowed_preorder_days": 6,
-      "start_date": "2025-06-01",
+      "start_date": "2025-05-09",
       "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {
@@ -330,7 +330,7 @@
       "genres": ["Инээдмийн", "Драм"],
       "imdb_rating": 7.5,
       "allowed_preorder_days": 0,
-      "start_date": "2025-06-01",
+      "start_date": "2025-05-01",
       "end_date": "2025-07-01",
       "showtimes": {
         "branch1": {

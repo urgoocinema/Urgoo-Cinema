@@ -369,12 +369,18 @@ template.innerHTML = `
       }
     }
 
+    @media (max-width: 470px) {
+      .time-button, .show-all-times {
+        padding: 0.4rem 0.7rem !important;
+      }
+    }
+
     @media (max-width: 440px) {
       .time-button {
         font-size: clamp(0.6rem, 4vw, 0.8rem) !important;
       }
     }
-    @media (max-width: 426px) {
+    @media (max-width: 430px) {
       .time-button {
         max-height: 25px;
         font-size: 0.6rem !important;
@@ -384,6 +390,7 @@ template.innerHTML = `
         top: 0;
       }
       .show-all-times {
+        max-height: 25px;
         font-size: 0.6rem !important;
       }
     }
@@ -612,18 +619,11 @@ export class MovieCard extends HTMLElement {
   connectedCallback() {
     this.renderCast();
     if (this.hasMovieStarted(this.startDate) === false) {
-      const today = new Date();
-      const timeDifference = this.startDate - today;
-      const daysUntilStart = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-      const hoursUntilStart = Math.floor(
-        (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutesUntilStart = Math.floor(
-        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const secondsUntilStart = Math.floor(
-        (timeDifference % (1000 * 60)) / 1000
-      );
+      const totalSeconds = Math.floor((this.startDate - new Date()) / 1000);
+      const daysUntilStart = Math.floor(totalSeconds / 86400);
+      const hoursUntilStart = Math.floor((totalSeconds % 86400) / 3600);
+      const minutesUntilStart = Math.floor((totalSeconds % 3600) / 60);
+      const secondsUntilStart = totalSeconds % 60;
 
       this.container.querySelector(
         ".showtime-details"
@@ -776,7 +776,8 @@ export class MovieCard extends HTMLElement {
           "350px";
         this.container.querySelector(
           ".showtime-details"
-        ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;padding-top:1rem;text-align:center;cursor:not-allowed;height:100%;"><span><h3 style="">Тасалбар захиалга  эхлээгүй байна.</h3><p>☎️7010-7711</p></span></div>`;
+        ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;padding-top:1rem;text-align:center;cursor:not-allowed;height:100%;">
+        <span><h3 style="">Тасалбарын хуваарь тавигдаагүй байна.</h3><p>☎️7010-7711</p></span></div>`;
         this.container.querySelector(".showtime-details").style.height = "100%";
       }
     }

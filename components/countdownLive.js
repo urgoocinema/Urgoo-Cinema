@@ -108,7 +108,7 @@ class CountdownLive extends HTMLElement {
         0% {
           opacity: 0;
           transform: scale(1) rotate(0deg);
-          filter: drop-shadow(0 0 3px rgba(255,255,255,0.8));
+          filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
         }
         50% {
           opacity: 1;
