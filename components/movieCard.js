@@ -432,7 +432,7 @@ template.innerHTML = `
         </button>
       </div>
       <div class="timetable-container">
-      <div class="selected-date">Сонгогдсон өдөр: <span>5/1</span></div>
+      <div class="selected-date">Сонгогдсон өдөр: <span class="mo-day"></span> <span class="garig"></span></div>
           <div class="branch branch-1">
             <p>Өргөө 1 <span class="location">Хороолол</span></p>
             <div class="schedule"></div>
@@ -468,7 +468,15 @@ export class MovieCard extends HTMLElement {
     this.cast = [];
     this.genres = [];
     this.showtimes = [];
-    this.selectedDay = [1, 2, 3, 4, 5, 6, 7];
+    this.mongolianWeekdays = [
+      "Ням",     // Sunday
+      "Даваа",   // Monday
+      "Мягмар",  // Tuesday
+      "Лхагва",  // Wednesday
+      "Пүрэв",   // Thursday
+      "Баасан",  // Friday
+      "Бямба"    // Saturday
+    ];
   }
 
   static get observedAttributes() {
@@ -573,9 +581,12 @@ export class MovieCard extends HTMLElement {
         : `<span class="time">No showtimes available</span>`;
     }
 
-    this.container.querySelector(".selected-date span").innerHTML = `${
+    this.container.querySelector(".selected-date .mo-day").innerHTML = `${
       currentDay.getMonth() + 1
     }/${currentDay.getDate()}`;
+    this.container.querySelector(".selected-date .garig").innerHTML = `${
+      this.mongolianWeekdays[currentDay.getDay()]
+    }`;
   }
 
   disconnectedCallback() {}
