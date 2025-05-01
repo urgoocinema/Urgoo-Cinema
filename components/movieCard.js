@@ -550,8 +550,88 @@ export class MovieCard extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
+    this.renderCast();
     this.renderShowtimes(0);
+    this.renderButtons();
+
+    this.addEventListener("click", (e) => {
+      const btn = e.target.closest("a[data-day]");
+      if (!btn) return;
+      const day = btn.dataset.day;
+      const hour = btn.dataset.hour;
+      this.dispatchEvent(
+        new CustomEvent("time-selected", {
+          detail: {
+            movieId: this.getAttribute("id"),
+            day,
+            hour,
+          },
+          bubbles: true, 
+          composed: true, 
+        })
+      );
+    });
+    // this.shadowRoot.querySelector("button").addEventListener("click", () => {
+    //   this.dispatchEvent(
+    //     new CustomEvent("remove-me", {
+    //       detail: {
+    //         id: this.getAttribute("id"),
+    //       },
+    //       bubbles: true,
+    //       composed: true,
+    //     })
+    //   );
+    // });
+  }
+
+  renderCast() {
+    this.container.querySelector(".cast .gray").textContent =
+      this.cast.join(", ");
+  }
+
+  renderShowtimes(day) {
+    const currentDay = new Date();
+    currentDay.setDate(currentDay.getDate() + day);
+
+    const currentDayName = currentDay
+      .toLocaleDateString("en-US", { weekday: "long" })
+      .toLowerCase();
+    const todayShowtimes = this.container.querySelector(".showtime-details");
+    for (let i = 1; i <= 4; i++) {
+      const branch = todayShowtimes.querySelector(`.branch-${i}`);
+      const showtimes = this.showtimes?.[`branch${i}`]?.[currentDayName];
+
+      branch.querySelector(".schedule").innerHTML = showtimes
+        ? showtimes
+            .map(
+              (time) =>
+                `<a href="#" class="time" data-day="${currentDay
+                  .toISOString()
+                  .slice(0, 10)}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+            )
+            .join("")
+        : `<span class="time">No showtimes available</span>`;
+    }
+
+    if (
+      this.container
+        .querySelector(".time-button.active")
+        .classList.contains("show-all-times")
+    ) {
+      this.container.querySelector(".selected-date .mo-day").textContent = "";
+      this.container.querySelector(".selected-date .garig").textContent =
+        "Нөгөөдөр";
+    } else {
+      this.container.querySelector(".selected-date .mo-day").innerHTML = `${
+        currentDay.getMonth() + 1
+      }/${currentDay.getDate()}`;
+      this.container.querySelector(".selected-date .garig").innerHTML = `${
+        this.mongolianWeekdays[currentDay.getDay()]
+      }`;
+    }
+  }
+
+  renderButtons() {
     this.timeButtons = Array.from(
       this.container.querySelectorAll(".time-button")
     );
@@ -578,59 +658,6 @@ export class MovieCard extends HTMLElement {
         }
       });
     });
-    // this.shadowRoot.querySelector("button").addEventListener("click", () => {
-    //   this.dispatchEvent(
-    //     new CustomEvent("remove-me", {
-    //       detail: {
-    //         id: this.getAttribute("id"),
-    //       },
-    //       bubbles: true,
-    //       composed: true,
-    //     })
-    //   );
-    // });
-  }
-
-  render() {
-    this.container.querySelector(".cast .gray").textContent =
-      this.cast.join(", ");
-  }
-
-  renderShowtimes(day) {
-    const currentDay = new Date();
-    currentDay.setDate(currentDay.getDate() + day);
-
-    const currentDayName = currentDay
-      .toLocaleDateString("en-US", { weekday: "long" })
-      .toLowerCase();
-    const todayShowtimes = this.container.querySelector(".showtime-details");
-    for (let i = 1; i <= 4; i++) {
-      const branch = todayShowtimes.querySelector(`.branch-${i}`);
-      const showtimes = this.showtimes?.[`branch${i}`]?.[currentDayName];
-
-      branch.querySelector(".schedule").innerHTML = showtimes
-        ? showtimes
-            .map((time) => `<a href="#" class="time">${time}</a>`)
-            .join("")
-        : `<span class="time">No showtimes available</span>`;
-    }
-
-    if (
-      this.container
-        .querySelector(".time-button.active")
-        .classList.contains("show-all-times")
-    ) {
-      this.container.querySelector(".selected-date .mo-day").textContent = "";
-      this.container.querySelector(".selected-date .garig").textContent =
-        "Нөгөөдөр";
-    } else {
-      this.container.querySelector(".selected-date .mo-day").innerHTML = `${
-        currentDay.getMonth() + 1
-      }/${currentDay.getDate()}`;
-      this.container.querySelector(".selected-date .garig").innerHTML = `${
-        this.mongolianWeekdays[currentDay.getDay()]
-      }`;
-    }
   }
 
   disconnectedCallback() {}

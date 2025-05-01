@@ -57,6 +57,24 @@ export class MovieList extends HTMLElement {
     }
   }
 
+  onTimeSelected(e) {
+    const { movieId, day, hour } = e.detail;
+
+    // find (or create) your seat-selector:
+    const seatSelector = document.querySelector('seat-selector');
+    if (!seatSelector) return;
+
+    // pass data via properties (preferred) or attributes:
+    seatSelector.movieId = movieId;
+    seatSelector.day     = day;
+    seatSelector.hour    = hour;
+
+    // if you rely on attributeChangedCallback:
+    // seatSelector.setAttribute('movie-id', movieId);
+    // seatSelector.setAttribute('day', day);
+    // seatSelector.setAttribute('hour', hour);
+  }
+
   disconnectedCallback() {}
 }
 
