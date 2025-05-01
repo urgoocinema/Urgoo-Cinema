@@ -146,13 +146,14 @@ template.innerHTML = `
 
       & .time-button,
       .show-all-times {
+        height: 2rem;
         padding: 0.4rem 1rem;
         border: 2px solid #ccc;
         border-radius: 8px;
         background-color: transparent;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: white;
+        color: var(--white-text);
         font-size: 0.85rem;
       }
 
@@ -298,6 +299,32 @@ template.innerHTML = `
 
     .mobile-poster {
       display: none;
+    }
+
+    #touch .time-button:hover {
+      background-color: transparent;
+      color: var(--white-text);
+      border-color: #ccc;
+      & .colored {
+        color: var(--primary-color);
+      }
+    }
+
+    #touch .time-button.active {
+        background-color: #e49b0f;
+        color: black;
+        border-color: #e49b0f;
+        opacity: 1;
+        & svg {
+          color: white;
+        }
+        & .colored {
+          color: var(--white-text);
+        }
+      }
+
+    #touch .time:hover {
+      background-color: transparent;
     }
 
     @media (max-width: 750px) {
@@ -593,6 +620,11 @@ export class MovieCard extends HTMLElement {
         })
       );
     });
+
+    if ("ontouchstart" in window || navigator.maxTouchPoints) {
+      this.container.id = "touch";
+    }
+
     // this.shadowRoot.querySelector("button").addEventListener("click", () => {
     //   this.dispatchEvent(
     //     new CustomEvent("remove-me", {
@@ -661,7 +693,10 @@ export class MovieCard extends HTMLElement {
       this.container.querySelectorAll(".time-button")
     );
 
-    if (activeChangeIndex !== -1) {
+    if (
+      activeChangeIndex !== -1 &&
+      !this.container.querySelector(".time-button.active")
+    ) {
       this.timeButtons.forEach((button) => {
         button.classList.remove("active");
       });
@@ -689,7 +724,9 @@ export class MovieCard extends HTMLElement {
       this.container
         .querySelector(".show-all-times")
         .addEventListener("click", () => {
-          this.renderMoreButtons();
+          setTimeout(() => {
+            this.renderMoreButtons();
+          }, 0);
         });
     }
   }
@@ -713,8 +750,9 @@ export class MovieCard extends HTMLElement {
         this.mongolianWeekdays[daysAfterTomorrow.getDay()]
       }`;
       btnGrp.appendChild(nextDayBtn);
-      this.renderButtons(2);
     }
+
+    this.renderButtons();
 
     const showLessBtn = document.createElement("button");
     showLessBtn.classList.add("show-less-times");
