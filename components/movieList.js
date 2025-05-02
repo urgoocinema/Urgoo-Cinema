@@ -1,3 +1,5 @@
+import fetchMovies from "./fetch.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
@@ -35,8 +37,7 @@ export class MovieList extends HTMLElement {
   }
 
   async render() {
-    const res = await fetch("./data/movies-list.json");
-    const data = await res.json();
+    const data = await fetchMovies();
 
     for (let i = 0; i < data.movies.length; i++) {
       const movie = data.movies[i];

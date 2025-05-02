@@ -7,11 +7,11 @@ class CountdownLive extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['days', 'hours', 'seconds'];
+    return ['start-date'];
   }
 
   connectedCallback() {
-    this.render();
+    this.render(0, 0, 0, 0);
     this.startCountdown();
     this.injectAnimationStyles();
     this.startAnimation();
@@ -22,47 +22,42 @@ class CountdownLive extends HTMLElement {
     clearInterval(this.animationInterval);
   }
 
-  attributeChangedCallback() {
-    this.render();
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'start-date') {
+      clearInterval(this.countdownInterval);
+      this.startCountdown();
+    }
   }
 
   startCountdown() {
     this.countdownInterval = setInterval(() => {
-      let days = parseInt(this.getAttribute('days')) || 0;
-      let hours = parseInt(this.getAttribute('hours')) || 0;
-      let seconds = parseInt(this.getAttribute('seconds')) || 0;
-
-      if (seconds > 0) {
-        seconds--;
-      } else if (hours > 0) {
-        hours--;
-        seconds = 59;
-      } else if (days > 0) {
-        days--;
-        hours = 23;
-        seconds = 59;
+      const target = new Date(this.getAttribute('start-date'));
+      const now = new Date();
+      let diff = Math.floor((target - now) / 1000);
+      // If target date has passed, set diff to zero
+      if (diff < 0) {
+        diff = 0;
       }
+      const days = Math.floor(diff / 86400);
+      const hours = Math.floor((diff % 86400) / 3600);
+      const minutes = Math.floor((diff % 3600) / 60);
+      const seconds = diff % 60;
 
-      this.setAttribute('days', days);
-      this.setAttribute('hours', hours);
-      this.setAttribute('seconds', seconds);
+      this.render(days, hours, minutes, seconds);
     }, 1000);
   }
 
   startAnimation() {
-    // Create stars every 4 seconds
+    // Create stars at regular intervals
     this.animationInterval = setInterval(() => {
       this.createStars();
     }, 800);
   }
 
   createStars() {
-    // Get the host's current position (viewport coordinates)
     const rect = this.getBoundingClientRect();
-    // We'll create a random number of stars (5 to 10)
     const starCount = Math.floor(Math.random() * 6) + 5;
     for (let i = 0; i < starCount; i++) {
-      // Create stars in an area that extends a little beyond the container
       const margin = 20;
       const x = rect.left + window.scrollX + Math.random() * (rect.width + margin * 2) - margin;
       const y = rect.top + window.scrollY + Math.random() * (rect.height + margin * 2) - margin;
@@ -72,10 +67,8 @@ class CountdownLive extends HTMLElement {
 
   createStar(x, y) {
     const star = document.createElement('div');
-    // Randomizing star size and animation delay
-    const size = Math.random() * 3 + 1; // 3px to 6px
-    const delay = Math.random() * 1; // 0 to 1 second
-    
+    const size = Math.random() * 3 + 1;
+    const delay = Math.random();
     Object.assign(star.style, {
       position: 'absolute',
       left: `${x}px`,
@@ -88,19 +81,15 @@ class CountdownLive extends HTMLElement {
       zIndex: 9999,
       animation: `sparkle-animation 3s ${delay}s forwards`
     });
-    
-    // Remove the star after the animation ends
     star.addEventListener('animationend', () => {
       star.remove();
     });
-    
     document.body.appendChild(star);
   }
 
   injectAnimationStyles() {
-    // Prevent duplicate stylesheet injection
     if (document.getElementById('star-animation-styles')) return;
-    
+
     const style = document.createElement('style');
     style.id = 'star-animation-styles';
     style.textContent = `
@@ -130,50 +119,49 @@ class CountdownLive extends HTMLElement {
     document.head.appendChild(style);
   }
 
-  render() {
-    const days = this.getAttribute('days') || '0';
-    const hours = this.getAttribute('hours') || '0';
-    const seconds = this.getAttribute('seconds') || '0';
-
+  render(days, hours, minutes, seconds) {
     this.shadowRoot.innerHTML = `
       <style>
-        .countdown {
-          position: relative;
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          font-family: Arial, sans-serif;
-          font-size: 1.5rem;
-          color: #fff;
-          background: linear-gradient(45deg, rgb(126, 84, 7), rgb(244, 186, 13));
-          padding: 10px 20px;
-          border-radius: 10px;
-          /* Allow inner stars to be visible even if they slightly exceed */
-          overflow: visible;
-        }
-        .countdown div {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .countdown span {
-          font-size: 0.8rem;
-          color: #ddd;
-        }
+      .countdown {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        font-family: Arial, sans-serif;
+        font-size: 1.5rem;
+        color: #fff;
+        background: linear-gradient(45deg, rgb(126, 84, 7), rgb(244, 186, 13));
+        padding: 10px 20px;
+        border-radius: 10px;
+        overflow: visible;
+      }
+      .countdown div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .countdown span {
+        font-size: 0.8rem;
+        color: #ddd;
+      }
       </style>
       <div class="countdown">
-        <div>
-          <div>${days}</div>
-          <span>Өдөр</span>
-        </div>
-        <div>
-          <div>${hours}</div>
-          <span>Цаг</span>
-        </div>
-        <div>
-          <div>${seconds}</div>
-          <span>Секунд</span>
-        </div>
+      <div>
+        <div>${days}</div>
+        <span>Өдөр</span>
+      </div>
+      <div>
+        <div>${String(hours).padStart(2, '0')}</div>
+        <span>Цаг</span>
+      </div>
+      <div>
+        <div>${String(minutes).padStart(2, '0')}</div>
+        <span>Минут</span>
+      </div>
+      <div>
+        <div>${String(seconds).padStart(2, '0')}</div>
+        <span>Секунд</span>
+      </div>
       </div>
     `;
   }

@@ -371,31 +371,26 @@ template.innerHTML = `
 
     @media (max-width: 470px) {
       .time-button, .show-all-times {
-        padding: 0.4rem 0.7rem !important;
+        padding: 0.2rem 0.7rem !important;
       }
     }
 
     @media (max-width: 440px) {
       .time-button {
-        font-size: clamp(0.6rem, 4vw, 0.8rem) !important;
-      }
-    }
-    @media (max-width: 430px) {
-      .time-button {
-        max-height: 25px;
-        font-size: 0.6rem !important;
+        max-height: 2rem;
+        font-size: 0.8rem !important;
       }
       .selected-date {
         font-size: 0.9rem;
         top: 0;
       }
       .show-all-times {
-        max-height: 25px;
-        font-size: 0.6rem !important;
+        max-height: 2rem;
+        font-size: 0.8rem !important;
       }
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 425px) {
       .mobile-poster {
         max-height: 180px;
         min-height: 180px;
@@ -414,6 +409,9 @@ template.innerHTML = `
       }
       .time {
         font-size: clamp(0.7rem, 4vw, 1rem) !important;
+      }
+      .time-button, .show-all-times {
+        font-size: clamp(0.6rem, 3vw, 0.8rem) !important;
       }
     }
 
@@ -619,16 +617,16 @@ export class MovieCard extends HTMLElement {
   connectedCallback() {
     this.renderCast();
     if (this.hasMovieStarted(this.startDate) === false) {
-      const totalSeconds = Math.floor((this.startDate - new Date()) / 1000);
-      const daysUntilStart = Math.floor(totalSeconds / 86400);
-      const hoursUntilStart = Math.floor((totalSeconds % 86400) / 3600);
-      const minutesUntilStart = Math.floor((totalSeconds % 3600) / 60);
-      const secondsUntilStart = totalSeconds % 60;
-
-      this.container.querySelector(
-        ".showtime-details"
-      ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;text-align:center;cursor:not-allowed;height:100%;">
-      <span style="margin: 2rem 0;"><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2><countdown-live days="${daysUntilStart}" hours="${hoursUntilStart}" seconds="${secondsUntilStart}"></countdown-live></span></div>`;
+      this.container.querySelector(".showtime-details").innerHTML = `<div
+        style="display:flex;justify-content:center;align-items:center;text-align:center;cursor:not-allowed;height:100%;"
+      >
+        <span style="margin: 2rem 0;"
+          ><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2>
+          <countdown-live
+            start-date="${this.startDate.toISOString()}"
+          ></countdown-live
+        ></span>
+      </div>`;
       this.container.querySelector(".showtime-details").style.height = "100%";
       return;
     }
@@ -774,10 +772,14 @@ export class MovieCard extends HTMLElement {
       } else if (this.allowedPreorderDays === 0) {
         this.container.querySelector(".desktop-poster").style.maxHeight =
           "350px";
-        this.container.querySelector(
-          ".showtime-details"
-        ).innerHTML = `<div style="display:flex;justify-content:center;align-items:center;padding-top:1rem;text-align:center;cursor:not-allowed;height:100%;">
-        <span><h3 style="">Тасалбарын хуваарь тавигдаагүй байна.</h3><p>☎️7010-7711</p></span></div>`;
+        this.container.querySelector(".showtime-details").innerHTML = `<div
+          style="display:flex;justify-content:center;align-items:center;padding-top:1rem;text-align:center;cursor:not-allowed;height:100%;"
+        >
+          <span
+            ><h3 style="">Тасалбарын хуваарь тавигдаагүй байна.</h3>
+            <p>☎️7010-7711</p></span
+          >
+        </div>`;
         this.container.querySelector(".showtime-details").style.height = "100%";
       }
     }
