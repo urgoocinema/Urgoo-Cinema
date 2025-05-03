@@ -1,4 +1,6 @@
 import { durationConverter } from "../utils/duration-converter.js";
+import { convertToMinutes } from "../utils/getMinutes.js";
+import { isSameDay } from "../utils/isSameDay.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -554,7 +556,7 @@ export class MovieCard extends HTMLElement {
 
     this.cast = [];
     this.genres = [];
-    this.showtimes = [];
+    this.showtimes = {};
     this.allowedPreorderDays = 3;
     this.startDate = new Date();
     this.endDate = new Date();
@@ -616,31 +618,32 @@ export class MovieCard extends HTMLElement {
 
   connectedCallback() {
     this.renderCast();
-    if(!this.hasMovieStartedHandler())
-      return;
+    if (!this.hasMovieStartedHandler()) return;
     this.renderShowtimes(0);
     this.renderButtons();
     this.noTouchScreenHandler();
 
-    this.container.querySelector(".showtime-details").addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-day]");
-      if (!btn) return;
-      const branch = btn.dataset.branch;
-      const day = btn.dataset.day;
-      const hour = btn.dataset.hour;
-      this.dispatchEvent(
-        new CustomEvent("time-selected", {
-          detail: {
-            movieId: this.getAttribute("id"),
-            branch,
-            day,
-            hour,
-          },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    });
+    this.container
+      .querySelector(".showtime-details")
+      .addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-day]");
+        if (!btn) return;
+        const branch = btn.dataset.branch;
+        const day = btn.dataset.day;
+        const hour = btn.dataset.hour;
+        this.dispatchEvent(
+          new CustomEvent("time-selected", {
+            detail: {
+              movieId: this.getAttribute("id"),
+              branch,
+              day,
+              hour,
+            },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      });
 
     // this.shadowRoot.querySelector("button").addEventListener("click", () => {
     //   this.dispatchEvent(
@@ -661,8 +664,11 @@ export class MovieCard extends HTMLElement {
   }
 
   renderShowtimes(day) {
-    const currentDay = new Date();
+    const today = new Date();
+
+    const currentDay = new Date(today);
     currentDay.setDate(currentDay.getDate() + day);
+    const currentTime = today.getHours() * 60 + today.getMinutes();
 
     const currentDayName = currentDay
       .toLocaleDateString("en-US", { weekday: "long" })
@@ -670,28 +676,50 @@ export class MovieCard extends HTMLElement {
     const todayShowtimes = this.container.querySelector(".showtime-details");
     for (let i = 1; i <= 4; i++) {
       const branch = todayShowtimes.querySelector(`.branch-${i}`);
-      const showtimes = this.showtimes?.[`branch${i}`]?.[currentDayName];
-
-      branch.querySelector(".schedule").innerHTML = showtimes
-        ? showtimes
-            .map(
-              (time) =>
-                `<a href="#" class="time" data-day="${currentDay
-                  .toISOString()
-                  .slice(
-                    0,
-                    10
-                  )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
-            )
-            .join("")
-        : `<span class="time">No showtimes available</span>`;
+      const showtimes =
+        this.showtimes?.[`branch${i}`]?.schedule?.[currentDayName];
+      console.log("currentday: ", currentDay, "today:", today);
+      if (isSameDay(currentDay, today)) {
+        branch.querySelector(".schedule").innerHTML = showtimes
+          ? showtimes
+              .map((time) =>
+                /^[0-2][0-9]:[0-5][0-9]$/.test(time) && convertToMinutes(time) >= currentTime + 30
+                  ? `<a href="#" class="time" data-day="${currentDay
+                      .toISOString()
+                      .slice(
+                        0,
+                        10
+                      )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+                  : ``
+              )
+              .join("")
+          : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
+        if (branch.querySelector(".schedule").innerHTML === "") {
+          branch.querySelector(
+            ".schedule"
+          ).innerHTML = `<span class="time" style="opacity: 0.6; cursor: not-allowed">Захиалга хаагдсан</span>`;
+        }
+      } else {
+        branch.querySelector(".schedule").innerHTML = showtimes
+          ? showtimes
+              .map(
+                (time) =>
+                  `<a href="#" class="time" data-day="${currentDay
+                    .toISOString()
+                    .slice(
+                      0,
+                      10
+                    )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+              )
+              .join("")
+          : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
+      }
     }
-    this.container.querySelector(".selected-date .mo-day").innerHTML = `${
-      currentDay.getMonth() + 1
-    }/${currentDay.getDate()}`;
-    this.container.querySelector(".selected-date .garig").innerHTML = `${
-      this.mongolianWeekdays[currentDay.getDay()]
-    }`;
+    const selectedDateMoDay = this.container.querySelector(".selected-date .mo-day");
+    const selectedDateGarig = this.container.querySelector(".selected-date .garig");
+
+    selectedDateMoDay.innerHTML = `${currentDay.getMonth() + 1}/${currentDay.getDate()}`;
+    selectedDateGarig.innerHTML = `${this.mongolianWeekdays[currentDay.getDay()]}`;
   }
 
   renderButtons(activeChangeIndex = -1) {
