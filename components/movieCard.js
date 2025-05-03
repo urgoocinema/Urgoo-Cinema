@@ -622,8 +622,8 @@ export class MovieCard extends HTMLElement {
     this.renderButtons();
     this.noTouchScreenHandler();
 
-    this.addEventListener("click", (e) => {
-      const btn = e.target.closest("a[data-day]");
+    this.container.querySelector(".showtime-details").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-day]");
       if (!btn) return;
       const branch = btn.dataset.branch;
       const day = btn.dataset.day;

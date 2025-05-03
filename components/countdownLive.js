@@ -182,11 +182,11 @@ class CountdownLive extends HTMLElement {
         <span>Өдөр</span>
       </div>
       <div>
-        <div>${String(hours).padStart(2, '0')}</div>
+        <div>${hours}</div>
         <span>Цаг</span>
       </div>
       <div>
-        <div>${String(minutes).padStart(2, '0')}</div>
+        <div>${minutes}</div>
         <span>Минут</span>
       </div>
       <div>
