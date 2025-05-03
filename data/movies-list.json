@@ -117,7 +117,7 @@
       "cc": "mongolian",
       "genres": ["Адал явдалт", "Уран зөгнөлт", "Гэр бүлийн"],
       "imdb_rating": 6.5,
-      "allowed_preorder_days": 5,
+      "allowed_preorder_days": 6,
       "start_date": "2025-01-01",
       "end_date": "2025-07-01",
       "showtimes": {
@@ -276,7 +276,7 @@
       "cc": "mongolian",
       "genres": ["Триллер", "Драм"],
       "imdb_rating": 6.8,
-      "allowed_preorder_days": 3,
+      "allowed_preorder_days": 4,
       "start_date": "2025-01-01",
       "end_date": "2025-07-01",
       "showtimes": {

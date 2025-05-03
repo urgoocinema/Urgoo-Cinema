@@ -33,7 +33,7 @@ export class MovieList extends HTMLElement {
 
   connectedCallback() {  
     this.render();
-    // this.addEventListener('time-selected', this.onTimeSelected(e));
+    this.addEventListener('time-selected', (e) => this.onTimeSelected(e));
   }
 
   async render() {
@@ -63,13 +63,14 @@ export class MovieList extends HTMLElement {
   }
 
   onTimeSelected(e) {
-    const { movieId, day, hour } = e.detail;
+    const { movieId, branch, day, hour } = e.detail;
     const seatSelector = document.querySelector('seat-selector');
     if (!seatSelector) return;
 
-    seatSelector.movieId = movieId;
-    seatSelector.day     = day;
-    seatSelector.hour    = hour;
+    seatSelector.setAttribute('movie_id', movieId);
+    seatSelector.setAttribute('branch', branch);
+    seatSelector.setAttribute('day', day);
+    seatSelector.setAttribute('hour', hour);
   }
 
   disconnectedCallback() {}

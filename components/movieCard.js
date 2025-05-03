@@ -625,12 +625,14 @@ export class MovieCard extends HTMLElement {
     this.addEventListener("click", (e) => {
       const btn = e.target.closest("a[data-day]");
       if (!btn) return;
+      const branch = btn.dataset.branch;
       const day = btn.dataset.day;
       const hour = btn.dataset.hour;
       this.dispatchEvent(
         new CustomEvent("time-selected", {
           detail: {
             movieId: this.getAttribute("id"),
+            branch,
             day,
             hour,
           },
