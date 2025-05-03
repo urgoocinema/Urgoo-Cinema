@@ -1,3 +1,29 @@
+/**
+ * CountdownLive is a custom HTML element that displays a countdown timer
+ * and creates a starry animation effect around the timer.
+ * 
+ * @class
+ * @extends HTMLElement
+ * 
+ * @example
+ * <countdown-live start-date="2023-12-31T23:59:59"></countdown-live>
+ * 
+ * @attribute {string} start-date - The target date and time for the countdown in ISO format.
+ * 
+ * @method connectedCallback - Invoked when the element is added to the DOM. Initializes the countdown and animations.
+ * @method disconnectedCallback - Invoked when the element is removed from the DOM. Cleans up intervals.
+ * @method attributeChangedCallback - Invoked when an observed attribute changes. Restarts the countdown if `start-date` changes.
+ * @method startCountdown - Starts the countdown timer and updates the display every second.
+ * @method startAnimation - Starts the starry animation effect at regular intervals.
+ * @method createStars - Creates multiple stars at random positions around the element.
+ * @method createStar - Creates a single star at a specified position with a sparkle animation.
+ * @method injectAnimationStyles - Injects the CSS styles for the sparkle animation into the document.
+ * @method render - Updates the countdown display with the remaining days, hours, minutes, and seconds.
+ * 
+ * @csspart countdown - The container for the countdown timer.
+ * @csspart countdown div - The individual time unit containers (days, hours, minutes, seconds).
+ * @csspart countdown span - The labels for the time units.
+ */
 class CountdownLive extends HTMLElement {
   constructor() {
     super();
@@ -37,6 +63,11 @@ class CountdownLive extends HTMLElement {
       // If target date has passed, set diff to zero
       if (diff < 0) {
         diff = 0;
+        this.dispatchEvent(new CustomEvent('countdown-ended', {
+          detail: { message: 'Countdown has ended' },
+          bubbles: true,
+          composed: true
+        }));
       }
       const days = Math.floor(diff / 86400);
       const hours = Math.floor((diff % 86400) / 3600);

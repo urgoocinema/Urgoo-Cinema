@@ -616,22 +616,11 @@ export class MovieCard extends HTMLElement {
 
   connectedCallback() {
     this.renderCast();
-    if (this.hasMovieStarted(this.startDate) === false) {
-      this.container.querySelector(".showtime-details").innerHTML = `<div
-        style="display:flex;justify-content:center;align-items:center;text-align:center;cursor:not-allowed;height:100%;"
-      >
-        <span style="margin: 2rem 0;"
-          ><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2>
-          <countdown-live
-            start-date="${this.startDate.toISOString()}"
-          ></countdown-live
-        ></span>
-      </div>`;
-      this.container.querySelector(".showtime-details").style.height = "100%";
+    if(!this.hasMovieStartedHandler())
       return;
-    }
     this.renderShowtimes(0);
     this.renderButtons();
+    this.noTouchScreenHandler();
 
     this.addEventListener("click", (e) => {
       const btn = e.target.closest("a[data-day]");
@@ -650,10 +639,6 @@ export class MovieCard extends HTMLElement {
         })
       );
     });
-
-    if ("ontouchstart" in window || navigator.maxTouchPoints) {
-      this.container.id = "touch";
-    }
 
     // this.shadowRoot.querySelector("button").addEventListener("click", () => {
     //   this.dispatchEvent(
@@ -699,23 +684,12 @@ export class MovieCard extends HTMLElement {
             .join("")
         : `<span class="time">No showtimes available</span>`;
     }
-
-    if (
-      this.container
-        .querySelector(".time-button.active")
-        .classList.contains("show-all-times")
-    ) {
-      this.container.querySelector(".selected-date .mo-day").textContent = "";
-      this.container.querySelector(".selected-date .garig").textContent =
-        "Нөгөөдөр";
-    } else {
-      this.container.querySelector(".selected-date .mo-day").innerHTML = `${
-        currentDay.getMonth() + 1
-      }/${currentDay.getDate()}`;
-      this.container.querySelector(".selected-date .garig").innerHTML = `${
-        this.mongolianWeekdays[currentDay.getDay()]
-      }`;
-    }
+    this.container.querySelector(".selected-date .mo-day").innerHTML = `${
+      currentDay.getMonth() + 1
+    }/${currentDay.getDate()}`;
+    this.container.querySelector(".selected-date .garig").innerHTML = `${
+      this.mongolianWeekdays[currentDay.getDay()]
+    }`;
   }
 
   renderButtons(activeChangeIndex = -1) {
@@ -831,12 +805,102 @@ export class MovieCard extends HTMLElement {
     });
   }
 
+  hasMovieStartedHandler() {
+    if (this.hasMovieStarted(this.startDate) === false) {
+      this.container.querySelector(".showtime-details").innerHTML = `<div
+        style="display:flex;justify-content:center;align-items:center;text-align:center;cursor:not-allowed;height:100%;"
+      >
+        <span style="margin: 2rem 0;"
+          ><h2 style="margin-bottom: 1rem;">Тасалбар захиалга нээгдэхэд</h2>
+          <countdown-live
+            start-date="${this.startDate.toISOString()}"
+          ></countdown-live
+        ></span>
+      </div>`;
+      this.container.querySelector(".showtime-details").style.height = "100%";
+      this.addEventListener("countdown-ended", (e) => {
+        this.container.querySelector(".showtime-details").innerHTML =
+          templateShowtimeContainer.innerHTML;
+        this.renderShowtimes(0);
+        this.renderButtons();
+        this.noTouchScreenHandler();
+        this.addEventListener("click", (e) => {
+          const btn = e.target.closest("a[data-day]");
+          if (!btn) return;
+          const day = btn.dataset.day;
+          const hour = btn.dataset.hour;
+          this.dispatchEvent(
+            new CustomEvent("time-selected", {
+              detail: {
+                movieId: this.getAttribute("id"),
+                day,
+                hour,
+              },
+              bubbles: true,
+              composed: true,
+            })
+          );
+        });
+      });
+      return false;
+    }
+    return true;
+  }
+
   hasMovieStarted(startDate) {
     const today = new Date();
     return startDate <= today;
+  }
+
+  noTouchScreenHandler() {
+    if ("ontouchstart" in window || navigator.maxTouchPoints) {
+      this.container.id = "touch";
+    }
   }
 
   disconnectedCallback() {}
 }
 
 customElements.define("movie-card", MovieCard);
+
+const templateShowtimeContainer = document.createElement("template");
+templateShowtimeContainer.innerHTML = ` <div class="button-group">
+    <button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+    <button class="time-button" id="day-1">МАРГААШ</button>
+    <button class="show-all-times">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="20px"
+        viewBox="0 -960 960 960"
+        width="20px"
+        fill="currentColor"
+      >
+        <path
+          d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
+        />
+      </svg>
+      БҮХ ЦАГ (<span></span>)
+    </button>
+  </div>
+  <div class="timetable-container">
+    <div class="selected-date">
+      Сонгогдсон<span class="desktop"> өдөр</span>:
+      <span class="mo-day"></span> <span class="garig"></span>
+    </div>
+    <div class="branch branch-1">
+      <p>Өргөө 1 <span class="location">Хороолол</span></p>
+      <div class="schedule"></div>
+    </div>
+    <div class="branch branch-2">
+      <p>Өргөө 2 <span class="location">IT Парк</span></p>
+      <div class="schedule"></div>
+    </div>
+    <div class="branch branch-3">
+      <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
+      <div class="schedule"></div>
+    </div>
+    <div class="branch branch-4">
+      <p>Өргөө 4 <span class="location">Дархан хот</span></p>
+      <div class="schedule"></div>
+    </div>
+  </div>`;
