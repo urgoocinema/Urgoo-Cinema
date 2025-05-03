@@ -853,7 +853,8 @@ export class MovieCard extends HTMLElement {
   }
 
   noTouchScreenHandler() {
-    if ("ontouchstart" in window || navigator.maxTouchPoints) {
+    const hasHover = window.matchMedia("(hover: hover)").matches;
+    if (!hasHover) {
       this.container.id = "touch";
     }
   }
