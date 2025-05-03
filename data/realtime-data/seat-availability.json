@@ -1,0 +1,89 @@
+{
+  "OccupiedSeats": [
+    {
+      "branchId": 1,
+      "branchName": "Өргөө 1",
+      "halls": [
+        {
+          "hallId": "1",
+          "occupiedSeats": [
+            { "row": 2, "column": 5 },
+            { "row": 4, "column": 7 }
+          ]
+        },
+        {
+          "hallId": "2",
+          "occupiedSeats": [{ "row": 3, "column": 8 }]
+        },
+        {
+          "hallId": "3",
+          "occupiedSeats": []
+        },
+        {
+          "hallId": "4",
+          "occupiedSeats": [{ "row": 6, "column": 3 }]
+        },
+        {
+          "hallId": "5",
+          "occupiedSeats": [
+            { "row": 1, "column": 10 },
+            { "row": 8, "column": 2 }
+          ]
+        },
+        {
+          "hallId": "6",
+          "occupiedSeats": [{ "row": 7, "column": 16 }]
+        }
+      ]
+    },
+    {
+      "branchId": 2,
+      "branchName": "Өргөө 2",
+      "halls": [
+        {
+          "hallId": "1",
+          "occupiedSeats": [{ "row": 4, "column": 5 }]
+        },
+        {
+          "hallId": "2",
+          "occupiedSeats": []
+        }
+      ]
+    },
+    {
+      "branchId": 3,
+      "branchName": "Өргөө 3",
+      "halls": [
+        {
+          "hallId": "1",
+          "occupiedSeats": [
+            { "row": 8, "column": 9 },
+            { "row": 10, "column": 2 }
+          ]
+        },
+        {
+          "hallId": "2",
+          "occupiedSeats": [{ "row": 5, "column": 7 }]
+        }
+      ]
+    },
+    {
+      "branchId": 4,
+      "branchName": "Өргөө 4",
+      "halls": [
+        {
+          "hallId": "1",
+          "occupiedSeats": [
+            { "row": 3, "column": 4 },
+            { "row": 9, "column": 12 }
+          ]
+        },
+        {
+          "hallId": "2",
+          "occupiedSeats": [{ "row": 2, "column": 1 }]
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2025-05-03T15:30:00"
+}

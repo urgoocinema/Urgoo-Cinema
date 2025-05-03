@@ -1,6 +1,6 @@
 export default async function fetchMovies() {
     try {
-        const response = await fetch("./data/movies-list.json");
+        const response = await fetch("./data/ongoing/movies-list.json");
         if (!response.ok) {
         throw new Error("Сүлжээний хүсэлт амжилтгүй." + response.statusText);
         }
