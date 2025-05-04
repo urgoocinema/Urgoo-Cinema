@@ -518,26 +518,7 @@ template.innerHTML = `
         </button>
       </div>
       <div class="timetable-container">
-        <div class="selected-date">
-          Сонгогдсон<span class="desktop"> өдөр</span>:
-          <span class="mo-day"></span> <span class="garig"></span>
-        </div>
-        <div class="branch branch-1">
-          <p>Өргөө 1 <span class="location">Хороолол</span></p>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-2">
-          <p>Өргөө 2 <span class="location">IT Парк</span></p>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-3">
-          <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
-          <div class="schedule"></div>
-        </div>
-        <div class="branch branch-4">
-          <p>Өргөө 4 <span class="location">Дархан хот</span></p>
-          <div class="schedule"></div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -560,6 +541,7 @@ export class MovieCard extends HTMLElement {
     this.allowedPreorderDays = 3;
     this.startDate = new Date();
     this.endDate = new Date();
+    this.branches = [];
     this.mongolianWeekdays = [
       "Ням",
       "Даваа",
@@ -673,23 +655,37 @@ export class MovieCard extends HTMLElement {
     const currentDayName = currentDay
       .toLocaleDateString("en-US", { weekday: "long" })
       .toLowerCase();
-    const todayShowtimes = this.container.querySelector(".showtime-details");
-    for (let i = 1; i <= 4; i++) {
-      const branch = todayShowtimes.querySelector(`.branch-${i}`);
+    const todayShowtimes = this.container.querySelector(
+      ".showtime-details .timetable-container"
+    );
+    todayShowtimes.innerHTML = "";
+
+    const selectedDateConstructor = document.createElement("div");
+    selectedDateConstructor.classList.add("selected-date");
+    selectedDateConstructor.innerHTML = `
+    Сонгогдсон<span class="desktop"> өдөр</span>:
+    <span class="mo-day"></span> <span class="garig"></span>
+    `;
+    const selectedDate = todayShowtimes.appendChild(selectedDateConstructor);
+
+    for (let i = 0; i < this.branches.length; i++) {
+      const branchConstructor = document.createElement("div");
+      branchConstructor.classList.add("branch", `branch-${i + 1}`);
+      branchConstructor.innerHTML = `<p>${this.branches[i].name} <span class="location">${this.branches[i].location}</span></p><div class="schedule"></div>`;
+      const branch = todayShowtimes.appendChild(branchConstructor);
       const showtimes =
-        this.showtimes?.[`branch${i}`]?.schedule?.[currentDayName];
-      console.log("currentday: ", currentDay, "today:", today);
+        this.showtimes?.[`branch${i + 1}`]?.schedule?.[currentDayName];
       if (isSameDay(currentDay, today)) {
         branch.querySelector(".schedule").innerHTML = showtimes
           ? showtimes
               .map((time) =>
-                /^[0-2][0-9]:[0-5][0-9]$/.test(time) && convertToMinutes(time) >= currentTime + 30
+                /^[0-2][0-9]:[0-5][0-9]$/.test(time) &&
+                convertToMinutes(time) >= currentTime + 30
                   ? `<a href="#" class="time" data-day="${currentDay
                       .toISOString()
-                      .slice(
-                        0,
-                        10
-                      )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+                      .slice(0, 10)}" data-hour="${time}" data-branch="branch-${
+                      i + 1
+                    }">${time}</a>`
                   : ``
               )
               .join("")
@@ -706,20 +702,23 @@ export class MovieCard extends HTMLElement {
                 (time) =>
                   `<a href="#" class="time" data-day="${currentDay
                     .toISOString()
-                    .slice(
-                      0,
-                      10
-                    )}" data-hour="${time}" data-branch="branch-${i}">${time}</a>`
+                    .slice(0, 10)}" data-hour="${time}" data-branch="branch-${
+                    i + 1
+                  }">${time}</a>`
               )
               .join("")
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
       }
     }
-    const selectedDateMoDay = this.container.querySelector(".selected-date .mo-day");
-    const selectedDateGarig = this.container.querySelector(".selected-date .garig");
+    const selectedDateMoDay = selectedDate.querySelector(".mo-day");
+    const selectedDateGarig = selectedDate.querySelector(".garig");
 
-    selectedDateMoDay.innerHTML = `${currentDay.getMonth() + 1}/${currentDay.getDate()}`;
-    selectedDateGarig.innerHTML = `${this.mongolianWeekdays[currentDay.getDay()]}`;
+    selectedDateMoDay.innerHTML = `${
+      currentDay.getMonth() + 1
+    }/${currentDay.getDate()}`;
+    selectedDateGarig.innerHTML = `${
+      this.mongolianWeekdays[currentDay.getDay()]
+    }`;
   }
 
   renderButtons(activeChangeIndex = -1) {
@@ -914,24 +913,4 @@ templateShowtimeContainer.innerHTML = ` <div class="button-group">
     </button>
   </div>
   <div class="timetable-container">
-    <div class="selected-date">
-      Сонгогдсон<span class="desktop"> өдөр</span>:
-      <span class="mo-day"></span> <span class="garig"></span>
-    </div>
-    <div class="branch branch-1">
-      <p>Өргөө 1 <span class="location">Хороолол</span></p>
-      <div class="schedule"></div>
-    </div>
-    <div class="branch branch-2">
-      <p>Өргөө 2 <span class="location">IT Парк</span></p>
-      <div class="schedule"></div>
-    </div>
-    <div class="branch branch-3">
-      <p>Өргөө 3 <span class="location">IMAX Шангри-Ла</span></p>
-      <div class="schedule"></div>
-    </div>
-    <div class="branch branch-4">
-      <p>Өргөө 4 <span class="location">Дархан хот</span></p>
-      <div class="schedule"></div>
-    </div>
   </div>`;

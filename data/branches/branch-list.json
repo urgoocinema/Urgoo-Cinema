@@ -1,216 +1,228 @@
 {
-    "branches": [
-      {
-        "id": 1,
-        "name": "Өргөө 1",
-        "location": "Хороолол",
-        "halls": [
-          {
-            "id": 1,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 10,
-              "columns": 12,
-              "unavailable_seats": [
-                { "row": 10, "column": 11 },
-                { "row": 10, "column": 12 },
-                { "row": 1, "column": 6 }
-              ],
-              "super_saver_rows": [1, 2, 3],
-              "saver_rows": [4, 5],
-              "regular_rows": [6, 7, 8, 9, 10]
-            }
-          },
-          {
-            "id": 2,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 8,
-              "columns": 14,
-              "unavailable_seats": [
-                { "row": 8, "column": 13 },
-                { "row": 1, "column": 7 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3, 4],
-              "regular_rows": [5, 6, 7, 8]
-            }
-          },
-          {
-            "id": 3,
-            "name": "VIP танхим",
-            "layout": {
-              "rows": 6,
-              "columns": 8,
-              "unavailable_seats": [
-                { "row": 6, "column": 7 },
-                { "row": 1, "column": 4 }
-              ],
-              "super_saver_rows": [1],
-              "saver_rows": [2],
-              "regular_rows": [3, 4, 5, 6]
-            }
-          },
-          {
-            "id": 4,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 12,
-              "columns": 10,
-              "unavailable_seats": [
-                { "row": 12, "column": 9 },
-                { "row": 1, "column": 5 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3, 4],
-              "regular_rows": [5, 6, 7, 8, 9, 10, 11, 12]
-            }
-          },
-          {
-            "id": 5,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 8,
-              "columns": 12,
-              "unavailable_seats": [
-                { "row": 8, "column": 11 },
-                { "row": 1, "column": 6 }
-              ],
-              "super_saver_rows": [1, 2, 3],
-              "saver_rows": [4],
-              "regular_rows": [5, 6, 7, 8]
-            }
-          },
-          {
-            "id": 6,
-            "name": "Том дэлгэцийн танхим",
-            "layout": {
-              "rows": 10,
-              "columns": 16,
-              "unavailable_seats": [
-                { "row": 10, "column": 15 },
-                { "row": 1, "column": 8 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3, 4, 5],
-              "regular_rows": [6, 7, 8, 9, 10]
-            }
+  "branches": [
+    {
+      "id": 1,
+      "name": "Өргөө 1",
+      "location": "Хороолол",
+      "halls": [
+        {
+          "id": 1,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 10,
+            "columns": 12,
+            "unavailable_seats": [
+              { "row": 10, "column": 11 },
+              { "row": 10, "column": 12 },
+              { "row": 1, "column": 6 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3, 4],
+            "regular_rows": [5, 6, 7, 8],
+            "vip_rows": [9, 10]
           }
-        ]
-      },
-      {
-        "id": 2,
-        "name": "Өргөө 2",
-        "location": "IT Парк",
-        "halls": [
-          {
-            "id": 1,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 8,
-              "columns": 10,
-              "unavailable_seats": [
-                { "row": 8, "column": 9 },
-                { "row": 8, "column": 10 },
-                { "row": 1, "column": 6 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3],
-              "regular_rows": [4, 5, 6, 7, 8]
-            }
-          },
-          {
-            "id": 2,
-            "name": "VIP танхим",
-            "layout": {
-              "rows": 6,
-              "columns": 8,
-              "unavailable_seats": [
-                { "row": 6, "column": 7 },
-                { "row": 1, "column": 4 }
-              ],
-              "super_saver_rows": [1],
-              "saver_rows": [2],
-              "regular_rows": [3, 4, 5, 6]
-            }
+        },
+        {
+          "id": 2,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 8,
+            "columns": 14,
+            "unavailable_seats": [
+              { "row": 8, "column": 13 },
+              { "row": 1, "column": 7 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3],
+            "regular_rows": [4, 5, 6],
+            "vip_rows": [7, 8]
           }
-        ]
-      },
-      {
-        "id": 3,
-        "name": "Өргөө 3",
-        "location": "IMAX Шангри-Ла",
-        "halls": [
-          {
-            "id": 1,
-            "name": "IMAX танхим",
-            "layout": {
-              "rows": 12,
-              "columns": 16,
-              "unavailable_seats": [
-                { "row": 12, "column": 15 },
-                { "row": 12, "column": 16 },
-                { "row": 1, "column": 8 }
-              ],
-              "super_saver_rows": [1, 2, 3],
-              "saver_rows": [4, 5],
-              "regular_rows": [7, 8, 9, 10, 11, 12]
-            }
-          },
-          {
-            "id": 2,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 10,
-              "columns": 14,
-              "unavailable_seats": [
-                { "row": 10, "column": 13 },
-                { "row": 1, "column": 7 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3],
-              "regular_rows": [6, 7, 8, 9, 10]
-            }
+        },
+        {
+          "id": 3,
+          "name": "VIP танхим",
+          "layout": {
+            "rows": 6,
+            "columns": 8,
+            "unavailable_seats": [
+              { "row": 6, "column": 7 },
+              { "row": 1, "column": 4 }
+            ],
+            "super_saver_rows": [1],
+            "saver_rows": [2],
+            "regular_rows": [3, 4, 5],
+            "vip_rows": [6]
           }
-        ]
-      },
-      {
-        "id": 4,
-        "name": "Өргөө 4",
-        "location": "Дархан хот",
-        "halls": [
-          {
-            "id": 1,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 10,
-              "columns": 14,
-              "unavailable_seats": [
-                { "row": 10, "column": 13 },
-                { "row": 10, "column": 14 },
-                { "row": 1, "column": 7 }
-              ],
-              "super_saver_rows": [1, 2],
-              "saver_rows": [3],
-              "regular_rows": [6, 7, 8, 9, 10]
-            }
-          },
-          {
-            "id": 2,
-            "name": "Энгийн танхим",
-            "layout": {
-              "rows": 6,
-              "columns": 8,
-              "unavailable_seats": [
-                { "row": 6, "column": 7 },
-                { "row": 1, "column": 4 }
-              ],
-              "super_saver_rows": [1],
-              "saver_rows": [2],
-              "regular_rows": [3, 4, 5, 6]
-            }
+        },
+        {
+          "id": 4,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 12,
+            "columns": 10,
+            "unavailable_seats": [
+              { "row": 12, "column": 9 },
+              { "row": 1, "column": 5 }
+            ],
+            "super_saver_rows": [1, 2, 3, 4, 5],
+            "saver_rows": [6],
+            "regular_rows": [7, 8, 9],
+            "vip_rows": [10, 11, 12]
           }
-        ]
-      }
-    ]
-  }
+        },
+        {
+          "id": 5,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 8,
+            "columns": 12,
+            "unavailable_seats": [
+              { "row": 8, "column": 11 },
+              { "row": 1, "column": 6 }
+            ],
+            "super_saver_rows": [1, 2, 3],
+            "saver_rows": [4],
+            "regular_rows": [5, 6],
+            "vip_rows": [7, 8]
+          }
+        },
+        {
+          "id": 6,
+          "name": "Том дэлгэцийн танхим",
+          "layout": {
+            "rows": 10,
+            "columns": 16,
+            "unavailable_seats": [
+              { "row": 10, "column": 15 },
+              { "row": 1, "column": 8 }
+            ],
+            "super_saver_rows": [1, 2, 3, 4],
+            "saver_rows": [5],
+            "regular_rows": [6, 7],
+            "vip_rows": [8, 9, 10]
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Өргөө 2",
+      "location": "IT Парк",
+      "halls": [
+        {
+          "id": 1,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 8,
+            "columns": 10,
+            "unavailable_seats": [
+              { "row": 8, "column": 9 },
+              { "row": 8, "column": 10 },
+              { "row": 1, "column": 6 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3],
+            "regular_rows": [4, 5, 6],
+            "vip_rows": [7, 8]
+          }
+        },
+        {
+          "id": 2,
+          "name": "VIP танхим",
+          "layout": {
+            "rows": 6,
+            "columns": 8,
+            "unavailable_seats": [
+              { "row": 6, "column": 7 },
+              { "row": 1, "column": 4 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3],
+            "regular_rows": [4, 5, 6],
+            "vip_rows": []
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Өргөө 3",
+      "location": "IMAX Шангри-Ла",
+      "halls": [
+        {
+          "id": 1,
+          "name": "IMAX танхим",
+          "layout": {
+            "rows": 12,
+            "columns": 16,
+            "unavailable_seats": [
+              { "row": 12, "column": 15 },
+              { "row": 12, "column": 16 },
+              { "row": 1, "column": 8 }
+            ],
+            "super_saver_rows": [1, 2, 3, 4],
+            "saver_rows": [5, 6],
+            "regular_rows": [7, 8, 9, 10],
+            "vip_rows": [11, 12]
+          }
+        },
+        {
+          "id": 2,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 10,
+            "columns": 14,
+            "unavailable_seats": [
+              { "row": 10, "column": 13 },
+              { "row": 1, "column": 7 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3],
+            "regular_rows": [6, 7, 8],
+            "vip_rows": [9, 10]
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Өргөө 4",
+      "location": "Дархан хот",
+      "halls": [
+        {
+          "id": 1,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 10,
+            "columns": 14,
+            "unavailable_seats": [
+              { "row": 10, "column": 13 },
+              { "row": 10, "column": 14 },
+              { "row": 1, "column": 7 }
+            ],
+            "super_saver_rows": [1, 2],
+            "saver_rows": [3],
+            "regular_rows": [6, 7, 8],
+            "vip_rows": [9, 10]
+          }
+        },
+        {
+          "id": 2,
+          "name": "Энгийн танхим",
+          "layout": {
+            "rows": 6,
+            "columns": 8,
+            "unavailable_seats": [
+              { "row": 6, "column": 7 },
+              { "row": 1, "column": 4 }
+            ],
+            "super_saver_rows": [1],
+            "saver_rows": [2],
+            "regular_rows": [3, 4, 5],
+            "vip_rows": [6]
+          }
+        }
+      ]
+    }
+  ]
+}

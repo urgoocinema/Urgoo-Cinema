@@ -1,4 +1,4 @@
-import fetchMovies from "./fetch.js";
+import { fetchMovies, fetchBranches } from "./fetch.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -37,10 +37,11 @@ export class MovieList extends HTMLElement {
   }
 
   async render() {
-    const data = await fetchMovies();
+    const movieData = await fetchMovies();
+    const branchData = await fetchBranches();
 
-    for (let i = 0; i < data.movies.length; i++) {
-      const movie = data.movies[i];
+    for (let i = 0; i < movieData.movies.length; i++) {
+      const movie = movieData.movies[i];
       const movieCard = document.createElement("movie-card");
       movieCard.setAttribute("id", movie.id);
       movieCard.setAttribute("title", movie.title);
@@ -57,6 +58,11 @@ export class MovieList extends HTMLElement {
       movieCard.allowedPreorderDays = movie.allowed_preorder_days;
       movieCard.startDate = new Date(movie.start_date);
       movieCard.endDate = new Date(movie.end_date);
+
+      for (let i = 0; i < branchData.branches.length; i++) {
+        const branch = branchData.branches[i];
+        movieCard.branches.push(branch);
+      }
 
       this.container.appendChild(movieCard);
     }
