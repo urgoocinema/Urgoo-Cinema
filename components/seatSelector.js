@@ -58,6 +58,7 @@ export class SeatSelector extends HTMLElement {
     this.seatLayout = [];
     this.occupiedSeats = [];
 
+    this.movieTitle = null;
     this.movieId = null;
     this.branchId = null;
     this.hallId = null;
@@ -66,10 +67,12 @@ export class SeatSelector extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["movie_id", "branch_id", "hall_id", "day", "hour"]
+    return ["movie_title", "movie_id", "branch_id", "hall_id", "day", "hour"]
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
+    if (attr === "movie_title") 
+      this.movieTitle = newVal;
     if (attr === "movie_id") 
       this.movieId = Number(newVal);
     if (attr === "branch_id") 
@@ -89,6 +92,12 @@ export class SeatSelector extends HTMLElement {
 
   renderSeats() {
     this.container.innerHTML = "";
+
+    const header = document.createElement("h4");
+    header.textContent = `${this.movieTitle} • Өргөө ${this.branchId} • Танхим ${this.hallId} • ${this.day} • ${this.hour}`;
+    header.style.color ="black";
+    header.style.textAlign = "center";
+    this.container.appendChild(header);
 
     const formattedDay = this.day.replace(/-/g, "");
     const formattedHour = this.hour.replace(":", "");
@@ -120,7 +129,6 @@ export class SeatSelector extends HTMLElement {
       const seat = row.querySelector(`[data-column-id="${unavailableSeat.column}"]`);
       seat.classList.add("hidden");
     }
-
   }
 
   async helperFetch() {

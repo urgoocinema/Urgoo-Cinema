@@ -268,6 +268,15 @@ template.innerHTML = `
     .lang {
       display: flex;
       align-items: center;
+      // & .flag-container {
+      //   max-height: 18px;
+      //   max-width: 20px;
+
+      //   & img {
+      //   height: 18px;
+      //     object-fit: contain;
+      //   }
+      }
     }
 
     .gray {
@@ -504,7 +513,7 @@ template.innerHTML = `
               d="M200-160q-33 0-56.5-23.5T120-240v-480q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720v480q0 33-23.5 56.5T760-160H200Zm0-80h560v-480H200v480Zm80-120h120q17 0 28.5-11.5T440-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T400-600H280q-17 0-28.5 11.5T240-560v160q0 17 11.5 28.5T280-360Zm280 0h120q17 0 28.5-11.5T720-400v-40h-60v20h-80v-120h80v20h60v-40q0-17-11.5-28.5T680-600H560q-17 0-28.5 11.5T520-560v160q0 17 11.5 28.5T560-360ZM200-240v-480 480Z"
             />
           </svg>
-          <span class="gray"></span>
+          <span class="gray flag-container"></span>
         </p>
       </div>
     </div>
@@ -605,6 +614,7 @@ export class MovieCard extends HTMLElement {
       this.container.querySelector(".lang span").textContent = `${
         newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
       }`;
+      // this.container.querySelector(".lang .flag-container").innerHTML = `<img src="./pics/mongolia-flag.png" alt="flag of mongolia" height="20px" width="20px">`;
     }
   }
 
@@ -649,6 +659,7 @@ export class MovieCard extends HTMLElement {
         this.dispatchEvent(
           new CustomEvent("time-selected", {
             detail: {
+              movieTitle: this.getAttribute("title"),
               movieId: this.getAttribute("id"),
               branch,
               hall,

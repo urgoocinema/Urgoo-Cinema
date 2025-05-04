@@ -70,9 +70,10 @@ export class MovieList extends HTMLElement {
   }
 
   onTimeSelected(e) {
-    const { movieId, branch, hall, day, hour } = e.detail;
+    const { movieTitle, movieId, branch, hall, day, hour } = e.detail;
     const seatSelector = document.createElement('seat-selector');
 
+    seatSelector.setAttribute('movie_title', movieTitle);
     seatSelector.setAttribute('movie_id', movieId);
     seatSelector.setAttribute('branch_id', branch);
     seatSelector.setAttribute('hall_id', hall);
