@@ -309,6 +309,15 @@ template.innerHTML = `
       display: none;
     }
 
+    .notice-no-today {
+      font-size: 0.9rem;
+      margin: 1rem;
+      opacity: 0.8;
+      & .tomorrow {
+        color: var(--primary-color);
+      }
+    }
+
     #touch .time-button:hover {
       background-color: transparent;
       color: var(--white-text);
@@ -606,6 +615,28 @@ export class MovieCard extends HTMLElement {
     this.renderButtons();
     this.noTouchScreenHandler();
 
+    if (this.container.querySelector(".timetable-container .branch") === null) {
+      if (
+        this.container.querySelector(".time-button.active") &&
+        this.container.querySelector(".button-group #day-1")
+      ) {
+        this.container
+          .querySelector(".time-button.active")
+          .classList.remove("active");
+        this.container.querySelector(".button-group #day-0").remove();
+        this.container
+          .querySelector(".button-group #day-1")
+          .classList.add("active");
+        this.renderButtons(1);
+        this.renderShowtimes(1);
+        const parent = this.container.querySelector(".showtime-details");
+        const newChild = document.createElement("div");
+        newChild.classList.add("notice-no-today");
+        newChild.innerHTML = `<span class="info-icon">ⓘ</span> Өнөөдрийн цаг дууссан. <span class="tomorrow">Маргаашийн цагийг</span> харуулж байна.`;
+        parent.insertBefore(newChild, parent.firstChild);
+      }
+    }
+
     this.container
       .querySelector(".showtime-details")
       .addEventListener("click", (e) => {
@@ -756,7 +787,7 @@ export class MovieCard extends HTMLElement {
       } else {
         this.timeButtons[0].classList.add("active");
         this.renderShowtimes(0);
-        alert("Нэмэлт захиалга хаагдсан байна. Та маргааш дахин оролдоно уу.");
+        alert("Тухайн үзвэрт нэмэлт захиалга байхгүй байна. Та маргааш дахин оролдоно уу.");
       }
     }
 
@@ -853,7 +884,13 @@ export class MovieCard extends HTMLElement {
       showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ (<span></span>)`;
       showLessBtn.remove();
       btnGrp.appendChild(showAllBtn);
-      this.renderButtons(0);
+      if(this.container.querySelector(".button-group #day-0")){
+        this.renderButtons(0);
+      } else {
+        this.container.querySelector(".button-group #day-1").classList.add("active");
+        this.renderButtons(0);
+        this.renderShowtimes(1);
+      }
     });
   }
 
