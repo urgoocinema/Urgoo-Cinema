@@ -432,7 +432,7 @@
         "branch3": {
           "hallId": 1,
           "schedule": {
-            "monday": ["11:00"],
+            "monday": [],
             "tuesday": ["10:30"],
             "wednesday": ["11:30"],
             "thursday": ["12:30"],
@@ -448,7 +448,7 @@
             "tuesday": ["10:15", "12:40"],
             "wednesday": ["10:10"],
             "thursday": ["10:00", "12:00"],
-            "friday": ["10:20", "13:00"],
+            "friday": ["10:20"],
             "saturday": [],
             "sunday": ["10:30"]
           }

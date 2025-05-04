@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Theater Seat Selector</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 10rem auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 500px;
+            width: 1000px;
+            background-color: antiquewhite;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3px;
+        }
+        .seat {
+            margin: 3px;
+            width: 22px;
+            height: 22px;
+            border: 2px green solid;
+            border-radius: 3px 3px 8px 8px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .seat[data-id="seat6"], .seat[data-id="seat7"] {
+            background-color: #ff0000;
+            visibility: hidden;
+        }
+        .seat[data-id="seat1"] {
+            background-color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <section class="container">
+        <div class="row" id="row1">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row2">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row3">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row4">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row5">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row6">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row7">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row8">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row9">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row10">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row11">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+        <div class="row" id="row12">
+            <div class="seat" data-id="seat1"></div>
+            <div class="seat" data-id="seat2"></div>
+            <div class="seat" data-id="seat3"></div>
+            <div class="seat" data-id="seat4"></div>
+            <div class="seat" data-id="seat5"></div>
+            <div class="seat" data-id="seat6"></div>
+            <div class="seat" data-id="seat7"></div>
+            <div class="seat" data-id="seat8"></div>
+            <div class="seat" data-id="seat9"></div>
+            <div class="seat" data-id="seat10"></div>
+            <div class="seat" data-id="seat11"></div>
+            <div class="seat" data-id="seat12"></div>
+        </div>
+    </section>
+</body>
+</html>

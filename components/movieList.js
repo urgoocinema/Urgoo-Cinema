@@ -11,6 +11,7 @@ template.innerHTML = `
       justify-content: center;
     }
   </style>
+  <div class="seat-selection"></div>
 `;
 
 export class MovieList extends HTMLElement {
@@ -69,14 +70,17 @@ export class MovieList extends HTMLElement {
   }
 
   onTimeSelected(e) {
-    const { movieId, branch, day, hour } = e.detail;
-    const seatSelector = document.querySelector('seat-selector');
-    if (!seatSelector) return;
+    const { movieId, branch, hall, day, hour } = e.detail;
+    const seatSelector = document.createElement('seat-selector');
 
     seatSelector.setAttribute('movie_id', movieId);
-    seatSelector.setAttribute('branch', branch);
+    seatSelector.setAttribute('branch_id', branch);
+    seatSelector.setAttribute('hall_id', hall);
     seatSelector.setAttribute('day', day);
     seatSelector.setAttribute('hour', hour);
+
+    this.shadowRoot.querySelector('.seat-selection').innerHTML = "";
+    this.shadowRoot.querySelector('.seat-selection').appendChild(seatSelector);
   }
 
   disconnectedCallback() {}

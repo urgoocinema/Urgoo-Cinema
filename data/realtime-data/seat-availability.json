@@ -1,11 +1,11 @@
 {
   "OccupiedSeats": [
     {
-      "showtimeId": "1_1_3_20250504_0930",
-      "movieId": 1,
+      "showtimeId": "2_1_6_20250505_1130",
+      "movieId": 2,
       "branchId": 1,
-      "hallId": 3,
-      "dateTime": "2025-05-04T09:30:00",
+      "hallId": 6,
+      "dateTime": "2025-05-05T11:30:00",
       "occupiedSeats": [
         { "row": 2, "column": 5 },
         { "row": 3, "column": 1 }
