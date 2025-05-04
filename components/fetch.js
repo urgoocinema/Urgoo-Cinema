@@ -7,7 +7,7 @@ export async function fetchMovies() {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Мэдээлэл татаж чадсангүй. Алдааны мессеж:", error);
+        console.error("Киноны мэдээлэл татаж чадсангүй. Алдааны мессеж:", error);
     }
 }
 
@@ -20,6 +20,6 @@ export async function fetchBranches() {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error("Мэдээлэл татаж чадсангүй. Алдааны мессеж:", error);
+        console.error("Салбарын мэдээлэл татаж чадсангүй. Алдааны мессеж:", error);
     }
 }

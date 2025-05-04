@@ -1,3 +1,5 @@
+import { fetchMovies, fetchBranches } from "./fetch.js";
+
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
@@ -27,11 +29,10 @@ export class SeatSelector extends HTMLElement {
   }
 
   connectedCallback() {  
-    this.render();
-    // this.addEventListener('time-selected', this.onTimeSelected(e));
+    this.renderSeats();
   }
 
-  async render() {
+  async renderSeats() {
     
   }
 
