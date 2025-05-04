@@ -122,6 +122,7 @@ template.innerHTML = `
     }
 
     .showtime-details {
+      min-height: 50%;
       & .button-group {
         display: flex;
         flex-wrap: wrap;
@@ -691,9 +692,7 @@ export class MovieCard extends HTMLElement {
               .join("")
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
         if (branch.querySelector(".schedule").innerHTML === "") {
-          branch.querySelector(
-            ".schedule"
-          ).innerHTML = `<span class="time" style="opacity: 0.6; cursor: not-allowed">Захиалга хаагдсан</span>`;
+          branch.remove();
         }
       } else {
         branch.querySelector(".schedule").innerHTML = showtimes
@@ -710,6 +709,22 @@ export class MovieCard extends HTMLElement {
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
       }
     }
+
+    if (todayShowtimes.querySelector(".branch") === null) {
+      todayShowtimes.innerHTML = `
+        <p style="font-style: italic;"><span style="opacity: 0.5">Өнөөдрийн захиалга дууссан.</span> <span class="select-other-day" style="color:orange; cursor:pointer;">Өөр өдөр сонгоно уу.</span></p>
+      `;
+      todayShowtimes
+        .querySelector(".select-other-day")
+        .addEventListener("click", () => {
+          if(this.container.querySelector(".show-all-times")){
+            this.renderMoreButtons();
+          } else {
+            this.renderButtons("tomorrow");
+          }
+        });
+    }
+
     const selectedDateMoDay = selectedDate.querySelector(".mo-day");
     const selectedDateGarig = selectedDate.querySelector(".garig");
 
@@ -735,6 +750,20 @@ export class MovieCard extends HTMLElement {
       });
       this.timeButtons[activeChangeIndex].classList.add("active");
       this.renderShowtimes(activeChangeIndex);
+    }
+
+    if (activeChangeIndex === "tomorrow") {
+      this.timeButtons.forEach((button) => {
+        button.classList.remove("active");
+      });
+      if(this.timeButtons[1]) {
+        this.timeButtons[1].classList.add("active");
+        this.renderShowtimes(1);
+      } else {
+        this.timeButtons[0].classList.add("active");
+        this.renderShowtimes(0);
+        alert("Нэмэлт захиалга хаагдсан байна. Та маргааш дахин оролдоно уу.");
+      }
     }
 
     let activeButton =
