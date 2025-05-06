@@ -26,7 +26,7 @@ template.innerHTML = `
     /* Seat grid container */
     .seats {
       display: grid; /* Use grid for vertical stacking of rows */
-      gap: 5px;
+      gap: 6px;
       margin-bottom: 10px;
       max-width: 100%; /* Ensure the container doesn't exceed parent */
       /* Make container width fit its content (the seat rows) */
@@ -40,8 +40,8 @@ template.innerHTML = `
     .row {
       display: grid;
       grid-auto-flow: column; /* Arrange seats horizontally */
-      /* Define auto column size: try to be 25px, shrink to 6.35px minimum */
-      grid-auto-columns: minmax(6.35px, 25px);
+      /* Define auto column size: try to be 22px, shrink to 6.35px minimum */
+      grid-auto-columns: minmax(6.35px, 22px);
       gap: 5px;
       justify-content: center; /* Center the block of seats horizontally */
       max-width: 100%; /* Prevent row from exceeding parent width */
@@ -64,15 +64,17 @@ template.innerHTML = `
       }
     }
     .screen-name-row {
-      margin-bottom: 5px; /* Add some space below the screen name */
+    margin-top: -1rem; /* Add some space above the screen name */
+      margin-bottom: 0.5rem; /* Add some space below the screen name */
     }
     .hall-name-container h5 {
       color: #272727; /* Make hall name visible on light background */
-      font-weight: 500;
+      font-weight: 400;
+      font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
     }
     /* Base style for seats using SVG icons */
     .seat {
-      /* width: clamp(6.35px, 5vw, 25px); Let the grid column control the width */
+      /* width: clamp(6.35px, 5vw, 22px); Let the grid column control the width */
       aspect-ratio: 1; /* Maintain square shape based on width */
       background-repeat: no-repeat;
       background-position: center;
