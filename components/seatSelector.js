@@ -8,23 +8,12 @@ template.innerHTML = `
       margin: 0;
       padding: 0;
     }
-    .main-container {
-      display: flex;
-      justify-content: center;
-      min-width: 335px;
-    }
     /* Seat picker wrapper */
     .seat-picker {
       width: 100%;
       background-color: #f8f8f8;
       border-radius: 8px;
       padding-bottom: 1rem;
-    }
-    .booking-info {
-      width: 35%;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     /* A simple screen representation */
     .screen {
@@ -37,7 +26,7 @@ template.innerHTML = `
     /* Seat grid container */
     .seats {
       display: grid; /* Use grid for vertical stacking of rows */
-      gap: 4px;
+      gap: 5px;
       margin-bottom: 10px;
       max-width: 100%; /* Ensure the container doesn't exceed parent */
       /* Make container width fit its content (the seat rows) */
@@ -51,9 +40,9 @@ template.innerHTML = `
     .row {
       display: grid;
       grid-auto-flow: column; /* Arrange seats horizontally */
-      /* Define auto column size: try to be 22px, shrink to 16px minimum */
-      grid-auto-columns: minmax(6.35px, 22px);
-      gap: 4px;
+      /* Define auto column size: try to be 25px, shrink to 6.35px minimum */
+      grid-auto-columns: minmax(6.35px, 25px);
+      gap: 5px;
       justify-content: center; /* Center the block of seats horizontally */
       max-width: 100%; /* Prevent row from exceeding parent width */
       margin: 0 1rem;
@@ -79,11 +68,11 @@ template.innerHTML = `
     }
     .hall-name-container h5 {
       color: #272727; /* Make hall name visible on light background */
-      font-weight: 400;
+      font-weight: 500;
     }
     /* Base style for seats using SVG icons */
     .seat {
-      /* width: clamp(6.35px, 5vw, 22px); Let the grid column control the width */
+      /* width: clamp(6.35px, 5vw, 25px); Let the grid column control the width */
       aspect-ratio: 1; /* Maintain square shape based on width */
       background-repeat: no-repeat;
       background-position: center;
@@ -242,9 +231,6 @@ template.innerHTML = `
       .seat-picker {
         width: 100%; /* Make seat picker take full width on small screens */
       }
-      .booking-info {
-        width: 100%; /* Make booking info take full width on small screens */
-      }
       .row {
         gap: 2px; /* Reduce gap between seats on small screens */
       }
@@ -261,8 +247,10 @@ template.innerHTML = `
     }
   </style>
   <section class="seat-picker">
+  <div class="seat-wrapper">
     <div class="seats">
     </div>
+  </div>
     <div class="seat-price">
       <div class="legend-container">
       </div>
