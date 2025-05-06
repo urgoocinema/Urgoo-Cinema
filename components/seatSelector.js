@@ -226,10 +226,6 @@ template.innerHTML = `
       visibility: hidden;
     }
     @media (max-width: 768px) {
-      .main-container {
-        flex-direction: column; /* Stack elements vertically on small screens */
-        align-items: center; /* Center items in the column layout */
-      }
       .seat-picker {
         width: 100%; /* Make seat picker take full width on small screens */
       }
@@ -467,25 +463,32 @@ export class SeatSelector extends HTMLElement {
       this.container.appendChild(row);
     }
 
-    for (let i = 0; i < this.seatLayout.layout.rows; i++) {
-      const rowNumber = document.createElement("div");
-      rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${i + 1}`;
-      this.container.querySelector(`[data-row="${i + 1}"]`).prepend(rowNumber);
-    }
-    for (let i = 0; i < this.seatLayout.layout.rows; i++) {
-      const rowNumber = document.createElement("div");
-      rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${i + 1}`;
-      this.container.querySelector(`[data-row="${i + 1}"]`).append(rowNumber);
-    }
-
     for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
       const unavailableSeat = this.seatLayout.layout.unavailable_seats[i];
       const seat = this.container.querySelector(
         `[data-seat="${unavailableSeat.row}-${unavailableSeat.column}"]`
       );
       seat.classList.add("hidden");
+    }
+
+    for (let i = 0, j=0; i < this.seatLayout.layout.rows; i++) {
+      if(this.isRowEmpty(this.container.querySelector(`[data-row="${i + 1}"]`))){
+        continue;
+      }
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${j + 1}`;
+      this.container.querySelector(`[data-row="${i + 1}"]`).prepend(rowNumber);
+      j++;
+    }
+    for (let i = 0, j=0; i < this.seatLayout.layout.rows; i++) {
+      if(this.isRowEmpty(this.container.querySelector(`[data-row="${i + 1}"]`)))
+        continue;
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${j + 1}`;
+      this.container.querySelector(`[data-row="${i + 1}"]`).append(rowNumber);
+      j++;
     }
 
     for (let i = 0; i < this.seatTypes.length; i++) {
@@ -510,6 +513,15 @@ export class SeatSelector extends HTMLElement {
         seat.classList.add("occupied");
       }
     }
+  }
+
+  isRowEmpty(row) {
+    for (let i = 0; i < row.children.length; i++) {
+      const seat = row.children[i];
+      if (!seat.classList.contains("hidden"))
+        return false;
+    }
+    return true;
   }
 
   renderPriceLegend() {
