@@ -327,8 +327,29 @@ export class SeatSelector extends HTMLElement {
       const num = Number(newVal);
       if (!isNaN(num) && num > 0) {
         this.maxAllowedSeats = num;
-        this.enforceSeatLimit();
+        this.enforceSeatLimit(this.maxAllowedSeats);
       }
+    }
+  }
+
+  enforceSeatLimit(maxSeats) {
+    let seatsChanged = false;
+    if (this.currentSelectedSeats.length > maxSeats) {
+      while (this.currentSelectedSeats.length > maxSeats) {
+        const seatToDeselect = this.currentSelectedSeats[0];
+        const seatElement = this.container
+          .querySelector(
+            `[data-seat="${seatToDeselect.row}-${seatToDeselect.column}"]`
+          )
+        if(seatToDeselect) {
+          seatElement.classList.remove("selected");
+        }
+        this.currentSelectedSeats.shift();
+        seatsChanged = true;
+      }
+    }
+    if(seatsChanged) {
+      this.updatedSelectedSeatsDispatchEvent();
     }
   }
 
@@ -341,37 +362,7 @@ export class SeatSelector extends HTMLElement {
     return { type: "unknown", price: 0, label: "Unknown" };
   }
 
-  enforceSeatLimit() {
-    const selectedElements = Array.from(
-      this.container.querySelectorAll(".seat.selected")
-    );
-    while (selectedElements.length > this.maxAllowedSeats) {
-      const seatToDeselect = selectedElements.shift();
-      if (seatToDeselect) {
-        seatToDeselect.classList.remove("selected");
-      }
-    }
-    this.updateCurrentSelectedSeatsAndDispatchEvent();
-  }
-
-  updateCurrentSelectedSeatsAndDispatchEvent() {
-    this.currentSelectedSeats = [];
-    const selectedElements = this.container.querySelectorAll(".seat.selected");
-    selectedElements.forEach((seatEl) => {
-      const [row, column] = seatEl
-        .getAttribute("data-seat")
-        .split("-")
-        .map(Number);
-      const details = this.getSeatDetails(row, column);
-      this.currentSelectedSeats.push({
-        row,
-        column,
-        type: details.type,
-        price: details.price,
-        label: details.label,
-      });
-    });
-
+  updatedSelectedSeatsDispatchEvent() {
     this.dispatchEvent(
       new CustomEvent("seats-updated", {
         detail: {
@@ -395,7 +386,7 @@ export class SeatSelector extends HTMLElement {
 
     this.renderSeats();
     this.renderPriceLegend();
-    this.updateCurrentSelectedSeatsAndDispatchEvent();
+    this.updatedSelectedSeatsDispatchEvent();
 
     this.container.addEventListener("click", (e) => {
       if (e.target.classList.contains("seat")) {
@@ -407,19 +398,60 @@ export class SeatSelector extends HTMLElement {
         )
           return;
 
-        const isSelected = seat.classList.contains("selected");
-        const selectedCount =
-          this.container.querySelectorAll(".seat.selected").length;
-
-        if (!isSelected && selectedCount >= this.maxAllowedSeats) {
-          console.warn(
-            `Хамгийн ихдээ ${this.maxAllowedSeats} суудал сонгох боломжтой.`
+        if (seat.classList.contains("selected")) {
+          const [row, column] = seat
+            .getAttribute("data-seat")
+            .split("-")
+            .map(Number);
+          this.currentSelectedSeats = this.currentSelectedSeats.filter(
+            (s) => s.row !== row || s.column !== column
           );
-          return;
+          seat.classList.remove("selected");
+        } else if (
+          this.currentSelectedSeats.length + 1 <=
+          this.maxAllowedSeats
+        ) {
+          const [row, column] = seat
+            .getAttribute("data-seat")
+            .split("-")
+            .map(Number);
+          const details = this.getSeatDetails(row, column);
+          this.currentSelectedSeats.push({
+            row,
+            column,
+            type: details.type,
+            price: details.price,
+            label: details.label,
+          });
+          seat.classList.add("selected");
+          console.log("max-s baga buyu tentsuu tul nemev");
+        } else if (
+          this.currentSelectedSeats.length + 1 >
+          this.maxAllowedSeats
+        ) {
+          this.container
+            .querySelector(
+              `[data-seat="${this.currentSelectedSeats[0].row}-${this.currentSelectedSeats[0].column}"]`
+            )
+            .classList.remove("selected");
+          this.currentSelectedSeats.shift();
+          const [row, column] = seat
+            .getAttribute("data-seat")
+            .split("-")
+            .map(Number);
+          const details = this.getSeatDetails(row, column);
+          this.currentSelectedSeats.push({
+            row,
+            column,
+            type: details.type,
+            price: details.price,
+            label: details.label,
+          });
+          seat.classList.add("selected");
+          console.log("max-s hetersen tul ehnii elementiig hasaad nemev");
         }
-
-        seat.classList.toggle("selected");
-        this.updateCurrentSelectedSeatsAndDispatchEvent();
+        this.updatedSelectedSeatsDispatchEvent();
+        console.log(this.currentSelectedSeats, this.maxAllowedSeats);
       }
     });
   }
@@ -537,22 +569,36 @@ export class SeatSelector extends HTMLElement {
     this.formattedHour = this.hour.replace(":", "");
     this.uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${this.formattedDay}_${this.formattedHour}`;
 
-    const currentBranch = this.layoutData.find((branch) => branch.id === this.branchId);
-    if(!currentBranch) {
-      console.error(`Салбарын мэдээлэл (Branch ID: ${this.branchId}) олдсонгүй.`);
-      this.seatLayout = { layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] }, name: "Unknown танхим" };
+    const currentBranch = this.layoutData.find(
+      (branch) => branch.id === this.branchId
+    );
+    if (!currentBranch) {
+      console.error(
+        `Салбарын мэдээлэл (Branch ID: ${this.branchId}) олдсонгүй.`
+      );
+      this.seatLayout = {
+        layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] },
+        name: "Unknown танхим",
+      };
       this.seatTypes = [];
       this.occupiedSeats = [];
       return;
     }
-    this.seatLayout = currentBranch.halls.find((hall) => hall.id === this.hallId);
+    this.seatLayout = currentBranch.halls.find(
+      (hall) => hall.id === this.hallId
+    );
     if (!this.seatLayout) {
-       console.error(`"Branch ID: ${this.branchId}" салбарын "Hall ID: ${this.hallId}" танхимын мэдээлэл олдсонгүй.`);
-       this.seatLayout = { layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] }, name: "Unknown танхим" };
-       this.seatTypes = [];
-       this.occupiedSeats = [];
-       return;
-   }
+      console.error(
+        `"Branch ID: ${this.branchId}" салбарын "Hall ID: ${this.hallId}" танхимын мэдээлэл олдсонгүй.`
+      );
+      this.seatLayout = {
+        layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] },
+        name: "Unknown танхим",
+      };
+      this.seatTypes = [];
+      this.occupiedSeats = [];
+      return;
+    }
 
     this.occupiedSeats = this.occupiedData?.find(
       (show) => show.showtimeId === this.uniqueId
