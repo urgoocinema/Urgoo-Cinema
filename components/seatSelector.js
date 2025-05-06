@@ -2,42 +2,303 @@ import { fetchBranches, fetchOccupiedSeats } from "./fetch.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        .seat-wrapper {
-            margin: 10rem auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 500px;
-            width: 1000px;
-            background-color: antiquewhite;
-        }
-        .row {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3px;
-        }
-        .seat {
-            margin: 3px;
-            width: 22px;
-            height: 22px;
-            border: 2px green solid;
-            border-radius: 3px 3px 8px 8px;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .hidden {
-            visibility: hidden;
-        }
-    </style>
-    <section class="seat-wrapper">
-    </section>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .main-container {
+      display: flex;
+      justify-content: center;
+      min-width: 335px;
+    }
+    /* Seat picker wrapper */
+    .seat-picker {
+      width: 65%;
+      min-width: 335px;
+      background-color: #f8f8f8;
+      border-radius: 8px;
+      padding-bottom: 1rem;
+    }
+    .booking-info {
+      width: 35%;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    /* A simple screen representation */
+    .screen {
+      text-align: center;
+    }
+    .screen svg {
+      width: 100%;
+      height: auto;
+    }
+    /* Seat grid container */
+    .seats {
+      display: grid; /* Use grid for vertical stacking of rows */
+      gap: 4px;
+      margin-bottom: 10px;
+      max-width: 100%; /* Ensure the container doesn't exceed parent */
+      /* Make container width fit its content (the seat rows) */
+      width: fit-content;
+      /* Center the container horizontally */
+      margin-left: auto;
+      margin-right: auto;
+      /* overflow-x: hidden; /* No longer needed with fit-content */
+    }
+    /* Each row is arranged in a single horizontal grid line */
+    .row {
+      display: grid;
+      grid-auto-flow: column; /* Arrange seats horizontally */
+      /* Define auto column size: try to be 22px, shrink to 16px minimum */
+      grid-auto-columns: minmax(6.35px, 22px);
+      gap: 4px;
+      justify-content: center; /* Center the block of seats horizontally */
+      max-width: 100%; /* Prevent row from exceeding parent width */
+      margin: 0 1rem;
+    }
+    /* Override grid settings for screen image and name rows */
+    .screen-image-row,
+    .screen-name-row {
+      display: block; /* Change display from grid to block */
+      justify-content: initial; /* Reset justify-content */
+      grid-auto-flow: initial; /* Reset grid-auto-flow */
+      grid-auto-columns: initial; /* Reset grid-auto-columns */
+      overflow: hidden;
+      text-align: center; /* Center content like screen SVG and hall name */
+    }
+    .screen {
+      width: 121%;
+      & svg {
+        transform: translateX(-8%);
+      }
+    }
+    .screen-name-row {
+      margin-bottom: 5px; /* Add some space below the screen name */
+    }
+    .hall-name-container h5 {
+      color: #272727; /* Make hall name visible on light background */
+      font-weight: 400;
+    }
+    /* Base style for seats using SVG icons */
+    .seat {
+      /* width: clamp(6.35px, 5vw, 22px); Let the grid column control the width */
+      aspect-ratio: 1; /* Maintain square shape based on width */
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+      min-width: 6.35px; /* Ensure seat doesn't collapse below minimum */
+    }
+    .seat:hover {
+      transform: scale(1.1);
+    }
+    .row-number {
+      /* Sizing and Shape */
+      min-width: 6.35px; /* Match min-width of seats */
+      aspect-ratio: 1; /* Make it square like seats */
+
+      /* Text Styling */
+      color: #555; /* Dark grey color for the number */
+      font-size: 10px; /* Adjust size as needed */
+      font-weight: bold;
+
+      /* Alignment */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* Non-interactive */
+      cursor: default;
+      position: relative;
+      left: -5px;
+    }
+    /* Seat types: adjust the filenames as per your folder */
+    .seat.regular {
+      background-image: url("../pics/seat-icons/regular_seat_icon.svg");
+    }
+    .seat.saver {
+      background-image: url("../pics/seat-icons/saver_seat_icon.svg");
+    }
+    .seat.super-saver {
+      background-image: url("../pics/seat-icons/super_saver_seat_icon.svg");
+    }
+    .seat.vip {
+      background-image: url("../pics/seat-icons/vip_seat_icon.svg");
+    }
+    /* Occupied state: show an overlay occupied icon */
+    .seat.regular.occupied {
+      pointer-events: none;
+      background-image: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+    }
+    .seat.saver.occupied {
+      pointer-events: none;
+      background-image: url("../pics/seat-icons/sold_saver_seat_icon.svg");
+    }
+    .seat.super-saver.occupied {
+      pointer-events: none;
+      background-image: url("../pics/seat-icons/sold_super_saver_seat_icon.svg");
+    }
+    .seat.vip.occupied {
+      pointer-events: none;
+      background-image: url("../pics/seat-icons/sold_vip_seat_icon.svg");
+    }
+    /* Selected state */
+    .seat.regular.selected {
+      background-image: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+      &:hover {
+        transform: none;
+      }
+    }
+    .seat.saver.selected {
+      background-image: url("../pics/seat-icons/selected_saver_seat_icon.svg");
+      &:hover {
+        transform: none;
+      }
+    }
+    .seat.super-saver.selected {
+      background-image: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
+      &:hover {
+        transform: none;
+      }
+    }
+    .seat.vip.selected {
+      background-image: url("../pics/seat-icons/selected_vip_seat_icon.svg");
+      &:hover {
+        transform: none;
+      }
+    }
+    /* Legend Styles */
+    .seat-price {
+      padding: 15px 10px;
+      display: flex;
+      overflow-x: auto; /* Allow the outer container to scroll if needed */
+    }
+    .legend-container {
+      display: flex;
+      gap: 15px; /* Space between legend items */
+      min-width: 650px; /* Set minimum width */
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 10px; /* Add some padding so items don't touch edges when scrolling */
+    }
+    .legend-item {
+      display: flex;
+      align-items: center; /* Vertically align icon and text */
+      gap: 5px; /* Space between icon and text */
+    }
+    .legend-icon {
+      width: 18px; /* Size of the legend icon */
+      height: 18px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      /* Apply seat type backgrounds */
+      &.regular {
+        background-image: url("../pics/seat-icons/regular_seat_icon.svg");
+      }
+      &.saver {
+        background-image: url("../pics/seat-icons/saver_seat_icon.svg");
+      }
+      &.super-saver {
+        background-image: url("../pics/seat-icons/super_saver_seat_icon.svg");
+      }
+      &.vip {
+        background-image: url("../pics/seat-icons/vip_seat_icon.svg");
+      }
+      /* Apply state backgrounds */
+      &.regular.occupied {
+        background-image: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+      }
+      &.regular.selected {
+        background-image: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+      }
+      /* Add other occupied/selected types if needed */
+    }
+    .legend-text {
+      font-size: 12px;
+      color: #555; /* Adjust color as needed */
+    }
+    .legend-price {
+      font-weight: bold;
+    }
+    /* Booking info section */
+    .booking-info {
+      text-align: center;
+      background: #fff;
+      color: #272727;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .hidden {
+      visibility: hidden;
+    }
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column; /* Stack elements vertically on small screens */
+        align-items: center; /* Center items in the column layout */
+      }
+      .seat-picker {
+        width: 100%; /* Make seat picker take full width on small screens */
+      }
+      .booking-info {
+        width: 100%; /* Make booking info take full width on small screens */
+      }
+      .row {
+        gap: 2px; /* Reduce gap between seats on small screens */
+      }
+    }
+    @media (max-width: 480px) {
+      .row-number {
+        font-size: 7px; /* Adjust row number size for smaller screens */
+      }
+    }
+    @media (max-width: 420px) {
+      .legend-text {
+        font-size: 11px;
+      }
+    }
+  </style>
+  <section class="seat-picker">
+    <div class="seats">
+    </div>
+    <div class="seat-price">
+      <div class="legend-container">
+        <div class="legend-item">
+          <div class="legend-icon regular"></div>
+          <span class="legend-text"
+            >Энгийн <span class="legend-price">18000₮</span></span
+          >
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon saver"></div>
+          <span class="legend-text"
+            >Хөнгөлөлттэй <span class="legend-price">15000₮</span></span
+          >
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon super-saver"></div>
+          <span class="legend-text"
+            >Хамгийн хямд <span class="legend-price">12000₮</span></span
+          >
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon vip"></div>
+          <span class="legend-text"
+            >Премиум <span class="legend-price">25000₮</span></span
+          >
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon regular occupied"></div>
+          <span class="legend-text">Зарагдсан</span>
+        </div>
+      </div>
+    </div>
+  </section>
 `;
 
 export class SeatSelector extends HTMLElement {
@@ -47,10 +308,10 @@ export class SeatSelector extends HTMLElement {
 
     this.parent = document.createElement("div");
     this.parent.classList.add("container");
-    
+
     this.shadowRoot.appendChild(this.parent);
     this.parent.appendChild(template.content.cloneNode(true));
-    this.container = this.parent.querySelector(".seat-wrapper");
+    this.container = this.parent.querySelector(".seats");
 
     this.layoutData = [];
     this.occupiedData = [];
@@ -67,37 +328,26 @@ export class SeatSelector extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["movie_title", "movie_id", "branch_id", "hall_id", "day", "hour"]
+    return ["movie_title", "movie_id", "branch_id", "hall_id", "day", "hour"];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === "movie_title") 
-      this.movieTitle = newVal;
-    if (attr === "movie_id") 
-      this.movieId = Number(newVal);
-    if (attr === "branch_id") 
-      this.branchId = Number(newVal);
-    if (attr === "hall_id") 
-      this.hallId = Number(newVal);
-    if (attr === "day")
-      this.day = newVal;
-    if (attr === "hour") 
-      this.hour = newVal;
+    if (attr === "movie_title") this.movieTitle = newVal;
+    if (attr === "movie_id") this.movieId = Number(newVal);
+    if (attr === "branch_id") this.branchId = Number(newVal);
+    if (attr === "hall_id") this.hallId = Number(newVal);
+    if (attr === "day") this.day = newVal;
+    if (attr === "hour") this.hour = newVal;
   }
 
-  async connectedCallback() {  
+  async connectedCallback() {
     await this.helperFetch();
     this.renderSeats();
   }
 
   renderSeats() {
     this.container.innerHTML = "";
-
-    const header = document.createElement("h4");
-    header.textContent = `${this.movieTitle} • Өргөө ${this.branchId} • Танхим ${this.hallId} • ${this.day} • ${this.hour}`;
-    header.style.color ="black";
-    header.style.textAlign = "center";
-    this.container.appendChild(header);
+    this.container.appendChild(templateScreen.content.cloneNode(true));
 
     const formattedDay = this.day.replace(/-/g, "");
     const formattedHour = this.hour.replace(":", "");
@@ -105,29 +355,84 @@ export class SeatSelector extends HTMLElement {
     const uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${formattedDay}_${formattedHour}`;
     console.log(uniqueId);
 
-    this.seatLayout = this.layoutData.find(branch => branch.id === this.branchId).halls.find(hall => hall.id === this.hallId).layout;
-    this.occupiedSeats = this.occupiedData?.find(show => show.showtimeId === uniqueId)?.occupiedSeats;
-  console.log(this.seatLayout, this.occupiedSeats);
-    for(let i=0; i < this.seatLayout.rows; i++) {
+    this.seatLayout = this.layoutData
+      .find((branch) => branch.id === this.branchId)
+      .halls.find((hall) => hall.id === this.hallId);
+
+    this.occupiedSeats = this.occupiedData?.find(
+      (show) => show.showtimeId === uniqueId
+    )?.occupiedSeats;
+    console.log(this.seatLayout, this.occupiedSeats);
+
+    this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${this.hallId} ${this.seatLayout.name.replace(/танхим/i, "")}`;
+
+    for (let i = 0; i < this.seatLayout.layout.rows; i++) {
       const row = document.createElement("div");
       row.classList.add("row");
-      row.setAttribute("data-row-id", i+1);
+      row.setAttribute("data-row", `${i + 1}`);
 
-      for(let j=0; j < this.seatLayout.columns; j++) {
+      for (let j = 0; j < this.seatLayout.layout.columns; j++) {
         const seat = document.createElement("div");
         seat.classList.add("seat");
-        seat.setAttribute("data-column-id", j+1);
+        seat.setAttribute("data-seat", `${i + 1}-${j + 1}`);
         row.appendChild(seat);
       }
       this.container.appendChild(row);
     }
 
-    for(let i=0; i<this.seatLayout.unavailable_seats.length; i++) {
-      const unavailableSeat = this.seatLayout.unavailable_seats[i];
+    for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
+      const unavailableSeat = this.seatLayout.layout.unavailable_seats[i];
       console.log("Unavailable seat: ", unavailableSeat);
-      const row = this.container.querySelector(`[data-row-id="${unavailableSeat.row}"]`);
-      const seat = row.querySelector(`[data-column-id="${unavailableSeat.column}"]`);
+      const seat = this.container.querySelector(
+        `[data-seat="${unavailableSeat.row}-${unavailableSeat.column}"]`
+      );
       seat.classList.add("hidden");
+    }
+
+    for (let i = 0; i < this.seatLayout.layout.super_saver_rows.length; i++) {
+      const superSaverRow = this.seatLayout.layout.super_saver_rows[i];
+      this.container
+        .querySelector(`[data-row="${superSaverRow}"]`)
+        .querySelectorAll(".seat")
+        .forEach((seat) => {
+          seat.classList.add("super-saver");
+        });
+    }
+    for (let i = 0; i < this.seatLayout.layout.saver_rows.length; i++) {
+      const saverRow = this.seatLayout.layout.saver_rows[i];
+      this.container
+        .querySelector(`[data-row="${saverRow}"]`)
+        .querySelectorAll(".seat")
+        .forEach((seat) => {
+          seat.classList.add("saver");
+        });
+    }
+    for (let i = 0; i < this.seatLayout.layout.regular_rows.length; i++) {
+      const regularRow = this.seatLayout.layout.regular_rows[i];
+      this.container
+        .querySelector(`[data-row="${regularRow}"]`)
+        .querySelectorAll(".seat")
+        .forEach((seat) => {
+          seat.classList.add("regular");
+        });
+    }
+    for (let i = 0; i < this.seatLayout.layout.vip_rows.length; i++) {
+      const vipRow = this.seatLayout.layout.vip_rows[i];
+      this.container
+        .querySelector(`[data-row="${vipRow}"]`)
+        .querySelectorAll(".seat")
+        .forEach((seat) => {
+          seat.classList.add("vip");
+        });
+    }
+    if (this.occupiedSeats) {
+      for (let i = 0; i < this.occupiedSeats.length; i++) {
+        const occupiedSeat = this.occupiedSeats[i];
+        const seat = this.container.querySelector(
+          `[data-seat="${occupiedSeat.row}-${occupiedSeat.column}"]`
+        );
+        seat.classList.add("occupied");
+      }
     }
   }
 
@@ -142,3 +447,258 @@ export class SeatSelector extends HTMLElement {
 }
 
 customElements.define("seat-selector", SeatSelector);
+
+const templateScreen = document.createElement("template");
+templateScreen.innerHTML = `
+  <div class="screen-image-row">
+    <div class="screen">
+      <svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 552 100"
+        class="seat-map__screen-image"
+      >
+        <g opacity="0.91" filter="url(#filter0_f_2284_34995)">
+          <path
+            d="M276.5 88.5347C375.116 88.5347 441 71.2976 441 50.0347C441 28.7717 375.116 11.5347 276.5 11.5347C177.884 11.5347 112 28.7717 112 50.0347C112 71.2976 177.884 88.5347 276.5 88.5347Z"
+            fill="#F3EBE8"
+          ></path>
+        </g>
+        <path d="M64 15H488V17H64V15Z" fill="white"></path>
+        <path
+          d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+          fill="url(#paint0_linear_2284_34995)"
+        ></path>
+        <g filter="url(#filter1_i_2284_34995)">
+          <path
+            d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+            fill="#D8D8D8"
+          ></path>
+        </g>
+        <g opacity="0.95" filter="url(#filter2_f_2284_34995)">
+          <path
+            d="M92.7306 45H457.151L508 75H44L92.7306 45Z"
+            fill="url(#paint1_linear_2284_34995)"
+          ></path>
+        </g>
+        <g opacity="0.65" filter="url(#filter3_f_2284_34995)">
+          <path
+            d="M92.9807 45H456.903L550 75H2L92.9807 45Z"
+            fill="url(#paint2_linear_2284_34995)"
+          ></path>
+        </g>
+        <g filter="url(#filter4_f_2284_34995)">
+          <path
+            d="M92.5678 45H457.312L487 75H65L92.5678 45Z"
+            fill="url(#paint3_linear_2284_34995)"
+          ></path>
+        </g>
+        <path
+          opacity="0.69933"
+          d="M149 45.5347V44.5347H402V45.5347H149Z"
+          fill="url(#paint4_linear_2284_34995)"
+        ></path>
+        <defs>
+          <filter
+            id="filter0_f_2284_34995"
+            x="101"
+            y="0.534668"
+            width="351"
+            height="99"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="5.5"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter1_i_2284_34995"
+            x="64"
+            y="17"
+            width="424"
+            height="28"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            ></feColorMatrix>
+            <feOffset dy="-1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5"></feGaussianBlur>
+            <feComposite
+              in2="hardAlpha"
+              operator="arithmetic"
+              k2="-1"
+              k3="1"
+            ></feComposite>
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0681612 0"
+            ></feColorMatrix>
+            <feBlend
+              mode="normal"
+              in2="shape"
+              result="effect1_innerShadow_2284_34995"
+            ></feBlend>
+          </filter>
+          <filter
+            id="filter2_f_2284_34995"
+            x="42.9"
+            y="43.9"
+            width="466.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter3_f_2284_34995"
+            x="0.9"
+            y="43.9"
+            width="550.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter4_f_2284_34995"
+            x="63.9"
+            y="43.9"
+            width="424.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <linearGradient
+            id="paint0_linear_2284_34995"
+            x1="276"
+            y1="45"
+            x2="276"
+            y2="18"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#9C9898"></stop>
+            <stop offset="1" stop-color="#D0CCCB"></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint1_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint2_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint3_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint4_linear_2284_34995"
+            x1="149"
+            y1="45.5347"
+            x2="402"
+            y2="45.5347"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#AFAEAE" stop-opacity="0"></stop>
+            <stop offset="0.0270686" stop-color="#AFAEAE"></stop>
+            <stop offset="0.969667" stop-color="#AFAEAE"></stop>
+            <stop offset="1" stop-color="#AFAEAE" stop-opacity="0"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+  <div class="row screen-name-row">
+    <div class="hall-name-container">
+      <h5 class="hall-name">ТАНХИМ</h5>
+    </div>
+  </div>
+`;

@@ -637,7 +637,6 @@ export class MovieCard extends HTMLElement {
         this.container
           .querySelector(".button-group #day-1")
           .classList.add("active");
-        this.renderButtons(1);
         this.renderShowtimes(1);
         const parent = this.container.querySelector(".showtime-details");
         const newChild = document.createElement("div");
@@ -748,7 +747,7 @@ export class MovieCard extends HTMLElement {
 
     if (todayShowtimes.querySelector(".branch") === null) {
       todayShowtimes.innerHTML = `
-        <p style="font-style: italic;"><span style="opacity: 0.5">Өнөөдрийн захиалга дууссан.</span> <span class="select-other-day" style="color:orange; cursor:pointer;">Өөр өдөр сонгоно уу.</span></p>
+        <p style="font-style: italic;"><span style="opacity: 0.5">Захиалга байхгүй байна.</span> <span class="select-other-day" style="color:orange; cursor:pointer;">Өөр өдөр сонгоно уу.</span></p>
       `;
       todayShowtimes
         .querySelector(".select-other-day")
@@ -798,7 +797,9 @@ export class MovieCard extends HTMLElement {
       } else {
         this.timeButtons[0].classList.add("active");
         this.renderShowtimes(0);
-        alert("Тухайн үзвэрт нэмэлт захиалга байхгүй байна. Та маргааш дахин оролдоно уу.");
+        alert(
+          "Тухайн үзвэрт нэмэлт захиалга байхгүй байна. Та маргааш дахин оролдоно уу."
+        );
       }
     }
 
@@ -895,10 +896,12 @@ export class MovieCard extends HTMLElement {
       showAllBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"/></svg>БҮХ ЦАГ (<span></span>)`;
       showLessBtn.remove();
       btnGrp.appendChild(showAllBtn);
-      if(this.container.querySelector(".button-group #day-0")){
+      if (this.container.querySelector(".button-group #day-0")) {
         this.renderButtons(0);
       } else {
-        this.container.querySelector(".button-group #day-1").classList.add("active");
+        this.container
+          .querySelector(".button-group #day-1")
+          .classList.add("active");
         this.renderButtons(0);
         this.renderShowtimes(1);
       }

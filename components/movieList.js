@@ -21,7 +21,6 @@ export class MovieList extends HTMLElement {
 
     this.container = document.createElement("div");
     this.container.classList.add("container");
-    
 
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
@@ -29,12 +28,11 @@ export class MovieList extends HTMLElement {
 
   static get observedAttributes() {}
 
-  attributeChangedCallback(attr, oldVal, newVal) {
-  }
+  attributeChangedCallback(attr, oldVal, newVal) {}
 
-  connectedCallback() {  
+  connectedCallback() {
     this.render();
-    this.addEventListener('time-selected', (e) => this.onTimeSelected(e));
+    this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
   }
 
   async render() {
@@ -71,17 +69,17 @@ export class MovieList extends HTMLElement {
 
   onTimeSelected(e) {
     const { movieTitle, movieId, branch, hall, day, hour } = e.detail;
-    const seatSelector = document.createElement('seat-selector');
+    const seatSelector = document.createElement("seat-selector");
 
-    seatSelector.setAttribute('movie_title', movieTitle);
-    seatSelector.setAttribute('movie_id', movieId);
-    seatSelector.setAttribute('branch_id', branch);
-    seatSelector.setAttribute('hall_id', hall);
-    seatSelector.setAttribute('day', day);
-    seatSelector.setAttribute('hour', hour);
+    seatSelector.setAttribute("movie_title", movieTitle);
+    seatSelector.setAttribute("movie_id", movieId);
+    seatSelector.setAttribute("branch_id", branch);
+    seatSelector.setAttribute("hall_id", hall);
+    seatSelector.setAttribute("day", day);
+    seatSelector.setAttribute("hour", hour);
 
-    this.shadowRoot.querySelector('.seat-selection').innerHTML = "";
-    this.shadowRoot.querySelector('.seat-selection').appendChild(seatSelector);
+    this.shadowRoot.querySelector(".seat-selection").innerHTML = "";
+    this.shadowRoot.querySelector(".seat-selection").appendChild(seatSelector);
   }
 
   disconnectedCallback() {}
