@@ -71,15 +71,25 @@ export class MovieList extends HTMLElement {
     const { movieTitle, movieId, branch, hall, day, hour } = e.detail;
     const seatSelector = document.createElement("seat-selector");
 
-    seatSelector.setAttribute("movie_title", movieTitle);
-    seatSelector.setAttribute("movie_id", movieId);
-    seatSelector.setAttribute("branch_id", branch);
-    seatSelector.setAttribute("hall_id", hall);
-    seatSelector.setAttribute("day", day);
-    seatSelector.setAttribute("hour", hour);
+    const queryParams = new URLSearchParams({
+      movie_title: movieTitle,
+      movie_id: movieId,
+      branch_id: branch,
+      hall_id: hall,
+      day: day,
+      hour: hour,
+    });
 
-    this.shadowRoot.querySelector(".seat-selection").innerHTML = "";
-    this.shadowRoot.querySelector(".seat-selection").appendChild(seatSelector);
+    window.location.href = `seat-page.html?${queryParams.toString()}`;
+    // seatSelector.setAttribute("movie_title", movieTitle);
+    // seatSelector.setAttribute("movie_id", movieId);
+    // seatSelector.setAttribute("branch_id", branch);
+    // seatSelector.setAttribute("hall_id", hall);
+    // seatSelector.setAttribute("day", day);
+    // seatSelector.setAttribute("hour", hour);
+
+    // this.shadowRoot.querySelector(".seat-selection").innerHTML = "";
+    // this.shadowRoot.querySelector(".seat-selection").appendChild(seatSelector);
   }
 
   disconnectedCallback() {}

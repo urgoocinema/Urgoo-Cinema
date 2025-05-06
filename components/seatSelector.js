@@ -15,8 +15,7 @@ template.innerHTML = `
     }
     /* Seat picker wrapper */
     .seat-picker {
-      width: 65%;
-      min-width: 335px;
+      width: 100%;
       background-color: #f8f8f8;
       border-radius: 8px;
       padding-bottom: 1rem;
@@ -113,8 +112,6 @@ template.innerHTML = `
 
       /* Non-interactive */
       cursor: default;
-      position: relative;
-      left: -5px;
     }
     /* Seat types: adjust the filenames as per your folder */
     .seat.regular {
@@ -254,7 +251,7 @@ template.innerHTML = `
     }
     @media (max-width: 480px) {
       .row-number {
-        font-size: 7px; /* Adjust row number size for smaller screens */
+        font-size: 6px; /* Adjust row number size for smaller screens */
       }
     }
     @media (max-width: 420px) {
@@ -323,19 +320,36 @@ export class SeatSelector extends HTMLElement {
 
     this.renderSeats();
     this.renderPriceLegend();
+
+    this.container.addEventListener("click", (e) => {
+      if (e.target.classList.contains("seat")) {
+        const seat = e.target;
+        const seatData = seat.getAttribute("data-seat").split("-");
+        const row = Number(seatData[0]);
+        const column = Number(seatData[1]);
+
+        if (seat.classList.contains("occupied")) return;
+        if (seat.classList.contains("selected")) {
+          seat.classList.remove("selected");
+        } else {
+          seat.classList.add("selected");
+        }
+      }
+    });
   }
 
   renderSeats() {
     this.container.innerHTML = "";
     this.container.appendChild(templateScreen.content.cloneNode(true));
 
-    this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${this.hallId} ${this.seatLayout.name.replace(/танхим/i, "")}`;
+    this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${
+      this.hallId
+    } ${this.seatLayout.name.replace(/танхим/i, "")}`;
 
     for (let i = 0; i < this.seatLayout.layout.rows; i++) {
       const row = document.createElement("div");
       row.classList.add("row");
       row.setAttribute("data-row", `${i + 1}`);
-
       for (let j = 0; j < this.seatLayout.layout.columns; j++) {
         const seat = document.createElement("div");
         seat.classList.add("seat");
@@ -343,6 +357,23 @@ export class SeatSelector extends HTMLElement {
         row.appendChild(seat);
       }
       this.container.appendChild(row);
+    }
+
+    for (let i = 0; i < this.seatLayout.layout.rows; i++) {
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${i + 1}`;
+      this.container
+      .querySelector(`[data-row="${i + 1}"]`)
+      .prepend(rowNumber);
+    }
+    for (let i = 0; i < this.seatLayout.layout.rows; i++) {
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${i + 1}`;
+      this.container
+      .querySelector(`[data-row="${i + 1}"]`)
+      .append(rowNumber);
     }
 
     for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
@@ -355,7 +386,7 @@ export class SeatSelector extends HTMLElement {
 
     for (let i = 0; i < this.seatTypes.length; i++) {
       const seatType = this.seatTypes[i];
-      for(let j = 0; j < seatType.rows.length; j++){
+      for (let j = 0; j < seatType.rows.length; j++) {
         const row = seatType.rows[j];
         this.container
           .querySelector(`[data-row="${row}"]`)
@@ -377,34 +408,6 @@ export class SeatSelector extends HTMLElement {
     }
   }
 
-//   <div class="legend-item">
-//   <div class="legend-icon regular"></div>
-//   <span class="legend-text"
-//     >Энгийн <span class="legend-price">18000₮</span></span
-//   >
-// </div>
-// <div class="legend-item">
-//   <div class="legend-icon saver"></div>
-//   <span class="legend-text"
-//     >Хөнгөлөлттэй <span class="legend-price">15000₮</span></span
-//   >
-// </div>
-// <div class="legend-item">
-//   <div class="legend-icon super-saver"></div>
-//   <span class="legend-text"
-//     >Хамгийн хямд <span class="legend-price">12000₮</span></span
-//   >
-// </div>
-// <div class="legend-item">
-//   <div class="legend-icon vip"></div>
-//   <span class="legend-text"
-//     >Премиум <span class="legend-price">25000₮</span></span
-//   >
-// </div>
-// <div class="legend-item">
-//   <div class="legend-icon regular occupied"></div>
-//   <span class="legend-text">Зарагдсан</span>
-// </div>
   renderPriceLegend() {
     const legendContainer = this.parent.querySelector(".legend-container");
     legendContainer.innerHTML = "";
@@ -418,13 +421,26 @@ export class SeatSelector extends HTMLElement {
 
       const legendText = document.createElement("span");
       legendText.classList.add("legend-text");
-      const formattedPrice = seat.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const formattedPrice = seat.price
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       legendText.innerHTML = `${seat.label} <span class="legend-price">${formattedPrice}₮</span>`;
 
       legendItem.appendChild(legendIcon);
       legendItem.appendChild(legendText);
       legendContainer.appendChild(legendItem);
     });
+
+    const occupiedLegendItem = document.createElement("div");
+    occupiedLegendItem.classList.add("legend-item");
+    const occupiedLegendIcon = document.createElement("div");
+    occupiedLegendIcon.classList.add("legend-icon", "regular", "occupied");
+    const occupiedLegendText = document.createElement("span");
+    occupiedLegendText.classList.add("legend-text");
+    occupiedLegendText.textContent = `Зарагдсан`;
+    occupiedLegendItem.appendChild(occupiedLegendIcon);
+    occupiedLegendItem.appendChild(occupiedLegendText);
+    legendContainer.appendChild(occupiedLegendItem);
   }
 
   async helperFetch() {
@@ -449,13 +465,13 @@ export class SeatSelector extends HTMLElement {
 
     const seatTypes = this.seatLayout.layout.seatTypes;
 
-    for(let i = 0; i < seatTypes.length; i++){
+    for (let i = 0; i < seatTypes.length; i++) {
       const seatType = seatTypes[i];
       this.seatTypes.push({
         type: seatType.type,
         rows: seatType.rows,
         label: seatType.label,
-        price: seatType.price
+        price: seatType.price,
       });
     }
   }

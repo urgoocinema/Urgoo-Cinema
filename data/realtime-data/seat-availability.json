@@ -1,14 +1,19 @@
 {
   "OccupiedSeats": [
     {
-      "showtimeId": "2_1_6_20250505_1130",
+      "showtimeId": "2_1_6_20250507_1100",
       "movieId": 2,
       "branchId": 1,
       "hallId": 6,
-      "dateTime": "2025-05-05T11:30:00",
+      "dateTime": "2025-05-07T11:00:00",
       "occupiedSeats": [
         { "row": 2, "column": 5 },
-        { "row": 3, "column": 1 }
+        { "row": 3, "column": 1 },
+        { "row": 4, "column": 3 },
+        { "row": 5, "column": 7 },
+        { "row": 6, "column": 2 },
+        { "row": 7, "column": 8 },
+        { "row": 8, "column": 4 }
       ]
     },
     {
