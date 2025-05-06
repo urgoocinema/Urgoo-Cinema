@@ -299,10 +299,21 @@ export class SeatSelector extends HTMLElement {
     this.uniqueId = null;
     this.formattedDay = null;
     this.formattedHour = null;
+
+    this.maxAllowedSeats = 1;
+    this.currentSelectedSeats = [];
   }
 
   static get observedAttributes() {
-    return ["movie_title", "movie_id", "branch_id", "hall_id", "day", "hour"];
+    return [
+      "movie_title",
+      "movie_id",
+      "branch_id",
+      "hall_id",
+      "day",
+      "hour",
+      "allowed-seats",
+    ];
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
@@ -312,6 +323,70 @@ export class SeatSelector extends HTMLElement {
     if (attr === "hall_id") this.hallId = Number(newVal);
     if (attr === "day") this.day = newVal;
     if (attr === "hour") this.hour = newVal;
+    if (attr === "allowed-seats") {
+      const num = Number(newVal);
+      if (!isNaN(num) && num > 0) {
+        this.maxAllowedSeats = num;
+        this.enforceSeatLimit();
+      }
+    }
+  }
+
+  getSeatDetails(row, col) {
+    for (const type of this.seatTypes) {
+      if (type.rows.includes(row)) {
+        return { type: type.type, price: type.price, label: type.label };
+      }
+    }
+    return { type: "unknown", price: 0, label: "Unknown" };
+  }
+
+  enforceSeatLimit() {
+    const selectedElements = Array.from(
+      this.container.querySelectorAll(".seat.selected")
+    );
+    while (selectedElements.length > this.maxAllowedSeats) {
+      const seatToDeselect = selectedElements.shift();
+      if (seatToDeselect) {
+        seatToDeselect.classList.remove("selected");
+      }
+    }
+    this.updateCurrentSelectedSeatsAndDispatchEvent();
+  }
+
+  updateCurrentSelectedSeatsAndDispatchEvent() {
+    this.currentSelectedSeats = [];
+    const selectedElements = this.container.querySelectorAll(".seat.selected");
+    selectedElements.forEach((seatEl) => {
+      const [row, column] = seatEl
+        .getAttribute("data-seat")
+        .split("-")
+        .map(Number);
+      const details = this.getSeatDetails(row, column);
+      this.currentSelectedSeats.push({
+        row,
+        column,
+        type: details.type,
+        price: details.price,
+        label: details.label,
+      });
+    });
+
+    this.dispatchEvent(
+      new CustomEvent("seats-updated", {
+        detail: {
+          showtimeId: this.uniqueId,
+          selectedSeats: this.currentSelectedSeats,
+          movieTitle: this.movieTitle,
+          branchId: this.branchId,
+          hallId: this.hallId,
+          day: this.day,
+          hour: this.hour,
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   async connectedCallback() {
@@ -320,20 +395,31 @@ export class SeatSelector extends HTMLElement {
 
     this.renderSeats();
     this.renderPriceLegend();
+    this.updateCurrentSelectedSeatsAndDispatchEvent();
 
     this.container.addEventListener("click", (e) => {
       if (e.target.classList.contains("seat")) {
         const seat = e.target;
-        const seatData = seat.getAttribute("data-seat").split("-");
-        const row = Number(seatData[0]);
-        const column = Number(seatData[1]);
 
-        if (seat.classList.contains("occupied")) return;
-        if (seat.classList.contains("selected")) {
-          seat.classList.remove("selected");
-        } else {
-          seat.classList.add("selected");
+        if (
+          seat.classList.contains("occupied") ||
+          seat.classList.contains("hidden")
+        )
+          return;
+
+        const isSelected = seat.classList.contains("selected");
+        const selectedCount =
+          this.container.querySelectorAll(".seat.selected").length;
+
+        if (!isSelected && selectedCount >= this.maxAllowedSeats) {
+          console.warn(
+            `Хамгийн ихдээ ${this.maxAllowedSeats} суудал сонгох боломжтой.`
+          );
+          return;
         }
+
+        seat.classList.toggle("selected");
+        this.updateCurrentSelectedSeatsAndDispatchEvent();
       }
     });
   }
@@ -363,17 +449,13 @@ export class SeatSelector extends HTMLElement {
       const rowNumber = document.createElement("div");
       rowNumber.classList.add("row-number");
       rowNumber.textContent = `${i + 1}`;
-      this.container
-      .querySelector(`[data-row="${i + 1}"]`)
-      .prepend(rowNumber);
+      this.container.querySelector(`[data-row="${i + 1}"]`).prepend(rowNumber);
     }
     for (let i = 0; i < this.seatLayout.layout.rows; i++) {
       const rowNumber = document.createElement("div");
       rowNumber.classList.add("row-number");
       rowNumber.textContent = `${i + 1}`;
-      this.container
-      .querySelector(`[data-row="${i + 1}"]`)
-      .append(rowNumber);
+      this.container.querySelector(`[data-row="${i + 1}"]`).append(rowNumber);
     }
 
     for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
@@ -455,18 +537,31 @@ export class SeatSelector extends HTMLElement {
     this.formattedHour = this.hour.replace(":", "");
     this.uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${this.formattedDay}_${this.formattedHour}`;
 
-    this.seatLayout = this.layoutData
-      .find((branch) => branch.id === this.branchId)
-      .halls.find((hall) => hall.id === this.hallId);
+    const currentBranch = this.layoutData.find((branch) => branch.id === this.branchId);
+    if(!currentBranch) {
+      console.error(`Салбарын мэдээлэл (Branch ID: ${this.branchId}) олдсонгүй.`);
+      this.seatLayout = { layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] }, name: "Unknown танхим" };
+      this.seatTypes = [];
+      this.occupiedSeats = [];
+      return;
+    }
+    this.seatLayout = currentBranch.halls.find((hall) => hall.id === this.hallId);
+    if (!this.seatLayout) {
+       console.error(`"Branch ID: ${this.branchId}" салбарын "Hall ID: ${this.hallId}" танхимын мэдээлэл олдсонгүй.`);
+       this.seatLayout = { layout: { rows: 0, columns: 0, unavailable_seats: [], seatTypes: [] }, name: "Unknown танхим" };
+       this.seatTypes = [];
+       this.occupiedSeats = [];
+       return;
+   }
 
     this.occupiedSeats = this.occupiedData?.find(
       (show) => show.showtimeId === this.uniqueId
     )?.occupiedSeats;
 
-    const seatTypes = this.seatLayout.layout.seatTypes;
-
-    for (let i = 0; i < seatTypes.length; i++) {
-      const seatType = seatTypes[i];
+    const seatTypesData = this.seatLayout.layout.seatTypes;
+    this.seatTypes = [];
+    for (let i = 0; i < seatTypesData.length; i++) {
+      const seatType = seatTypesData[i];
       this.seatTypes.push({
         type: seatType.type,
         rows: seatType.rows,
