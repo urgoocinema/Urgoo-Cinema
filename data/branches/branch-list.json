@@ -16,10 +16,32 @@
               { "row": 10, "column": 12 },
               { "row": 1, "column": 6 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3, 4],
-            "regular_rows": [5, 6, 7, 8],
-            "vip_rows": [9, 10]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3, 4],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [5, 6, 7, 8],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [9, 10],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -32,10 +54,32 @@
               { "row": 8, "column": 13 },
               { "row": 1, "column": 7 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3],
-            "regular_rows": [4, 5, 6],
-            "vip_rows": [7, 8]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [4, 5, 6],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [7, 8],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -48,10 +92,32 @@
               { "row": 6, "column": 7 },
               { "row": 1, "column": 4 }
             ],
-            "super_saver_rows": [1],
-            "saver_rows": [2],
-            "regular_rows": [3, 4, 5],
-            "vip_rows": [6]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [2],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [3, 4, 5],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [6],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -64,10 +130,32 @@
               { "row": 12, "column": 9 },
               { "row": 1, "column": 5 }
             ],
-            "super_saver_rows": [1, 2, 3, 4, 5],
-            "saver_rows": [6],
-            "regular_rows": [7, 8, 9],
-            "vip_rows": [10, 11, 12]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2, 3, 4, 5],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [6],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [7, 8, 9],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [10, 11, 12],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -80,10 +168,32 @@
               { "row": 8, "column": 11 },
               { "row": 1, "column": 6 }
             ],
-            "super_saver_rows": [1, 2, 3],
-            "saver_rows": [4],
-            "regular_rows": [5, 6],
-            "vip_rows": [7, 8]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2, 3],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [4],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [5, 6],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [7, 8],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -96,10 +206,32 @@
               { "row": 10, "column": 15 },
               { "row": 1, "column": 8 }
             ],
-            "super_saver_rows": [1, 2, 3, 4],
-            "saver_rows": [5],
-            "regular_rows": [6, 7],
-            "vip_rows": [8, 9, 10]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2, 3, 4],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [5],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [6, 7],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [8, 9, 10],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         }
       ]
@@ -120,10 +252,32 @@
               { "row": 8, "column": 10 },
               { "row": 1, "column": 6 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3],
-            "regular_rows": [4, 5, 6],
-            "vip_rows": [7, 8]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [4, 5, 6],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [7, 8],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -136,10 +290,32 @@
               { "row": 6, "column": 7 },
               { "row": 1, "column": 4 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3],
-            "regular_rows": [4, 5, 6],
-            "vip_rows": []
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [4, 5, 6],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         }
       ]
@@ -157,61 +333,41 @@
             "columns": 32,
             "unavailable_seats": [
               { "row": 1, "column": 1 },
-              { "row": 9, "column": 1 },
-              { "row": 9, "column": 2 },
-              { "row": 9, "column": 3 },
-              { "row": 9, "column": 4 },
-              { "row": 9, "column": 5 },
-              { "row": 9, "column": 6 },
-              { "row": 9, "column": 7 },
-              { "row": 9, "column": 27 },
-              { "row": 9, "column": 28 },
-              { "row": 9, "column": 29 },
-              { "row": 9, "column": 30 },
-              { "row": 9, "column": 31 },
-              { "row": 9, "column": 32 },
-              { "row": 10, "column": 1 },
-              { "row": 10, "column": 2 },
-              { "row": 10, "column": 3 },
-              { "row": 10, "column": 4 },
-              { "row": 10, "column": 5 },
-              { "row": 10, "column": 6 },
-              { "row": 10, "column": 7 },
-              { "row": 10, "column": 27 },
-              { "row": 10, "column": 28 },
-              { "row": 10, "column": 29 },
-              { "row": 10, "column": 30 },
-              { "row": 10, "column": 31 },
-              { "row": 10, "column": 32 },
-              { "row": 11, "column": 1 },
-              { "row": 11, "column": 2 },
-              { "row": 11, "column": 3 },
-              { "row": 11, "column": 4 },
-              { "row": 11, "column": 5 },
-              { "row": 11, "column": 6 },
-              { "row": 11, "column": 27 },
-              { "row": 11, "column": 28 },
-              { "row": 11, "column": 29 },
-              { "row": 11, "column": 30 },
-              { "row": 11, "column": 31 },
-              { "row": 11, "column": 32 },
-              { "row": 12, "column": 1 },
-              { "row": 12, "column": 2 },
-              { "row": 12, "column": 3 },
-              { "row": 12, "column": 4 },
-              { "row": 12, "column": 5 },
-              { "row": 12, "column": 6 },
-              { "row": 12, "column": 27 },
-              { "row": 12, "column": 28 },
-              { "row": 12, "column": 29 },
-              { "row": 12, "column": 30 },
-              { "row": 12, "column": 31 },
-              { "row": 12, "column": 32 }
+              { "row": 9, "column": 1 }, { "row": 9, "column": 2 }, { "row": 9, "column": 3 }, { "row": 9, "column": 4 }, { "row": 9, "column": 5 }, { "row": 9, "column": 6 }, { "row": 9, "column": 7 },
+              { "row": 9, "column": 27 }, { "row": 9, "column": 28 }, { "row": 9, "column": 29 }, { "row": 9, "column": 30 }, { "row": 9, "column": 31 }, { "row": 9, "column": 32 },
+              { "row": 10, "column": 1 }, { "row": 10, "column": 2 }, { "row": 10, "column": 3 }, { "row": 10, "column": 4 }, { "row": 10, "column": 5 }, { "row": 10, "column": 6 }, { "row": 10, "column": 7 },
+              { "row": 10, "column": 27 }, { "row": 10, "column": 28 }, { "row": 10, "column": 29 }, { "row": 10, "column": 30 }, { "row": 10, "column": 31 }, { "row": 10, "column": 32 },
+              { "row": 11, "column": 1 }, { "row": 11, "column": 2 }, { "row": 11, "column": 3 }, { "row": 11, "column": 4 }, { "row": 11, "column": 5 }, { "row": 11, "column": 6 },
+              { "row": 11, "column": 27 }, { "row": 11, "column": 28 }, { "row": 11, "column": 29 }, { "row": 11, "column": 30 }, { "row": 11, "column": 31 }, { "row": 11, "column": 32 },
+              { "row": 12, "column": 1 }, { "row": 12, "column": 2 }, { "row": 12, "column": 3 }, { "row": 12, "column": 4 }, { "row": 12, "column": 5 }, { "row": 12, "column": 6 },
+              { "row": 12, "column": 27 }, { "row": 12, "column": 28 }, { "row": 12, "column": 29 }, { "row": 12, "column": 30 }, { "row": 12, "column": 31 }, { "row": 12, "column": 32 }
             ],
-            "super_saver_rows": [1, 2, 3, 4],
-            "saver_rows": [5, 6],
-            "regular_rows": [7, 8, 9, 10],
-            "vip_rows": [11, 12]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2, 3, 4],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [5, 6],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [7, 8, 9, 10],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [11, 12],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -224,10 +380,32 @@
               { "row": 10, "column": 13 },
               { "row": 1, "column": 7 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3],
-            "regular_rows": [4, 5, 6, 7, 8],
-            "vip_rows": [9, 10]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [4, 5, 6, 7, 8],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [9, 10],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         }
       ]
@@ -248,10 +426,32 @@
               { "row": 10, "column": 14 },
               { "row": 1, "column": 7 }
             ],
-            "super_saver_rows": [1, 2],
-            "saver_rows": [3],
-            "regular_rows": [4, 5, 6, 7, 8],
-            "vip_rows": [9, 10]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1, 2],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [3],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [4, 5, 6, 7, 8],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [9, 10],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         },
         {
@@ -264,10 +464,32 @@
               { "row": 6, "column": 7 },
               { "row": 1, "column": 4 }
             ],
-            "super_saver_rows": [1],
-            "saver_rows": [2],
-            "regular_rows": [3, 4, 5],
-            "vip_rows": [6]
+            "seatTypes": [
+              {
+                "type": "super-saver",
+                "rows": [1],
+                "label": "Хамгийн хямд",
+                "price": 12000
+              },
+              {
+                "type": "saver",
+                "rows": [2],
+                "label": "Хөнгөлөлттэй",
+                "price": 15000
+              },
+              {
+                "type": "regular",
+                "rows": [3, 4, 5],
+                "label": "Энгийн",
+                "price": 18000
+              },
+              {
+                "type": "vip",
+                "rows": [6],
+                "label": "Премиум",
+                "price": 25000
+              }
+            ]
           }
         }
       ]

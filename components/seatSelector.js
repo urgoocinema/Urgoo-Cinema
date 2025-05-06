@@ -123,7 +123,7 @@ template.innerHTML = `
     .seat.saver {
       background-image: url("../pics/seat-icons/saver_seat_icon.svg");
     }
-    .seat.super-saver {
+    .seat.super-saver{
       background-image: url("../pics/seat-icons/super_saver_seat_icon.svg");
     }
     .seat.vip {
@@ -180,7 +180,7 @@ template.innerHTML = `
     .legend-container {
       display: flex;
       gap: 15px; /* Space between legend items */
-      min-width: 650px; /* Set minimum width */
+      min-width: max-content; /* Set minimum width */
       margin-left: auto;
       margin-right: auto;
       padding: 0 10px; /* Add some padding so items don't touch edges when scrolling */
@@ -268,34 +268,6 @@ template.innerHTML = `
     </div>
     <div class="seat-price">
       <div class="legend-container">
-        <div class="legend-item">
-          <div class="legend-icon regular"></div>
-          <span class="legend-text"
-            >Энгийн <span class="legend-price">18000₮</span></span
-          >
-        </div>
-        <div class="legend-item">
-          <div class="legend-icon saver"></div>
-          <span class="legend-text"
-            >Хөнгөлөлттэй <span class="legend-price">15000₮</span></span
-          >
-        </div>
-        <div class="legend-item">
-          <div class="legend-icon super-saver"></div>
-          <span class="legend-text"
-            >Хамгийн хямд <span class="legend-price">12000₮</span></span
-          >
-        </div>
-        <div class="legend-item">
-          <div class="legend-icon vip"></div>
-          <span class="legend-text"
-            >Премиум <span class="legend-price">25000₮</span></span
-          >
-        </div>
-        <div class="legend-item">
-          <div class="legend-icon regular occupied"></div>
-          <span class="legend-text">Зарагдсан</span>
-        </div>
       </div>
     </div>
   </section>
@@ -325,6 +297,11 @@ export class SeatSelector extends HTMLElement {
     this.hallId = null;
     this.day = null;
     this.hour = null;
+    this.seatTypes = [];
+
+    this.uniqueId = null;
+    this.formattedDay = null;
+    this.formattedHour = null;
   }
 
   static get observedAttributes() {
@@ -342,27 +319,15 @@ export class SeatSelector extends HTMLElement {
 
   async connectedCallback() {
     await this.helperFetch();
+    this.prepareData();
+
     this.renderSeats();
+    this.renderPriceLegend();
   }
 
   renderSeats() {
     this.container.innerHTML = "";
     this.container.appendChild(templateScreen.content.cloneNode(true));
-
-    const formattedDay = this.day.replace(/-/g, "");
-    const formattedHour = this.hour.replace(":", "");
-
-    const uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${formattedDay}_${formattedHour}`;
-    console.log(uniqueId);
-
-    this.seatLayout = this.layoutData
-      .find((branch) => branch.id === this.branchId)
-      .halls.find((hall) => hall.id === this.hallId);
-
-    this.occupiedSeats = this.occupiedData?.find(
-      (show) => show.showtimeId === uniqueId
-    )?.occupiedSeats;
-    console.log(this.seatLayout, this.occupiedSeats);
 
     this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${this.hallId} ${this.seatLayout.name.replace(/танхим/i, "")}`;
 
@@ -382,49 +347,25 @@ export class SeatSelector extends HTMLElement {
 
     for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
       const unavailableSeat = this.seatLayout.layout.unavailable_seats[i];
-      console.log("Unavailable seat: ", unavailableSeat);
       const seat = this.container.querySelector(
         `[data-seat="${unavailableSeat.row}-${unavailableSeat.column}"]`
       );
       seat.classList.add("hidden");
     }
 
-    for (let i = 0; i < this.seatLayout.layout.super_saver_rows.length; i++) {
-      const superSaverRow = this.seatLayout.layout.super_saver_rows[i];
-      this.container
-        .querySelector(`[data-row="${superSaverRow}"]`)
-        .querySelectorAll(".seat")
-        .forEach((seat) => {
-          seat.classList.add("super-saver");
-        });
+    for (let i = 0; i < this.seatTypes.length; i++) {
+      const seatType = this.seatTypes[i];
+      for(let j = 0; j < seatType.rows.length; j++){
+        const row = seatType.rows[j];
+        this.container
+          .querySelector(`[data-row="${row}"]`)
+          .querySelectorAll(".seat")
+          .forEach((seat) => {
+            seat.classList.add(seatType.type);
+          });
+      }
     }
-    for (let i = 0; i < this.seatLayout.layout.saver_rows.length; i++) {
-      const saverRow = this.seatLayout.layout.saver_rows[i];
-      this.container
-        .querySelector(`[data-row="${saverRow}"]`)
-        .querySelectorAll(".seat")
-        .forEach((seat) => {
-          seat.classList.add("saver");
-        });
-    }
-    for (let i = 0; i < this.seatLayout.layout.regular_rows.length; i++) {
-      const regularRow = this.seatLayout.layout.regular_rows[i];
-      this.container
-        .querySelector(`[data-row="${regularRow}"]`)
-        .querySelectorAll(".seat")
-        .forEach((seat) => {
-          seat.classList.add("regular");
-        });
-    }
-    for (let i = 0; i < this.seatLayout.layout.vip_rows.length; i++) {
-      const vipRow = this.seatLayout.layout.vip_rows[i];
-      this.container
-        .querySelector(`[data-row="${vipRow}"]`)
-        .querySelectorAll(".seat")
-        .forEach((seat) => {
-          seat.classList.add("vip");
-        });
-    }
+
     if (this.occupiedSeats) {
       for (let i = 0; i < this.occupiedSeats.length; i++) {
         const occupiedSeat = this.occupiedSeats[i];
@@ -436,11 +377,87 @@ export class SeatSelector extends HTMLElement {
     }
   }
 
+//   <div class="legend-item">
+//   <div class="legend-icon regular"></div>
+//   <span class="legend-text"
+//     >Энгийн <span class="legend-price">18000₮</span></span
+//   >
+// </div>
+// <div class="legend-item">
+//   <div class="legend-icon saver"></div>
+//   <span class="legend-text"
+//     >Хөнгөлөлттэй <span class="legend-price">15000₮</span></span
+//   >
+// </div>
+// <div class="legend-item">
+//   <div class="legend-icon super-saver"></div>
+//   <span class="legend-text"
+//     >Хамгийн хямд <span class="legend-price">12000₮</span></span
+//   >
+// </div>
+// <div class="legend-item">
+//   <div class="legend-icon vip"></div>
+//   <span class="legend-text"
+//     >Премиум <span class="legend-price">25000₮</span></span
+//   >
+// </div>
+// <div class="legend-item">
+//   <div class="legend-icon regular occupied"></div>
+//   <span class="legend-text">Зарагдсан</span>
+// </div>
+  renderPriceLegend() {
+    const legendContainer = this.parent.querySelector(".legend-container");
+    legendContainer.innerHTML = "";
+
+    this.seatTypes.forEach((seat) => {
+      const legendItem = document.createElement("div");
+      legendItem.classList.add("legend-item");
+
+      const legendIcon = document.createElement("div");
+      legendIcon.classList.add("legend-icon", seat.type);
+
+      const legendText = document.createElement("span");
+      legendText.classList.add("legend-text");
+      const formattedPrice = seat.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      legendText.innerHTML = `${seat.label} <span class="legend-price">${formattedPrice}₮</span>`;
+
+      legendItem.appendChild(legendIcon);
+      legendItem.appendChild(legendText);
+      legendContainer.appendChild(legendItem);
+    });
+  }
+
   async helperFetch() {
     const layoutData = await fetchBranches();
     this.layoutData = layoutData.branches;
     const occupiedData = await fetchOccupiedSeats();
     this.occupiedData = occupiedData.OccupiedSeats;
+  }
+
+  prepareData() {
+    this.formattedDay = this.day.replace(/-/g, "");
+    this.formattedHour = this.hour.replace(":", "");
+    this.uniqueId = `${this.movieId}_${this.branchId}_${this.hallId}_${this.formattedDay}_${this.formattedHour}`;
+
+    this.seatLayout = this.layoutData
+      .find((branch) => branch.id === this.branchId)
+      .halls.find((hall) => hall.id === this.hallId);
+
+    this.occupiedSeats = this.occupiedData?.find(
+      (show) => show.showtimeId === this.uniqueId
+    )?.occupiedSeats;
+
+    const seatTypes = this.seatLayout.layout.seatTypes;
+
+    for(let i = 0; i < seatTypes.length; i++){
+      const seatType = seatTypes[i];
+      this.seatTypes.push({
+        type: seatType.type,
+        rows: seatType.rows,
+        label: seatType.label,
+        price: seatType.price
+      });
+    }
   }
 
   disconnectedCallback() {}
