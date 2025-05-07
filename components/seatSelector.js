@@ -323,22 +323,22 @@ export class SeatSelector extends HTMLElement {
     if (this.currentSelectedSeats.length > maxSeats) {
       while (this.currentSelectedSeats.length > maxSeats) {
         const seatToDeselect = this.currentSelectedSeats[0];
-        const seatElement = this.container
-          .querySelector(
-            `[data-seat="${seatToDeselect.row}-${seatToDeselect.column}"]`
-          )
-        if(seatToDeselect) {
+        const seatElement = this.container.querySelector(
+          `[data-seat="${seatToDeselect.row}-${seatToDeselect.column}"]`
+        );
+        if (seatToDeselect) {
           seatElement.classList.remove("selected");
         }
         this.currentSelectedSeats.shift();
         seatsChanged = true;
       }
     }
-    if(seatsChanged) {
+    if (seatsChanged) {
       this.updatedSelectedSeatsDispatchEvent();
     }
   }
 
+  // meta-row only!!!
   getSeatDetails(row, col) {
     for (const type of this.seatTypes) {
       if (type.rows.includes(row)) {
@@ -397,11 +397,15 @@ export class SeatSelector extends HTMLElement {
           this.currentSelectedSeats.length + 1 <=
           this.maxAllowedSeats
         ) {
+          const [meta_row, meta_column] = seat
+            .getAttribute("data-meta-seat")
+            .split("-")
+            .map(Number);
           const [row, column] = seat
             .getAttribute("data-seat")
             .split("-")
             .map(Number);
-          const details = this.getSeatDetails(row, column);
+          const details = this.getSeatDetails(meta_row, meta_column);
           this.currentSelectedSeats.push({
             row,
             column,
@@ -421,11 +425,15 @@ export class SeatSelector extends HTMLElement {
             )
             .classList.remove("selected");
           this.currentSelectedSeats.shift();
+          const [meta_row, meta_column] = seat
+            .getAttribute("data-meta-seat")
+            .split("-")
+            .map(Number);
           const [row, column] = seat
             .getAttribute("data-seat")
             .split("-")
             .map(Number);
-          const details = this.getSeatDetails(row, column);
+          const details = this.getSeatDetails(meta_row, meta_column);
           this.currentSelectedSeats.push({
             row,
             column,
@@ -450,53 +458,36 @@ export class SeatSelector extends HTMLElement {
       this.hallId
     } ${this.seatLayout.name.replace(/танхим/i, "")}`;
 
+    //seat layout raw data
     for (let i = 0; i < this.seatLayout.layout.rows; i++) {
       const row = document.createElement("div");
       row.classList.add("row");
-      row.setAttribute("data-row", `${i + 1}`);
+      row.setAttribute("data-meta-row", `${i + 1}`);
       for (let j = 0; j < this.seatLayout.layout.columns; j++) {
         const seat = document.createElement("div");
         seat.classList.add("seat");
-        seat.setAttribute("data-seat", `${i + 1}-${j + 1}`);
+        seat.setAttribute("data-meta-seat", `${i + 1}-${j + 1}`);
         row.appendChild(seat);
       }
       this.container.appendChild(row);
     }
 
+    //baihgui suudluud
     for (let i = 0; i < this.seatLayout.layout.unavailable_seats.length; i++) {
       const unavailableSeat = this.seatLayout.layout.unavailable_seats[i];
       const seat = this.container.querySelector(
-        `[data-seat="${unavailableSeat.row}-${unavailableSeat.column}"]`
+        `[data-meta-seat="${unavailableSeat.row}-${unavailableSeat.column}"]`
       );
       seat.classList.add("hidden");
     }
 
-    for (let i = 0, j=0; i < this.seatLayout.layout.rows; i++) {
-      if(this.isRowEmpty(this.container.querySelector(`[data-row="${i + 1}"]`))){
-        continue;
-      }
-      const rowNumber = document.createElement("div");
-      rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${j + 1}`;
-      this.container.querySelector(`[data-row="${i + 1}"]`).prepend(rowNumber);
-      j++;
-    }
-    for (let i = 0, j=0; i < this.seatLayout.layout.rows; i++) {
-      if(this.isRowEmpty(this.container.querySelector(`[data-row="${i + 1}"]`)))
-        continue;
-      const rowNumber = document.createElement("div");
-      rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${j + 1}`;
-      this.container.querySelector(`[data-row="${i + 1}"]`).append(rowNumber);
-      j++;
-    }
-
+    //seat types
     for (let i = 0; i < this.seatTypes.length; i++) {
       const seatType = this.seatTypes[i];
       for (let j = 0; j < seatType.rows.length; j++) {
         const row = seatType.rows[j];
         this.container
-          .querySelector(`[data-row="${row}"]`)
+          .querySelector(`[data-meta-row="${row}"]`)
           .querySelectorAll(".seat")
           .forEach((seat) => {
             seat.classList.add(seatType.type);
@@ -504,11 +495,46 @@ export class SeatSelector extends HTMLElement {
       }
     }
 
+    const rows = this.container.querySelectorAll(".row");
+
+    //data-id to seats
+    for (let i = 0, j = 1; i < rows.length; i++) {
+      if (this.isRowEmpty(rows[i])) {
+        continue;
+      }
+      rows[i].setAttribute("data-row", `${j}`);
+      for (let k = 0, s = 1; k < rows[i].children.length; k++) {
+        const seat = rows[i].children[k];
+        if (this.isSeatEmpty(seat)) {
+          continue;
+        }
+        seat.setAttribute("data-seat", `${j}-${s}`);
+        s++;
+      }
+      j++;
+    }
+
+    //row number
+    const rowsContainerForRowNumber = this.container.querySelectorAll(`[data-row]`);
+    for (let i = 0; i < rowsContainerForRowNumber.length; i++) {
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${i+1}`;
+      rowsContainerForRowNumber[i].prepend(rowNumber);
+    }
+    for (let i = 0; i < rowsContainerForRowNumber.length; i++) {
+      const rowNumber = document.createElement("div");
+      rowNumber.classList.add("row-number");
+      rowNumber.textContent = `${i+1}`;
+      rowsContainerForRowNumber[i].append(rowNumber);
+    }
+
+    //occupied seats
     if (this.occupiedSeats) {
       for (let i = 0; i < this.occupiedSeats.length; i++) {
         const occupiedSeat = this.occupiedSeats[i];
         const seat = this.container.querySelector(
-          `[data-seat="${occupiedSeat.row}-${occupiedSeat.column}"]`
+          `[data-meta-seat="${occupiedSeat.row}-${occupiedSeat.column}"]`
         );
         seat.classList.add("occupied");
       }
@@ -518,10 +544,12 @@ export class SeatSelector extends HTMLElement {
   isRowEmpty(row) {
     for (let i = 0; i < row.children.length; i++) {
       const seat = row.children[i];
-      if (!seat.classList.contains("hidden"))
-        return false;
+      if (!seat.classList.contains("hidden")) return false;
     }
     return true;
+  }
+  isSeatEmpty(seat) {
+    return seat.classList.contains("hidden");
   }
 
   renderPriceLegend() {
@@ -872,7 +900,7 @@ templateScreen.innerHTML = `
       </svg>
     </div>
   </div>
-  <div class="row screen-name-row">
+  <div class="screen-name-row">
     <div class="hall-name-container">
       <h5 class="hall-name">ТАНХИМ</h5>
     </div>

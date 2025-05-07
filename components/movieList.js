@@ -11,7 +11,6 @@ template.innerHTML = `
       justify-content: center;
     }
   </style>
-  <div class="seat-selection"></div>
 `;
 
 export class MovieList extends HTMLElement {
