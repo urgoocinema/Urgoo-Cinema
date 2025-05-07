@@ -660,6 +660,7 @@ export class MovieCard extends HTMLElement {
             detail: {
               movieTitle: this.getAttribute("title"),
               movieId: this.getAttribute("id"),
+              moviePoster: this.getAttribute("poster_url"),
               branch,
               hall,
               day,

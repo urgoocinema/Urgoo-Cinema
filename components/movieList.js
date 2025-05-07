@@ -67,12 +67,12 @@ export class MovieList extends HTMLElement {
   }
 
   onTimeSelected(e) {
-    const { movieTitle, movieId, branch, hall, day, hour } = e.detail;
-    const seatSelector = document.createElement("seat-selector");
+    const { movieTitle, movieId, moviePoster, branch, hall, day, hour } = e.detail;
 
     const queryParams = new URLSearchParams({
       movie_title: movieTitle,
       movie_id: movieId,
+      movie_poster: moviePoster,
       branch_id: branch,
       hall_id: hall,
       day: day,

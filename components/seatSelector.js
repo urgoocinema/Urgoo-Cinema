@@ -93,7 +93,7 @@ template.innerHTML = `
 
       /* Text Styling */
       color: #555; /* Dark grey color for the number */
-      font-size: 10px; /* Adjust size as needed */
+      font-size: 10px; 
       font-weight: bold;
 
       /* Alignment */
@@ -207,7 +207,7 @@ template.innerHTML = `
       /* Add other occupied/selected types if needed */
     }
     .legend-text {
-      font-size: 12px;
+      font-size: clamp(0.65rem, 1.5vw, 0.75rem);
       color: #555; /* Adjust color as needed */
     }
     .legend-price {
@@ -235,7 +235,7 @@ template.innerHTML = `
     }
     @media (max-width: 480px) {
       .row-number {
-        font-size: 6px; /* Adjust row number size for smaller screens */
+      font-size: 7.5px;
       }
     }
     @media (max-width: 420px) {
@@ -359,6 +359,8 @@ export class SeatSelector extends HTMLElement {
           hallId: this.hallId,
           day: this.day,
           hour: this.hour,
+
+          seatTypes: this.seatTypes,
         },
         bubbles: true,
         composed: true,
@@ -643,6 +645,7 @@ export class SeatSelector extends HTMLElement {
         rows: seatType.rows,
         label: seatType.label,
         price: seatType.price,
+        caption: seatType.caption,
       });
     }
   }

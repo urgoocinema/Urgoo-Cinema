@@ -28,7 +28,7 @@
         padding: 0;
       }
       body {
-        background-color: #161616;
+        background-color: #f8f8f8;
         font-family: "Roboto Condensed", sans-serif;
         color: #ffa500;
       }
@@ -38,11 +38,11 @@
         min-width: 335px;
       }
       seat-selector {
-        width: 65%;
+        width: 66%;
         min-width: 335px;
       }
       order-steps {
-        width: 35%;
+        width: 34%;
       }
       
       @media (max-width: 768px) {
@@ -75,6 +75,7 @@
 
         const movieTitle = queryParams.get("movie_title");
         const movieId = queryParams.get("movie_id");
+        const moviePoster = queryParams.get("movie_poster");
         const branchId = queryParams.get("branch_id");
         const hallId = queryParams.get("hall_id");
         const day = queryParams.get("day");
@@ -84,6 +85,8 @@
           if (movieTitle)
             seatSelectorElement.setAttribute("movie_title", movieTitle);
           if (movieId) seatSelectorElement.setAttribute("movie_id", movieId);
+          if (moviePoster)
+            seatSelectorElement.setAttribute("movie_poster", moviePoster);
           if (branchId) seatSelectorElement.setAttribute("branch_id", branchId);
           if (hallId) seatSelectorElement.setAttribute("hall_id", hallId);
           if (day) seatSelectorElement.setAttribute("day", day);
@@ -98,6 +101,7 @@
         const formattedHour = hour.replace(":", "");
         const showtimeId = `${movieId}_${branchId}_${hallId}_${formattedDay}_${formattedHour}`;
         orderStepsElement.setAttribute("showtime-id", showtimeId);
+        orderStepsElement.setAttribute("movie-poster", moviePoster);
       }
       });
     </script>
