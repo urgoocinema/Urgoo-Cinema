@@ -3,6 +3,70 @@ import { fetchBranches, fetchOccupiedSeats } from "./fetch.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
+   :host {
+      /* Default Dark Mode Variables */
+      --main-background: #28282B;
+      --primary-text: #fff;
+      --secondary-text: #555; /* For row numbers, etc. */
+      --hall-name-text: #fff;
+      --legend-text-color: #fff;
+
+      /* Booking Info - Dark Mode */
+      --booking-info-background: #3a3a3e;
+      --booking-info-text: #e0e0e0;
+      --booking-info-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+
+      /* Screen SVG - Dark Mode */
+      --screen-svg-path: url("../pics/screen-dark/screen.svg");
+
+      /* Seat Icon Paths - Dark Mode */
+      --icon-regular-seat: url("../pics/seat-icons-dark/regular_seat_icon.svg");
+      --icon-saver-seat: url("../pics/seat-icons-dark/saver_seat_icon.svg");
+      --icon-super-saver-seat: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
+      --icon-vip-seat: url("../pics/seat-icons-dark/vip_seat_icon.svg");
+      --icon-sold-regular-seat: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
+      --icon-sold-saver-seat: url("../pics/seat-icons-dark/sold_saver_seat_icon.svg");
+      --icon-sold-super-saver-seat: url("../pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
+      --icon-sold-vip-seat: url("../pics/seat-icons-dark/sold_vip_seat_icon.svg");
+      --icon-selected-regular-seat: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
+      --icon-selected-saver-seat: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
+      --icon-selected-super-saver-seat: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
+      --icon-selected-vip-seat: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
+    }
+
+    @media (prefers-color-scheme: light) {
+      :host {
+        /* Light Mode Variable Overrides */
+        --main-background: #f8f8f8;
+        --primary-text: #272727;
+        --secondary-text: #777;
+        --hall-name-text: #272727;
+        --legend-text-color: #272727;
+
+        /* Booking Info - Light Mode */
+        --booking-info-background: #fff;
+        --booking-info-text: #272727;
+        --booking-info-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        
+        /* Screen SVG - Light Mode */
+        --screen-svg-path: url("../pics/screen-light/screen.svg");
+
+        /* Seat Icon Paths - Light Mode */
+        --icon-regular-seat: url("../pics/seat-icons/regular_seat_icon.svg");
+        --icon-saver-seat: url("../pics/seat-icons/saver_seat_icon.svg");
+        --icon-super-saver-seat: url("../pics/seat-icons/super_saver_seat_icon.svg");
+        --icon-vip-seat: url("../pics/seat-icons/vip_seat_icon.svg");
+        --icon-sold-regular-seat: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+        --icon-sold-saver-seat: url("../pics/seat-icons/sold_saver_seat_icon.svg");
+        --icon-sold-super-saver-seat: url("../pics/seat-icons/sold_super_saver_seat_icon.svg");
+        --icon-sold-vip-seat: url("../pics/seat-icons/sold_vip_seat_icon.svg");
+        --icon-selected-regular-seat: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+        --icon-selected-saver-seat: url("../pics/seat-icons/selected_saver_seat_icon.svg");
+        --icon-selected-super-saver-seat: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
+        --icon-selected-vip-seat: url("../pics/seat-icons/selected_vip_seat_icon.svg");
+      }
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -11,8 +75,7 @@ template.innerHTML = `
     /* Seat picker wrapper */
     .seat-picker {
       width: 100%;
-      // background-color: #f8f8f8;
-      background-color: #28282B;
+      background-color: var(--main-background);
       border-radius: 8px;
       padding-bottom: 1rem;
     }
@@ -68,9 +131,8 @@ template.innerHTML = `
     margin-top: -1rem; /* Add some space above the screen name */
       margin-bottom: 0.5rem; /* Add some space below the screen name */
     }
-    .hall-name-container h5 {
-      // color: #272727; 
-      color: #fff;
+     .hall-name-container h5 {
+      color: var(--hall-name-text);
       font-weight: 400;
       font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
     }
@@ -88,13 +150,13 @@ template.innerHTML = `
     .seat:hover {
       transform: scale(1.1);
     }
-    .row-number {
+   .row-number {
       /* Sizing and Shape */
       min-width: 6.35px; /* Match min-width of seats */
       aspect-ratio: 1; /* Make it square like seats */
 
       /* Text Styling */
-      color: #555; /* Dark grey color for the number */
+      color: var(--secondary-text); /* Dark grey color for the number */
       font-size: 10px; 
       font-weight: bold;
 
@@ -108,55 +170,55 @@ template.innerHTML = `
     }
     /* Seat types: adjust the filenames as per your folder */
     .seat.regular {
-      background-image: url("../pics/seat-icons-dark/regular_seat_icon.svg");
+      background-image: var(--icon-regular-seat);
     }
     .seat.saver {
-      background-image: url("../pics/seat-icons-dark/saver_seat_icon.svg");
+      background-image: var(--icon-saver-seat);
     }
     .seat.super-saver{
-      background-image: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
+      background-image: var(--icon-super-saver-seat);
     }
     .seat.vip {
-      background-image: url("../pics/seat-icons-dark/vip_seat_icon.svg");
+      background-image: var(--icon-vip-seat);
     }
     /* Occupied state: show an overlay occupied icon */
     .seat.regular.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
+      background-image: var(--icon-sold-regular-seat);
     }
     .seat.saver.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons-dark/sold_saver_seat_icon.svg");
+      background-image: var(--icon-sold-saver-seat);
     }
     .seat.super-saver.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
+      background-image: var(--icon-sold-super-saver-seat);
     }
     .seat.vip.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons-dark/sold_vip_seat_icon.svg");
+      background-image: var(--icon-sold-vip-seat);
     }
     /* Selected state */
     .seat.regular.selected {
-      background-image: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
+      background-image: var(--icon-selected-regular-seat);
       &:hover {
         transform: none;
       }
     }
     .seat.saver.selected {
-      background-image: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
+      background-image: var(--icon-selected-saver-seat);
       &:hover {
         transform: none;
       }
     }
     .seat.super-saver.selected {
-      background-image: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
+      background-image: var(--icon-selected-super-saver-seat);
       &:hover {
         transform: none;
       }
     }
     .seat.vip.selected {
-      background-image: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
+      background-image: var(--icon-selected-vip-seat);
       &:hover {
         transform: none;
       }
@@ -180,7 +242,7 @@ template.innerHTML = `
       align-items: center; /* Vertically align icon and text */
       gap: 5px; /* Space between icon and text */
     }
-    .legend-icon {
+     .legend-icon {
       width: 18px; /* Size of the legend icon */
       height: 18px;
       background-size: contain;
@@ -188,29 +250,29 @@ template.innerHTML = `
       background-position: center;
       /* Apply seat type backgrounds */
       &.regular {
-        background-image: url("../pics/seat-icons-dark/regular_seat_icon.svg");
+        background-image: var(--icon-regular-seat);
       }
       &.saver {
-        background-image: url("../pics/seat-icons-dark/saver_seat_icon.svg");
+        background-image: var(--icon-saver-seat);
       }
       &.super-saver {
-        background-image: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
+        background-image: var(--icon-super-saver-seat);
       }
       &.vip {
-        background-image: url("../pics/seat-icons-dark/vip_seat_icon.svg");
+        background-image: var(--icon-vip-seat);
       }
       /* Apply state backgrounds */
       &.regular.occupied {
-        background-image: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
+        background-image: var(--icon-sold-regular-seat);
       }
       &.regular.selected {
-        background-image: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
+        background-image: var(--icon-selected-regular-seat);
       }
       /* Add other occupied/selected types if needed */
     }
     .legend-text {
       font-size: clamp(0.65rem, 1.5vw, 0.75rem);
-      color: #FFF; /* Adjust color as needed */
+      color: var(--legend-text-color); 
     }
     .legend-price {
       font-weight: bold;
@@ -218,11 +280,11 @@ template.innerHTML = `
     /* Booking info section */
     .booking-info {
       text-align: center;
-      background: #fff;
-      color: #272727;
+      background: var(--booking-info-background);
+      color: var(--booking-info-text);
       padding: 10px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--booking-info-box-shadow);
     }
     .hidden {
       visibility: hidden;
@@ -292,6 +354,8 @@ export class SeatSelector extends HTMLElement {
     this.currentSelectedSeats = [];
 
     this.orderSteps = null;
+
+    this.isLightMode = null;
   }
 
   static get observedAttributes() {
@@ -375,6 +439,19 @@ export class SeatSelector extends HTMLElement {
   async connectedCallback() {
     await this.helperFetch();
     this.prepareData();
+
+    const lightSchemeMediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+
+    if (lightSchemeMediaQuery) {
+      this.isLightMode = lightSchemeMediaQuery.matches;
+      lightSchemeMediaQuery.addEventListener('change', (e) => {
+        this.isLightMode = e.matches;
+        this.renderSeats();
+      });
+    } else {
+      this.isLightMode = false; // Default to dark mode if media query is not supported
+    }
+
 
     this.renderSeats();
     this.renderPriceLegend();
@@ -466,7 +543,9 @@ export class SeatSelector extends HTMLElement {
 
   renderSeats() {
     this.container.innerHTML = "";
-    this.container.appendChild(templateScreen.content.cloneNode(true));
+   // Determine color scheme and select appropriate screen template
+    const currentScreenTemplate = this.isLightMode ? templateScreenLightMode : templateScreen;
+    this.container.appendChild(currentScreenTemplate.content.cloneNode(true));
 
     this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${
       this.hallId
@@ -901,6 +980,260 @@ templateScreen.innerHTML = `
   </defs>
 </svg>
 
+    </div>
+  </div>
+  <div class="screen-name-row">
+    <div class="hall-name-container">
+      <h5 class="hall-name">ТАНХИМ</h5>
+    </div>
+  </div>
+`;
+const templateScreenLightMode = document.createElement("template");
+templateScreenLightMode.innerHTML = `
+  <div class="screen-image-row">
+    <div class="screen">
+<svg
+        width="100%"
+        height="100%"
+        viewBox="0 0 552 100"
+        class="seat-map__screen-image"
+      >
+        <g opacity="0.91" filter="url(#filter0_f_2284_34995)">
+          <path
+            d="M276.5 88.5347C375.116 88.5347 441 71.2976 441 50.0347C441 28.7717 375.116 11.5347 276.5 11.5347C177.884 11.5347 112 28.7717 112 50.0347C112 71.2976 177.884 88.5347 276.5 88.5347Z"
+            fill="#F3EBE8"
+          ></path>
+        </g>
+        <path d="M64 15H488V17H64V15Z" fill="white"></path>
+        <path
+          d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+          fill="url(#paint0_linear_2284_34995)"
+        ></path>
+        <g filter="url(#filter1_i_2284_34995)">
+          <path
+            d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+            fill="#D8D8D8"
+          ></path>
+        </g>
+        <g opacity="0.95" filter="url(#filter2_f_2284_34995)">
+          <path
+            d="M92.7306 45H457.151L508 75H44L92.7306 45Z"
+            fill="url(#paint1_linear_2284_34995)"
+          ></path>
+        </g>
+        <g opacity="0.65" filter="url(#filter3_f_2284_34995)">
+          <path
+            d="M92.9807 45H456.903L550 75H2L92.9807 45Z"
+            fill="url(#paint2_linear_2284_34995)"
+          ></path>
+        </g>
+        <g filter="url(#filter4_f_2284_34995)">
+          <path
+            d="M92.5678 45H457.312L487 75H65L92.5678 45Z"
+            fill="url(#paint3_linear_2284_34995)"
+          ></path>
+        </g>
+        <path
+          opacity="0.69933"
+          d="M149 45.5347V44.5347H402V45.5347H149Z"
+          fill="url(#paint4_linear_2284_34995)"
+        ></path>
+        <defs>
+          <filter
+            id="filter0_f_2284_34995"
+            x="101"
+            y="0.534668"
+            width="351"
+            height="99"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="5.5"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter1_i_2284_34995"
+            x="64"
+            y="17"
+            width="424"
+            height="28"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feColorMatrix
+              in="SourceAlpha"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+              result="hardAlpha"
+            ></feColorMatrix>
+            <feOffset dy="-1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5"></feGaussianBlur>
+            <feComposite
+              in2="hardAlpha"
+              operator="arithmetic"
+              k2="-1"
+              k3="1"
+            ></feComposite>
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0681612 0"
+            ></feColorMatrix>
+            <feBlend
+              mode="normal"
+              in2="shape"
+              result="effect1_innerShadow_2284_34995"
+            ></feBlend>
+          </filter>
+          <filter
+            id="filter2_f_2284_34995"
+            x="42.9"
+            y="43.9"
+            width="466.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter3_f_2284_34995"
+            x="0.9"
+            y="43.9"
+            width="550.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <filter
+            id="filter4_f_2284_34995"
+            x="63.9"
+            y="43.9"
+            width="424.2"
+            height="32.2"
+            filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB"
+          >
+            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+            <feBlend
+              mode="normal"
+              in="SourceGraphic"
+              in2="BackgroundImageFix"
+              result="shape"
+            ></feBlend>
+            <feGaussianBlur
+              stdDeviation="0.55"
+              result="effect1_foregroundBlur_2284_34995"
+            ></feGaussianBlur>
+          </filter>
+          <linearGradient
+            id="paint0_linear_2284_34995"
+            x1="276"
+            y1="45"
+            x2="276"
+            y2="18"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#9C9898"></stop>
+            <stop offset="1" stop-color="#D0CCCB"></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint1_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint2_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint3_linear_2284_34995"
+            x1="276"
+            y1="75"
+            x2="276"
+            y2="45.8095"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
+            <stop
+              offset="1"
+              stop-color="#C5C1C0"
+              stop-opacity="0.340636"
+            ></stop>
+          </linearGradient>
+          <linearGradient
+            id="paint4_linear_2284_34995"
+            x1="149"
+            y1="45.5347"
+            x2="402"
+            y2="45.5347"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#AFAEAE" stop-opacity="0"></stop>
+            <stop offset="0.0270686" stop-color="#AFAEAE"></stop>
+            <stop offset="0.969667" stop-color="#AFAEAE"></stop>
+            <stop offset="1" stop-color="#AFAEAE" stop-opacity="0"></stop>
+          </linearGradient>
+        </defs>
+      </svg>
     </div>
   </div>
   <div class="screen-name-row">
