@@ -11,7 +11,8 @@ template.innerHTML = `
     /* Seat picker wrapper */
     .seat-picker {
       width: 100%;
-      background-color: #f8f8f8;
+      // background-color: #f8f8f8;
+      background-color: #28282B;
       border-radius: 8px;
       padding-bottom: 1rem;
     }
@@ -54,7 +55,7 @@ template.innerHTML = `
       justify-content: initial; /* Reset justify-content */
       grid-auto-flow: initial; /* Reset grid-auto-flow */
       grid-auto-columns: initial; /* Reset grid-auto-columns */
-      overflow: hidden;
+      overflow: visible;
       text-align: center; /* Center content like screen SVG and hall name */
     }
     .screen {
@@ -68,7 +69,8 @@ template.innerHTML = `
       margin-bottom: 0.5rem; /* Add some space below the screen name */
     }
     .hall-name-container h5 {
-      color: #272727; /* Make hall name visible on light background */
+      // color: #272727; 
+      color: #fff;
       font-weight: 400;
       font-size: clamp(0.8rem, 2vw, 1rem); /* Responsive font size */
     }
@@ -106,55 +108,55 @@ template.innerHTML = `
     }
     /* Seat types: adjust the filenames as per your folder */
     .seat.regular {
-      background-image: url("../pics/seat-icons/regular_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/regular_seat_icon.svg");
     }
     .seat.saver {
-      background-image: url("../pics/seat-icons/saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/saver_seat_icon.svg");
     }
     .seat.super-saver{
-      background-image: url("../pics/seat-icons/super_saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
     }
     .seat.vip {
-      background-image: url("../pics/seat-icons/vip_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/vip_seat_icon.svg");
     }
     /* Occupied state: show an overlay occupied icon */
     .seat.regular.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
     }
     .seat.saver.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons/sold_saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/sold_saver_seat_icon.svg");
     }
     .seat.super-saver.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons/sold_super_saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/sold_super_saver_seat_icon.svg");
     }
     .seat.vip.occupied {
       pointer-events: none;
-      background-image: url("../pics/seat-icons/sold_vip_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/sold_vip_seat_icon.svg");
     }
     /* Selected state */
     .seat.regular.selected {
-      background-image: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
       &:hover {
         transform: none;
       }
     }
     .seat.saver.selected {
-      background-image: url("../pics/seat-icons/selected_saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
       &:hover {
         transform: none;
       }
     }
     .seat.super-saver.selected {
-      background-image: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
       &:hover {
         transform: none;
       }
     }
     .seat.vip.selected {
-      background-image: url("../pics/seat-icons/selected_vip_seat_icon.svg");
+      background-image: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
       &:hover {
         transform: none;
       }
@@ -186,29 +188,29 @@ template.innerHTML = `
       background-position: center;
       /* Apply seat type backgrounds */
       &.regular {
-        background-image: url("../pics/seat-icons/regular_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/regular_seat_icon.svg");
       }
       &.saver {
-        background-image: url("../pics/seat-icons/saver_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/saver_seat_icon.svg");
       }
       &.super-saver {
-        background-image: url("../pics/seat-icons/super_saver_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/super_saver_seat_icon.svg");
       }
       &.vip {
-        background-image: url("../pics/seat-icons/vip_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/vip_seat_icon.svg");
       }
       /* Apply state backgrounds */
       &.regular.occupied {
-        background-image: url("../pics/seat-icons/sold_regular_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/sold_regular_seat_icon.svg");
       }
       &.regular.selected {
-        background-image: url("../pics/seat-icons/selected_regular_seat_icon.svg");
+        background-image: url("../pics/seat-icons-dark/selected_regular_seat_icon.svg");
       }
       /* Add other occupied/selected types if needed */
     }
     .legend-text {
       font-size: clamp(0.65rem, 1.5vw, 0.75rem);
-      color: #555; /* Adjust color as needed */
+      color: #FFF; /* Adjust color as needed */
     }
     .legend-price {
       font-weight: bold;
@@ -288,6 +290,8 @@ export class SeatSelector extends HTMLElement {
 
     this.maxAllowedSeats = 1;
     this.currentSelectedSeats = [];
+
+    this.orderSteps = null;
   }
 
   static get observedAttributes() {
@@ -450,6 +454,14 @@ export class SeatSelector extends HTMLElement {
         console.log(this.currentSelectedSeats, this.maxAllowedSeats);
       }
     });
+    this.orderSteps = this.getRootNode().querySelector("order-steps");
+    this.orderSteps.addEventListener("auto-selected", (e) => {this.handleAutoSelection(e)});
+  }
+
+  handleAutoSelection(e) {
+    const { selectedType, count } = e.detail;
+    const seatsContainer = this.container.querySelectorAll(`.seat:not(.hidden):not(.occupied).${selectedType}`);
+    
   }
 
   renderSeats() {
@@ -659,248 +671,236 @@ const templateScreen = document.createElement("template");
 templateScreen.innerHTML = `
   <div class="screen-image-row">
     <div class="screen">
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 552 100"
-        class="seat-map__screen-image"
-      >
-        <g opacity="0.91" filter="url(#filter0_f_2284_34995)">
-          <path
-            d="M276.5 88.5347C375.116 88.5347 441 71.2976 441 50.0347C441 28.7717 375.116 11.5347 276.5 11.5347C177.884 11.5347 112 28.7717 112 50.0347C112 71.2976 177.884 88.5347 276.5 88.5347Z"
-            fill="#F3EBE8"
-          ></path>
-        </g>
-        <path d="M64 15H488V17H64V15Z" fill="white"></path>
-        <path
-          d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
-          fill="url(#paint0_linear_2284_34995)"
-        ></path>
-        <g filter="url(#filter1_i_2284_34995)">
-          <path
-            d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
-            fill="#D8D8D8"
-          ></path>
-        </g>
-        <g opacity="0.95" filter="url(#filter2_f_2284_34995)">
-          <path
-            d="M92.7306 45H457.151L508 75H44L92.7306 45Z"
-            fill="url(#paint1_linear_2284_34995)"
-          ></path>
-        </g>
-        <g opacity="0.65" filter="url(#filter3_f_2284_34995)">
-          <path
-            d="M92.9807 45H456.903L550 75H2L92.9807 45Z"
-            fill="url(#paint2_linear_2284_34995)"
-          ></path>
-        </g>
-        <g filter="url(#filter4_f_2284_34995)">
-          <path
-            d="M92.5678 45H457.312L487 75H65L92.5678 45Z"
-            fill="url(#paint3_linear_2284_34995)"
-          ></path>
-        </g>
-        <path
-          opacity="0.69933"
-          d="M149 45.5347V44.5347H402V45.5347H149Z"
-          fill="url(#paint4_linear_2284_34995)"
-        ></path>
-        <defs>
-          <filter
-            id="filter0_f_2284_34995"
-            x="101"
-            y="0.534668"
-            width="351"
-            height="99"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="5.5"
-              result="effect1_foregroundBlur_2284_34995"
-            ></feGaussianBlur>
-          </filter>
-          <filter
-            id="filter1_i_2284_34995"
-            x="64"
-            y="17"
-            width="424"
-            height="28"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feColorMatrix
-              in="SourceAlpha"
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-              result="hardAlpha"
-            ></feColorMatrix>
-            <feOffset dy="-1"></feOffset>
-            <feGaussianBlur stdDeviation="1.5"></feGaussianBlur>
-            <feComposite
-              in2="hardAlpha"
-              operator="arithmetic"
-              k2="-1"
-              k3="1"
-            ></feComposite>
-            <feColorMatrix
-              type="matrix"
-              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0681612 0"
-            ></feColorMatrix>
-            <feBlend
-              mode="normal"
-              in2="shape"
-              result="effect1_innerShadow_2284_34995"
-            ></feBlend>
-          </filter>
-          <filter
-            id="filter2_f_2284_34995"
-            x="42.9"
-            y="43.9"
-            width="466.2"
-            height="32.2"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="0.55"
-              result="effect1_foregroundBlur_2284_34995"
-            ></feGaussianBlur>
-          </filter>
-          <filter
-            id="filter3_f_2284_34995"
-            x="0.9"
-            y="43.9"
-            width="550.2"
-            height="32.2"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="0.55"
-              result="effect1_foregroundBlur_2284_34995"
-            ></feGaussianBlur>
-          </filter>
-          <filter
-            id="filter4_f_2284_34995"
-            x="63.9"
-            y="43.9"
-            width="424.2"
-            height="32.2"
-            filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB"
-          >
-            <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-            <feBlend
-              mode="normal"
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              result="shape"
-            ></feBlend>
-            <feGaussianBlur
-              stdDeviation="0.55"
-              result="effect1_foregroundBlur_2284_34995"
-            ></feGaussianBlur>
-          </filter>
-          <linearGradient
-            id="paint0_linear_2284_34995"
-            x1="276"
-            y1="45"
-            x2="276"
-            y2="18"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#9C9898"></stop>
-            <stop offset="1" stop-color="#D0CCCB"></stop>
-          </linearGradient>
-          <linearGradient
-            id="paint1_linear_2284_34995"
-            x1="276"
-            y1="75"
-            x2="276"
-            y2="45.8095"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
-            <stop
-              offset="1"
-              stop-color="#C5C1C0"
-              stop-opacity="0.340636"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="paint2_linear_2284_34995"
-            x1="276"
-            y1="75"
-            x2="276"
-            y2="45.8095"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
-            <stop
-              offset="1"
-              stop-color="#C5C1C0"
-              stop-opacity="0.340636"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="paint3_linear_2284_34995"
-            x1="276"
-            y1="75"
-            x2="276"
-            y2="45.8095"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#D3D0D0" stop-opacity="0"></stop>
-            <stop
-              offset="1"
-              stop-color="#C5C1C0"
-              stop-opacity="0.340636"
-            ></stop>
-          </linearGradient>
-          <linearGradient
-            id="paint4_linear_2284_34995"
-            x1="149"
-            y1="45.5347"
-            x2="402"
-            y2="45.5347"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#AFAEAE" stop-opacity="0"></stop>
-            <stop offset="0.0270686" stop-color="#AFAEAE"></stop>
-            <stop offset="0.969667" stop-color="#AFAEAE"></stop>
-            <stop offset="1" stop-color="#AFAEAE" stop-opacity="0"></stop>
-          </linearGradient>
-        </defs>
-      </svg>
+<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 552 100"
+  class="seat-map__screen-image"
+>
+  <!-- Maximum ground illumination -->
+  <g opacity="1" filter="url(#filter0_f_2284_34995)">
+    <path
+      d="M276.5 88.5347C375.116 88.5347 441 71.2976 441 50.0347C441 28.7717 375.116 11.5347 276.5 11.5347C177.884 11.5347 112 28.7717 112 50.0347C112 71.2976 177.884 88.5347 276.5 88.5347Z"
+      fill="#333333"
+    />
+  </g>
+  <!-- Screen border line -->
+  <path d="M64 15H488V17H64V15Z" fill="#888888" />
+  <!-- Screen surface illuminated -->
+  <path
+    d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+    fill="#fafafa"
+  />
+  <!-- Inner highlight -->
+  <g filter="url(#filter1_i_2284_34995)">
+    <path
+      d="M91.6985 45H458.171L488 18H64L91.6985 45Z"
+      fill="#ffffff"
+    />
+  </g>
+  <!-- Enhanced edge glows with higher opacity -->
+  <g opacity="0.9" filter="url(#filter2_f_2284_34995)">
+    <path
+      d="M92.7306 45H457.151L508 75H44L92.7306 45Z"
+      fill="url(#paint1_linear_2284_34995)"
+    />
+  </g>
+  <g opacity="0.8" filter="url(#filter3_f_2284_34995)">
+    <path
+      d="M92.9807 45H456.903L550 75H2L92.9807 45Z"
+      fill="url(#paint2_linear_2284_34995)"
+    />
+  </g>
+  <g opacity="0.85" filter="url(#filter4_f_2284_34995)">
+    <path
+      d="M92.5678 45H457.312L487 75H65L92.5678 45Z"
+      fill="url(#paint3_linear_2284_34995)"
+    />
+  </g>
+  <!-- Thicker ground glow line increased opacity -->
+  <path
+    opacity="0.8"
+    d="M149 45.5347V44.5347H402V45.5347H149Z"
+    fill="url(#paint4_linear_2284_34995)"
+  />
+  <defs>
+    <!-- Expanded Gaussian blur for more feathered glow -->
+    <filter
+      id="filter0_f_2284_34995"
+      x="51"
+      y="-20"
+      width="451"
+      height="140"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="BackgroundImageFix"
+        result="shape"
+      />
+      <feGaussianBlur
+        stdDeviation="12"
+        result="effect1_foregroundBlur_2284_34995"
+      />
+    </filter>
+    <!-- unchanged inner shadow filter -->
+    <filter
+      id="filter1_i_2284_34995"
+      x="64"
+      y="17"
+      width="424"
+      height="28"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="BackgroundImageFix"
+        result="shape"
+      />
+      <feColorMatrix
+        in="SourceAlpha"
+        type="matrix"
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+        result="hardAlpha"
+      />
+      <feOffset dy="0" />
+      <feGaussianBlur stdDeviation="2" />
+      <feComposite
+        in2="hardAlpha"
+        operator="arithmetic"
+        k2="-1"
+        k3="1"
+      />
+      <feColorMatrix
+        type="matrix"
+        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+      />
+      <feBlend
+        mode="normal"
+        in2="shape"
+        result="effect1_innerShadow_2284_34995"
+      />
+    </filter>
+    <!-- stronger blur on edge glow filters -->
+    <filter
+      id="filter2_f_2284_34995"
+      x="-20"
+      y="25"
+      width="600"
+      height="60"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="BackgroundImageFix"
+        result="shape"
+      />
+      <feGaussianBlur
+        stdDeviation="8"
+        result="effect1_foregroundBlur_2284_34995"
+      />
+    </filter>
+    <filter
+      id="filter3_f_2284_34995"
+      x="-20"
+      y="25"
+      width="600"
+      height="60"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="BackgroundImageFix"
+        result="shape"
+      />
+      <feGaussianBlur
+        stdDeviation="8"
+        result="effect1_foregroundBlur_2284_34995"
+      />
+    </filter>
+    <filter
+      id="filter4_f_2284_34995"
+      x="-20"
+      y="25"
+      width="600"
+      height="60"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="BackgroundImageFix"
+        result="shape"
+      />
+      <feGaussianBlur
+        stdDeviation="8"
+        result="effect1_foregroundBlur_2284_34995"
+      />
+    </filter>
+    <!-- unchanged gradients -->
+    <linearGradient
+      id="paint1_linear_2284_34995"
+      x1="276"
+      y1="75"
+      x2="276"
+      y2="45.8095"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#fff" stop-opacity="0" />
+      <stop offset="1" stop-color="#aaa" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient
+      id="paint2_linear_2284_34995"
+      x1="276"
+      y1="75"
+      x2="276"
+      y2="45.8095"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#fff" stop-opacity="0" />
+      <stop offset="1" stop-color="#aaa" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient
+      id="paint3_linear_2284_34995"
+      x1="276"
+      y1="75"
+      x2="276"
+      y2="45.8095"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#fff" stop-opacity="0" />
+      <stop offset="1" stop-color="#aaa" stop-opacity="0.2" />
+    </linearGradient>
+    <linearGradient
+      id="paint4_linear_2284_34995"
+      x1="149"
+      y1="45.5347"
+      x2="402"
+      y2="45.5347"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#888" stop-opacity="0" />
+      <stop offset="0.027" stop-color="#888" />
+      <stop offset="0.97" stop-color="#888" />
+      <stop offset="1" stop-color="#888" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
+
     </div>
   </div>
   <div class="screen-name-row">

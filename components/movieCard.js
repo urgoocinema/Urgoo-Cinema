@@ -452,7 +452,7 @@ template.innerHTML = `
       }
       .timetable-container {
         max-height: 265px;
-        overflow: scroll;
+        overflow-Y: scroll;
       }
     }
 
