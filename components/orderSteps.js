@@ -231,6 +231,7 @@ export class OrderSteps extends HTMLElement {
             cursor: pointer;
             padding: 12px;
             margin-bottom: 1rem;
+            color: #272727;
           }
           .legend-heading {
             display: flex;
