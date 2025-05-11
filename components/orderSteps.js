@@ -3,23 +3,23 @@ import { fetchBranches, fetchOccupiedSeats } from "./fetch.js";
 const template = document.createElement("template");
 template.innerHTML = `
   <style>
-  *{
-    box-sizing: border-box;
-    margin: 0;
-    padding:0;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     :host {
       display: block;
       padding: 1rem;
-      background: #fff; 
-      color: #272727; 
-      border-radius: 8px; 
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-      width: 100%; 
+      background: #fff;
+      color: #272727;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
     }
-      .container {
-        margin: 1rem;
-      }
+    .container {
+      padding: 3rem;
+    }
     .order-summary-container {
       margin: 2rem 1rem;
       text-align: center;
@@ -78,7 +78,7 @@ template.innerHTML = `
     .confirm-button {
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #4CAF50; /* Green for confirm */
+      background-color: #4caf50; /* Green for confirm */
       color: white;
       border: none;
       border-radius: 5px;
@@ -89,44 +89,56 @@ template.innerHTML = `
       background-color: #ccc;
       cursor: not-allowed;
     }
-      .initial-question h2 {
-                  background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
-                  color: transparent;
-          background-clip: text;
-          font-weight: 350;
+    .initial-question h2 {
+      background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
+      color: transparent;
+      background-clip: text;
+      font-weight: 350;
       letter-spacing: 0.035em;
-      }
+      margin-bottom: 1rem;
+    }
+
   </style>
   <div class="initial-question">
     <h2>СУУДЛЫН ТӨРЛӨӨ СОНГОНО УУ</h2>
     <section class="type-picker-container">
-      <div class="type-picker" id="normal-seat" data-type="normal">
-        
-      </div>
-      <div class="type-picker" id="vip-seat" data-type="vip">VIP суудал</div>
+      <div class="seat-category-container"></div>
     </section>
   </div>
   <div class="order-summary-container">
     <h3 id="movie-title-display">Киноны нэр</h3>
     <p id="showtime-info">Үзвэрийн цаг: <span id="showtime-details"></span></p>
-    
+
     <div class="ticket-quantity">
       <label for="num-tickets">Тасалбар:</label>
-      <button id="decrement-tickets" aria-label="Decrease ticket count">-</button>
-      <input type="number" id="num-tickets" value="1" min="1" max="10" readonly>
-      <button id="increment-tickets" aria-label="Increase ticket count">+</button>
+      <button id="decrement-tickets" aria-label="Decrease ticket count">
+        -
+      </button>
+      <input
+        type="number"
+        id="num-tickets"
+        value="1"
+        min="1"
+        max="10"
+        readonly
+      />
+      <button id="increment-tickets" aria-label="Increase ticket count">
+        +
+      </button>
     </div>
 
     <h4>Сонгосон суудлууд:</h4>
     <ul id="selected-seats-list">
       <li>Суудал сонгоогүй байна.</li>
     </ul>
-    
+
     <div class="total-price">
       Нийт дүн: <span id="total-price-value">0</span>₮
     </div>
-    
-    <button id="confirm-booking" class="confirm-button" disabled>Захиалга баталгаажуулах</button>
+
+    <button id="confirm-booking" class="confirm-button" disabled>
+      Захиалга баталгаажуулах
+    </button>
   </div>
 `;
 
@@ -151,6 +163,7 @@ export class OrderSteps extends HTMLElement {
     this.seatTypes = [];
     this.showtimeDetailsText = "N/A";
     this.ticketQuantity = 1;
+    this.initialSeatPickerRendered = false;
 
     this.movieTitleDisplay = this.shadowRoot.getElementById(
       "movie-title-display"
@@ -179,117 +192,15 @@ export class OrderSteps extends HTMLElement {
       this.moviePoster = newVal;
     }
   }
-  renderInitialQuestion() {
-    const templateSeatPicker = document.createElement("template");
-    templateSeatPicker.innerHTML = `
-      <style>
-        p {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-        }
-        .seat-category-container {
-          display: flex;
-          flex-direction: column;
-        }
-        .button-item {
-          display: flex;
-          gap: 10px;
-          width: 100%;
-          border: 1px solid black;
-          border-left: 5.6px solid black;
-          border-radius: 5px;
-          background-color: transparent;
-          font-family: Roboto Condensed, sans-serif;
-          cursor: pointer;
-          padding: 12px;
-          margin-bottom: 1rem;
-        }
-        .legend-heading {
-          display: flex;
-          gap: 0.8rem;
-          & .legend-seat-name {
-            text-align: left;
-            font-size: 1.1rem;
-          }
-          & .legend-price {
-            font-size: 1.1rem;
-            font-weight: bold;
-          }
-        }
-        .legend-caption {
-          font-size: 0.8rem;
-          font-weight: 300;
-          margin-top: 0.2rem;
-          text-align: left;
-        }
-        .legend-wrapper {
-          display: flex;
-          justify-content: space-between;
-          width: 100%;
-          align-items: center;
-        }
-        .legend-arrow {
-        }
-        .legend-icon.vip {
-        }
-        .regular {
-          border-left: 5.6px solid black;
-          & .legend-icon {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            background-image: url("./pics/seat-icons/regular_seat_icon.svg");
-          }
-        }
-        .saver {
-          border-left: 5.6px solid #41d282;
-          & .legend-icon {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            background-image: url("./pics/seat-icons/saver_seat_icon.svg");
-          }
-        }
-        .super-saver {
-          border-left: 5.6px solid #c81919;
-          & .legend-icon {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
-          }
-        }
-        .vip {
-          border-left: 5.6px solid black;
-          & .legend-icon {
-            margin-top: 3px;
-            width: 20px;
-            height: 20px;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            background-image: url("./pics/seat-icons/vip_seat_icon.svg");
-          }
-        }
-      </style>
-      <div class="seat-category-container">
-      </div>
-    `;
-    this.container.appendChild(templateSeatPicker.content.cloneNode(true));
-  }
 
   renderInitialSeatPicker() {
+    this.orderSummaryContainer.style.display = "none";
+    const initialQuestionContainer =
+      this.container.querySelector(".initial-question");
+    initialQuestionContainer.style.display = "block";
+
     const container = this.container.querySelector(".seat-category-container");
+    container.innerHTML = "";
     this.seatTypes.forEach((type) => {
       const formattedPrice = type.price
         .toString()
@@ -298,6 +209,108 @@ export class OrderSteps extends HTMLElement {
       const btn = document.createElement("button");
       btn.classList.add("button-item", type.type);
       btn.innerHTML = `
+        <style>
+          p {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+          }
+          .seat-category-container {
+            display: flex;
+            flex-direction: column;
+          }
+          .button-item {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            border: 1px solid black;
+            border-left: 5.6px solid black;
+            border-radius: 5px;
+            background-color: transparent;
+            font-family: Roboto Condensed, sans-serif;
+            cursor: pointer;
+            padding: 12px;
+            margin-bottom: 1rem;
+            color: #272727;
+          }
+          .legend-heading {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            & .legend-seat-name {
+              text-align: left;
+              font-size: 1.1rem;
+            }
+            & .legend-price {
+              font-size: 1.1rem;
+              font-weight: bold;
+            }
+          }
+          .legend-caption {
+            font-size: 0.8rem;
+            font-weight: 300;
+            margin-top: 0.2rem;
+            text-align: left;
+          }
+          .legend-wrapper {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+          }
+          .legend-arrow {
+          }
+          .legend-icon.vip {
+          }
+          .regular {
+            border-left: 5.6px solid black;
+            & .legend-icon {
+              margin-top: 3px;
+              width: 20px;
+              height: 20px;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              background-image: url("./pics/seat-icons/regular_seat_icon.svg");
+            }
+          }
+          .saver {
+            border-left: 5.6px solid #41d282;
+            & .legend-icon {
+              margin-top: 3px;
+              width: 20px;
+              height: 20px;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              background-image: url("./pics/seat-icons/saver_seat_icon.svg");
+            }
+          }
+          .super-saver {
+            border-left: 5.6px solid #c81919;
+            & .legend-icon {
+              margin-top: 3px;
+              width: 20px;
+              height: 20px;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
+            }
+          }
+          .vip {
+            border-left: 5.6px solid black;
+            & .legend-icon {
+              margin-top: 3px;
+              width: 20px;
+              height: 20px;
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: contain;
+              background-image: url("./pics/seat-icons/vip_seat_icon.svg");
+            }
+          }
+        </style>
         <div class="legend-icon"></div>
         <div class="legend-wrapper">
           <div class="legend-text">
@@ -323,7 +336,58 @@ export class OrderSteps extends HTMLElement {
         </div>
       `;
       container.appendChild(btn);
+      btn.addEventListener("click", () => {
+        initialQuestionContainer.style.display = "none";
+        this.orderSummaryContainer.style.display = "block";
+        this.render();
+      });
     });
+  }
+
+  seatAutoPicker(count = 2) {}
+
+  renderOrderSummary() {
+    const templateOrderSummary = document.createElement("template");
+    templateOrderSummary.innerHTML = `
+      <h3 id="movie-title-display">Киноны нэр</h3>
+      <p id="showtime-info">
+        Үзвэрийн цаг: <span id="showtime-details"></span>
+      </p>
+
+      <div class="ticket-quantity">
+        <label for="num-tickets">Тасалбар:</label>
+        <button id="decrement-tickets" aria-label="Decrease ticket count">
+          -
+        </button>
+        <input
+          type="number"
+          id="num-tickets"
+          value="1"
+          min="1"
+          max="10"
+          readonly
+        />
+        <button id="increment-tickets" aria-label="Increase ticket count">
+          +
+        </button>
+      </div>
+
+      <h4>Сонгосон суудлууд:</h4>
+      <ul id="selected-seats-list">
+        <li>Суудал сонгоогүй байна.</li>
+      </ul>
+
+      <div class="total-price">
+        Нийт дүн: <span id="total-price-value">0</span>₮
+      </div>
+
+      <button id="confirm-booking" class="confirm-button" disabled>
+        Захиалга баталгаажуулах
+      </button>
+    `;
+    this.orderSummaryContainer.appendChild(
+      templateOrderSummary.content.cloneNode(true)
+    );
   }
 
   connectedCallback() {
@@ -353,8 +417,6 @@ export class OrderSteps extends HTMLElement {
     this.confirmButton.addEventListener("click", () =>
       this.handleConfirmBooking()
     );
-
-    this.render();
   }
 
   updateTicketQuantity(change) {
@@ -381,6 +443,18 @@ export class OrderSteps extends HTMLElement {
     this.moviePoster = detail.moviePoster || null;
     this.seatTypes = detail.seatTypes || null;
 
+    if (Array.isArray(detail.seatTypes) && detail.seatTypes.length > 0) {
+      this.seatTypes = detail.seatTypes;
+      if (!this.initialSeatPickerRendered) {
+        this.renderInitialSeatPicker();
+        this.initialSeatPickerRendered = true;
+      }
+    } else if (!this.initialSeatPickerRendered) {
+      console.warn(
+        "OrderSteps: seatTypes not available or empty on initial seats-updated event."
+      );
+    }
+
     // Format showtime details for display
     const date = new Date(detail.day);
     const options = { month: "short", day: "numeric" };
@@ -395,6 +469,18 @@ export class OrderSteps extends HTMLElement {
   }
 
   render() {
+    // Ensure order summary is hidden if initial picker is active
+    if (
+      this.initialSeatPickerRendered &&
+      this.orderSummaryContainer.style.display === "none"
+    ) {
+      const initialQuestionContainer =
+        this.container.querySelector(".initial-question");
+      if (initialQuestionContainer.style.display === "none") {
+        this.orderSummaryContainer.style.display = "block";
+      }
+    }
+
     this.movieTitleDisplay.textContent = this.movieTitle;
     this.showtimeDetailsDisplay.textContent = this.showtimeDetailsText;
     this.numTicketsInput.value = this.ticketQuantity;
@@ -414,9 +500,6 @@ export class OrderSteps extends HTMLElement {
 
     const totalPrice = this.calculateTotalPrice();
     this.totalPriceValue.textContent = totalPrice.toLocaleString();
-
-    this.renderInitialQuestion();
-    this.renderInitialSeatPicker();
   }
 
   handleConfirmBooking() {
@@ -431,7 +514,7 @@ export class OrderSteps extends HTMLElement {
     console.log("Showtime:", this.showtimeDetailsText);
     console.log("Selected Seats:", this.selectedSeats);
     console.log("Total Price:", this.calculateTotalPrice());
-    alert("Захиалга баталгаажлаа (түр)! Дэлгэрэнгүйг консол дээр харна уу.");
+    alert("Захиалга баталгаажлаа! (Дэлгэрэнгүйг console дээр харах)");
     // Potentially navigate to a confirmation page or show a modal
   }
 
