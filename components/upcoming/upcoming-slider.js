@@ -2,200 +2,115 @@ class UpcomingMovieSlider extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
-      this._isReminderSet = false;
-      this._movieId = null;
+      this.slideIndex = 1; // To keep track of the current slide
     }
-    static get observedAttributes() {
-      return ["movie-id"];
-    }
+
     connectedCallback() {
-      this.render();
+      this.render().then(() => {
+        // Ensure elements are in the DOM before trying to access them
+        this.initSlider();
+      });
     }
-    attributeChangedCallback(name, oldValue, newValue) {
-      if (name === "movie-id" && oldValue !== newValue) {
-        this._movieId = newValue;
-        this.render();
+
+    initSlider() {
+      this.slides = this.shadowRoot.querySelectorAll("upcoming-slider-element");
+      if (this.slides.length > 0) {
+        this.showSlides(this.slideIndex);
+
+        const prevButton = this.shadowRoot.querySelector(".prev");
+        const nextButton = this.shadowRoot.querySelector(".next");
+
+        if (prevButton) { // Check if button exists
+            prevButton.addEventListener("click", () => this.plusSlides(-1));
+        }
+        if (nextButton) { // Check if button exists
+            nextButton.addEventListener("click", () => this.plusSlides(1));
+        }
       }
     }
+
+    // Next/previous controls
+    plusSlides(n) {
+      this.showSlides(this.slideIndex += n);
+    }
+
+    // Thumbnail image controls (if you add them later)
+    currentSlide(n) {
+      this.showSlides(this.slideIndex = n);
+    }
+
+    showSlides(n) {
+      if (!this.slides || this.slides.length === 0) return; // Guard clause
+      let i;
+      if (n > this.slides.length) { this.slideIndex = 1 }
+      if (n < 1) { this.slideIndex = this.slides.length }
+      for (i = 0; i < this.slides.length; i++) {
+        this.slides[i].style.display = "none";
+      }
+      this.slides[this.slideIndex - 1].style.display = "block";
+      // The 'fade' animation is handled within upcoming-slider-element when it becomes visible
+    }
+
     async render() {
-      const movieIdAttr = this.getAttribute("movie-id") || this._movieId;
-  
-      if (!movieIdAttr) {
-        this.shadowRoot.innerHTML = `<p>Movie ID attribute is missing.</p>`;
-        return;
-      }
-  
-      const movieId = parseInt(movieIdAttr, 10);
-      if (isNaN(movieId)) {
-        this.shadowRoot.innerHTML = `<p>Invalid Movie ID format: "${movieIdAttr}". ID must be an integer.</p>`;
-        return;
-      }
-  
-      this.shadowRoot.innerHTML = `<p>Loading movie details for ID: ${movieId}...</p>`;
       try {
         const response = await fetch("../data/upcoming/upcoming.json");
-  
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-  
-        const allMoviesData = await response.json();
-        const movieData = allMoviesData.find((movie) => movie.id === movieId);
-  
-        if (movieData) {
-          this.shadowRoot.innerHTML = `
-                      <style>
-                      :root {
-        --primary-color: #ffa500;
-        --secondary-color: #ffb733;
-        --text-color: white;
-        --bg-color: rgb(22, 22, 22);
-  
-        --black-text: black;
-        --gray-text: gray;
-        --white-text: white;
-      }
-  
-                          .upcoming-movie-container {
-                              height: 60vh;
-                              display: flex;
-                              gap:1.5em;
-                              margin-bottom: 20px;
-                              padding: 1.5rem 0.8rem;
-                              border: 1px solid #333; /* Darker border for a cinema feel */
-                              border-radius: 1em;
-                              overflow: hidden;
-                              background-color: #1a1a1a; /* Dark background */
-                              color: #f5f5f5; /* Light text color */
-                              font-family: 'Roboto Condensed', sans-serif;
-                              font-size:1.4rem;
-                              transition: all 0.3s ease;
-        box-shadow: 0 0 15px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
-          0 8px 16px rgba(255, 255, 255, 0.08);
-                          }
-                          .upcoming-movie-container:hover{
-        transform: translateY(-10px);
-        box-shadow: 0 0 30px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
-          0 8px 16px rgba(255, 255, 255, 0.08);
-      
-                          }
-                          .upcoming-movie-container img {
-                              height:100%
-                              min-width: 180px;
-                              width: auto;
-                              object-fit: cover;
-                              border-radius:1em;
-                              box-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
-                              0 0 80px rgba(255, 255, 255, 0.2), 0 12px 24px rgba(255, 255, 255, 0.1);
-                          }
-                          .information {
-                              padding: 20px;
-                              flex-grow: 1;
-                          }
-                          .information h1 {
-                              margin-top: 0;
-                              font-size: 1.8em;
-                              color: #f0ad4e; /* Accent color for title */
-                          }
-                          .information p {
-                              font-size: 0.95em;
-                              line-height: 1.6;
-                          }
-                          .detail-container {
-                              margin-top: 15px;
-                              margin-bottom: 15px;
-                          }
-                          .detail-row {
-                              display: flex;
-                              margin-bottom: 8px;
-                              font-size: 0.9em;
-                          }
-                          .detail-white {
-                              font-weight: bold;
-                              min-width: 200px;
-                              color: #ccc; /* Lighter gray for labels */
-                          }
-                          .detail-gray {
-                              min-width: 180px;
-                              color: #aaa; /* Slightly darker gray for values */
-                          }
-                          button {
-                              margin-top:10px;
-                              padding: 12px 18px;
-                              background-color: #f0ad4e; /* Urgoo's orange */
-                              color: #1a1a1a; /* Dark text on button */
-                              border: none;
-                              border-radius: 4px;
-                              cursor: pointer;
-                              font-weight: bold;
-                              text-transform: uppercase;
-                              font-size: 0.9em;
-                              transition: background-color 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
-                          }
-                          button:hover {
-                              background-color: #ec971f;
-                          }
-                          button img{
-                            height: 100%;
-                            width: auto;
-                            vertical-align: middle;
-                            margin-right: 5px;
-                            filter: brightness(0) invert(0.1);
-                          }
-                          button.glow-active{
-                            box-shadow:   0 0 1px #f0ad4e, 
-                                          0 0 5px #f0ad4e, 
-                                          0 0 10px #ffc107;
-                          }
-                      </style>
-                      <div class="upcoming-movie-container">
-                          <img src="${movieData.imageSrc}" alt="${movieData.altText}" />
-                          <div class="information">
-                              <h1>${movieData.name}</h1>
-                              <p><strong>Age Rating:</strong> ${movieData.ageRating}</p>
-                              <p>${movieData.description}</p>
-                              <div class="detail-container">
-                                  <div class="detail-row">
-                                      <div class="detail-gray">Гол дүрүүдэд</div>
-                                      <div class="detail-white">${movieData.cast}</div>
-                                  </div>
-                                  <div class="detail-row">
-                                      <div class="detail-gray">Үргэлжлэх хугацаа</div>
-                                      <div class="detail-white">${movieData.runTime}</div>
-                                  </div>
-                                  <div class="detail-row">
-                                      <div class="detail-gray">Гарах огноо</div>
-                                      <div class="detail-white">${movieData.releaseDate}</div>
-                                  </div>
-                              </div>
-                              <button id = "remindButton" class="${this._isReminderSet ? 'glow-active' : ''}">
-                                  <img src="${this._isReminderSet ? '../pics/icons/bell-active.svg' : '../pics/icons/bell.svg'}" alt="Remind me icon">
-                                  <span id="remindButtonText">${this._isReminderSet ? 'Сануулга идэвхжсэн' : 'Надад сануул'}</span>
-                              </button>
-                          </div>
-                      </div>
-                  `;
-        } else {
-          this.shadowRoot.innerHTML = `<p>Movie with ID ${movieId} not found in the data.</p>`;
-        }
-        const remindButton = this.shadowRoot.getElementById('remindButton');
-        if(remindButton){
-          remindButton.addEventListener('click', ()=>{
-            this._isReminderSet = !this._isReminderSet;
-            const icon = remindButton.querySelector('img');
-            const textSpan = remindButton.querySelector('#remindButtonText');
-  
-            icon.src = this._isReminderSet ? '../pics/icons/bell-active.svg' : '../pics/icons/bell.svg';
-            icon.alt = this._isReminderSet ? 'Reminder active icon' : 'Remind me icon';
-            textSpan.textContent = this._isReminderSet ? 'Сануулга идэвхжсэн' : 'Надад сануул';
-          
-            if (this._isReminderSet){
-              remindButton.classList.add('glow-active');
-            }else{
-              remindButton.classList.remove('glow-active');
+        // We don't need allMoviesData here if upcoming-slider-element fetches its own.
+        // However, for 4 slides, it's creating them statically.
+
+        let sliderHTML = `
+          <style>
+            .slideshow-container {
+              width: 100%;
+              position: relative; /* Crucial for positioning prev/next buttons */
+              margin: auto;
+              overflow: hidden; /* Recommended for sliders */
             }
-          });
+
+            /* Styles for prev/next buttons */
+            .prev,
+            .next {
+              cursor: pointer;
+              position: absolute;
+              top: 50%;
+              width: auto;
+              margin-top: -22px; /* Adjust based on font size or button height */
+              padding: 16px;
+              color: white;
+              font-weight: bold;
+              font-size: 2.5em; /* Adjust as needed */
+              transition: 0.3s ease-out;
+              border-radius: 0 3px 3px 0;
+              user-select: none; /* Prevents text selection on click */
+              z-index: 10; /* Ensure buttons are above slides */
+            }
+
+            .next {
+              right: 0;
+              border-radius: 3px 0 0 3px;
+            }
+
+            .prev:hover,
+            .next:hover {
+              background-color: rgba(0, 0, 0, 0.8);
+              color: orange;
+            }
+          </style>
+          <div class="slideshow-container">
+        `;
+
+        for(let i = 0 ; i < 4 ; i++){
+          sliderHTML += `<upcoming-slider-element movie-id = "${i+1}"></upcoming-slider-element>`;
         }
+        // Add navigation buttons
+        sliderHTML += `
+            <a class="prev">&#10094;</a>
+            <a class="next">&#10095;</a>
+          </div>
+        `;
+        this.shadowRoot.innerHTML = sliderHTML;
       } catch (error) {
         console.error(
           "Error in render method of UpcomingMovie component:",

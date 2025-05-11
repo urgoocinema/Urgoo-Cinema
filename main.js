@@ -12,7 +12,6 @@ document.querySelector(".next").addEventListener("click", () => {
     plusSlides(1);
 });
 
-
 showSlides(1);
 
 window.addEventListener('beforeunload', ()=>{sessionStorage.setItem('scrollY', window.scrollY)});

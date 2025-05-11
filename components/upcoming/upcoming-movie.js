@@ -41,6 +41,22 @@ class UpcomingMovie extends HTMLElement {
 
       const allMoviesData = await response.json();
       const movieData = allMoviesData.find((movie) => movie.id === movieId);
+      const getAgeRatingClass = (rating) => {
+        if (!rating) return '';
+        const upperRating = rating.toUpperCase();
+        switch (upperRating) {
+          case 'G':
+            return 'age-g';
+          case 'PG':
+            return 'age-pg';
+          case 'PG-13':
+            return 'age-pg13';
+          case 'R':
+            return 'age-r';
+          default:
+            return 'age-rating-badge';
+        }
+      };
 
       if (movieData) {
         this.shadowRoot.innerHTML = `
@@ -147,12 +163,22 @@ class UpcomingMovie extends HTMLElement {
                                         0 0 5px #f0ad4e, 
                                         0 0 10px #ffc107;
                         }
+                                        .age-pg13, .PG-13, .age-pg, .PG, .age-g, .G, .age-r, .R {
+                display: inline-block;
+                font-size: 0.8rem;
+                padding: 0.2em 0.6em;
+                border-radius: 0.5em;
+                backdrop-filter: blur(10px);
+                margin-left: 0.5em;
+              }
+              .age-pg13, .PG-13 { background-color: rgba(255, 238, 0, 0.98); color:black;}
+              .age-pg, .PG, .age-g, .G { background-color: rgba(27, 233, 0, 0.5); }
+              .age-r, .R { background-color: rgba(255, 5, 5, 0.5); }
                     </style>
                     <div class="upcoming-movie-container">
                         <img src="${movieData.imageSrc}" alt="${movieData.altText}" />
                         <div class="information">
                             <h1>${movieData.name}</h1>
-                            <p><strong>Age Rating:</strong> ${movieData.ageRating}</p>
                             <p>${movieData.description}</p>
                             <div class="detail-container">
                                 <div class="detail-row">
@@ -166,6 +192,10 @@ class UpcomingMovie extends HTMLElement {
                                 <div class="detail-row">
                                     <div class="detail-gray">Гарах огноо</div>
                                     <div class="detail-white">${movieData.releaseDate}</div>
+                                </div>
+                                <div class="detail-row">
+                                    <div class="detail-gray">Насны ангилал</div>
+                                    <div class="${getAgeRatingClass(movieData.ageRating)}">${movieData.ageRating}</div>
                                 </div>
                             </div>
                             <button id = "remindButton" class="${this._isReminderSet ? 'glow-active' : ''}">
