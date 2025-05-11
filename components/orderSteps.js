@@ -33,6 +33,7 @@ template.innerHTML = `
       font-size: 0.9em;
       margin-bottom: 10px;
     }
+
     .ticket-quantity {
       margin: 15px 0;
       display: flex;
@@ -40,23 +41,34 @@ template.innerHTML = `
       justify-content: center;
       gap: 10px;
     }
-    .ticket-quantity label {
-      font-size: 0.9em;
+            .button-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      }
+    .ticket-quantity .label {
+      background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
+      color: transparent;
+      background-clip: text;
+      font-weight: 350;
+      letter-spacing: 0.035em;
+      font-size: 1.5rem;
+      text-align: left;
     }
-    .ticket-quantity input[type="number"] {
-      width: 40px;
-      text-align: center;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      padding: 5px;
-    }
+      #num-tickets {
+        font-size: 1.15rem;
+        font-weight: bold;
+      }
     .ticket-quantity button {
       padding: 5px 10px;
-      background-color: #ffa500;
-      color: white;
-      border: none;
-      border-radius: 4px;
+      background-color: transparent;;
+      color: black;
+      border: 1px solid #d6d6d6;
+      border-radius: 50%;
       cursor: pointer;
+      width: 39px;
+      height: 39px;
     }
     .selected-seats-list {
       list-style: none;
@@ -97,120 +109,8 @@ template.innerHTML = `
       letter-spacing: 0.035em;
       margin-bottom: 1rem;
     }
-
-  </style>
-  <div class="initial-question">
-    <h2>СУУДЛЫН ТӨРЛӨӨ СОНГОНО УУ</h2>
-    <section class="type-picker-container">
-      <div class="seat-category-container"></div>
-    </section>
-  </div>
-  <div class="order-summary-container">
-    <h3 id="movie-title-display">Киноны нэр</h3>
-    <p id="showtime-info">Үзвэрийн цаг: <span id="showtime-details"></span></p>
-
-    <div class="ticket-quantity">
-      <label for="num-tickets">Тасалбар:</label>
-      <button id="decrement-tickets" aria-label="Decrease ticket count">
-        -
-      </button>
-      <input
-        type="number"
-        id="num-tickets"
-        value="1"
-        min="1"
-        max="10"
-        readonly
-      />
-      <button id="increment-tickets" aria-label="Increase ticket count">
-        +
-      </button>
-    </div>
-
-    <h4>Сонгосон суудлууд:</h4>
-    <ul id="selected-seats-list">
-      <li>Суудал сонгоогүй байна.</li>
-    </ul>
-
-    <div class="total-price">
-      Нийт дүн: <span id="total-price-value">0</span>₮
-    </div>
-
-    <button id="confirm-booking" class="confirm-button" disabled>
-      Захиалга баталгаажуулах
-    </button>
-  </div>
-`;
-
-export class OrderSteps extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-
-    this.container = document.createElement("div");
-    this.container.classList.add("container");
-
-    this.shadowRoot.appendChild(this.container);
-    this.container.appendChild(template.content.cloneNode(true));
-    this.orderSummaryContainer = this.container.querySelector(
-      ".order-summary-container"
-    );
-
-    this.selectedSeats = [];
-    this.showtimeId = null;
-    this.movieTitle = "Кино";
-    this.moviePoster = null;
-    this.seatTypes = [];
-    this.showtimeDetailsText = "N/A";
-    this.ticketQuantity = 1;
-    this.initialSeatPickerRendered = false;
-
-    this.movieTitleDisplay = this.shadowRoot.getElementById(
-      "movie-title-display"
-    );
-    this.showtimeDetailsDisplay =
-      this.shadowRoot.getElementById("showtime-details");
-    this.numTicketsInput = this.shadowRoot.getElementById("num-tickets");
-    this.decrementButton = this.shadowRoot.getElementById("decrement-tickets");
-    this.incrementButton = this.shadowRoot.getElementById("increment-tickets");
-    this.selectedSeatsList = this.shadowRoot.getElementById(
-      "selected-seats-list"
-    );
-    this.totalPriceValue = this.shadowRoot.getElementById("total-price-value");
-    this.confirmButton = this.shadowRoot.getElementById("confirm-booking");
-  }
-
-  static get observedAttributes() {
-    return ["showtime-id", "movie-poster"];
-  }
-
-  attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === "showtime-id") {
-      this.showtimeId = newVal;
-    }
-    if (attr === "movie-poster") {
-      this.moviePoster = newVal;
-    }
-  }
-
-  renderInitialSeatPicker() {
-    this.orderSummaryContainer.style.display = "none";
-    const initialQuestionContainer =
-      this.container.querySelector(".initial-question");
-    initialQuestionContainer.style.display = "block";
-
-    const container = this.container.querySelector(".seat-category-container");
-    container.innerHTML = "";
-    this.seatTypes.forEach((type) => {
-      const formattedPrice = type.price
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-      const btn = document.createElement("button");
-      btn.classList.add("button-item", type.type);
-      btn.innerHTML = `
-        <style>
-          p {
+      //seat-category-container
+                p {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -310,7 +210,137 @@ export class OrderSteps extends HTMLElement {
               background-image: url("./pics/seat-icons/vip_seat_icon.svg");
             }
           }
-        </style>
+  </style>
+  <div class="initial-question">
+    <h2>СУУДЛЫН ТӨРЛӨӨ СОНГОНО УУ</h2>
+    <section class="type-picker-container">
+      <div class="seat-category-container"></div>
+    </section>
+  </div>
+  <div class="order-summary-container">
+
+    <div class="ticket-quantity">
+      <div class="label">СУУДЛЫН ТООГ СОНГОНО УУ</div>
+      <div class="button-group">
+      <button id="decrement-tickets" aria-label="Decrease ticket count">
+        ➖
+      </button>
+      <span id="num-tickets"></span>
+      <button id="increment-tickets" aria-label="Increase ticket count">
+        ➕
+      </button>
+      </div>
+    </div>
+
+    <h4>Сонгосон суудлууд:</h4>
+    <ul id="selected-seats-list">
+      <li>Суудал сонгоогүй байна.</li>
+    </ul>
+
+    <div class="total-price">
+      Нийт дүн: <span id="total-price-value">0</span>₮
+    </div>
+
+    <button id="confirm-booking" class="confirm-button" disabled>
+      Захиалга баталгаажуулах
+    </button>
+  </div>
+`;
+
+export class OrderSteps extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+
+    this.container = document.createElement("div");
+    this.container.classList.add("container");
+
+    this.shadowRoot.appendChild(this.container);
+    this.container.appendChild(template.content.cloneNode(true));
+    this.orderSummaryContainer = this.container.querySelector(
+      ".order-summary-container"
+    );
+    this.initialQuestionContainer =
+      this.container.querySelector(".initial-question");
+
+    this.selectedSeats = [];
+    this.showtimeId = null;
+    this.movieTitle = "Кино";
+    this.moviePoster = null;
+    this.seatTypes = [];
+    this.showtimeDetailsText = "N/A";
+    this.ticketQuantity = 1;
+    this.initialSeatPickerRendered = false;
+
+    this.movieTitleDisplay = this.shadowRoot.getElementById(
+      "movie-title-display"
+    );
+    this.showtimeDetailsDisplay =
+      this.shadowRoot.getElementById("showtime-details");
+    this.numTicketsInput = this.shadowRoot.getElementById("num-tickets");
+    this.decrementButton = this.shadowRoot.getElementById("decrement-tickets");
+    this.incrementButton = this.shadowRoot.getElementById("increment-tickets");
+    this.selectedSeatsList = this.shadowRoot.getElementById(
+      "selected-seats-list"
+    );
+    this.totalPriceValue = this.shadowRoot.getElementById("total-price-value");
+    this.confirmButton = this.shadowRoot.getElementById("confirm-booking");
+  }
+
+  static get observedAttributes() {
+    return ["showtime-id", "movie-poster"];
+  }
+
+  attributeChangedCallback(attr, oldVal, newVal) {
+    if (attr === "showtime-id") {
+      this.showtimeId = newVal;
+    }
+    if (attr === "movie-poster") {
+      this.moviePoster = newVal;
+    }
+  }
+
+  connectedCallback() {
+    this.seatSelector = this.getRootNode().querySelector("seat-selector");
+
+    if (this.seatSelector) {
+      this.seatSelector.addEventListener("seats-updated", (e) =>
+        this.handleSeatsUpdated(e.detail)
+      );
+      this.seatSelector.setAttribute(
+        "allowed-seats",
+        this.ticketQuantity.toString()
+      );
+    } else {
+      console.error("OrderSteps: seat-selector олдсонгүй.");
+    }
+
+    this.orderSummaryContainer.style.display = "none";
+
+    this.decrementButton.addEventListener("click", () =>
+      this.updateTicketQuantity(-1)
+    );
+    this.incrementButton.addEventListener("click", () =>
+      this.updateTicketQuantity(1)
+    );
+    this.confirmButton.addEventListener("click", () =>
+      this.handleConfirmBooking()
+    );
+  }
+
+  renderInitialSeatPicker() {
+    this.initialQuestionContainer.style.display = "block";
+
+    const container = this.container.querySelector(".seat-category-container");
+    container.innerHTML = "";
+    this.seatTypes.forEach((type) => {
+      const formattedPrice = type.price
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      const btn = document.createElement("button");
+      btn.classList.add("button-item", type.type);
+      btn.innerHTML = `
         <div class="legend-icon"></div>
         <div class="legend-wrapper">
           <div class="legend-text">
@@ -337,153 +367,28 @@ export class OrderSteps extends HTMLElement {
       `;
       container.appendChild(btn);
       btn.addEventListener("click", () => {
-        initialQuestionContainer.style.display = "none";
-        this.orderSummaryContainer.style.display = "block";
-        this.render();
+        this.seatAutoPicker(2, type.type);
+        this.renderOrderSummary();
       });
     });
+    this.initialSeatPickerRendered = true;
   }
 
-  seatAutoPicker(count = 2) {}
-
-  renderOrderSummary() {
-    const templateOrderSummary = document.createElement("template");
-    templateOrderSummary.innerHTML = `
-      <h3 id="movie-title-display">Киноны нэр</h3>
-      <p id="showtime-info">
-        Үзвэрийн цаг: <span id="showtime-details"></span>
-      </p>
-
-      <div class="ticket-quantity">
-        <label for="num-tickets">Тасалбар:</label>
-        <button id="decrement-tickets" aria-label="Decrease ticket count">
-          -
-        </button>
-        <input
-          type="number"
-          id="num-tickets"
-          value="1"
-          min="1"
-          max="10"
-          readonly
-        />
-        <button id="increment-tickets" aria-label="Increase ticket count">
-          +
-        </button>
-      </div>
-
-      <h4>Сонгосон суудлууд:</h4>
-      <ul id="selected-seats-list">
-        <li>Суудал сонгоогүй байна.</li>
-      </ul>
-
-      <div class="total-price">
-        Нийт дүн: <span id="total-price-value">0</span>₮
-      </div>
-
-      <button id="confirm-booking" class="confirm-button" disabled>
-        Захиалга баталгаажуулах
-      </button>
-    `;
-    this.orderSummaryContainer.appendChild(
-      templateOrderSummary.content.cloneNode(true)
-    );
-  }
-
-  connectedCallback() {
-    // Oir sibling elementiig getRootNode() ashiglan gadaad Node-s oloh (light DOM)
-    this.seatSelector = this.getRootNode().querySelector("seat-selector");
-
-    if (this.seatSelector) {
-      // Listen for seat updates from seat-selector
-      this.seatSelector.addEventListener("seats-updated", (e) =>
-        this.handleSeatsUpdated(e.detail)
-      );
-      // Set initial allowed seats on seat-selector
-      this.seatSelector.setAttribute(
-        "allowed-seats",
-        this.ticketQuantity.toString()
-      );
+  seatAutoPicker(count, type) {
+    const seatSelector = this.getRootNode().querySelector("seat-selector");
+    if (seatSelector) {
+      this.ticketQuantity = count;
+      seatSelector.setAttribute("allowed-seats", count.toString());
+      seatSelector.setAttribute("auto-picker", type);
     } else {
       console.error("OrderSteps: seat-selector олдсонгүй.");
     }
-
-    this.decrementButton.addEventListener("click", () =>
-      this.updateTicketQuantity(-1)
-    );
-    this.incrementButton.addEventListener("click", () =>
-      this.updateTicketQuantity(1)
-    );
-    this.confirmButton.addEventListener("click", () =>
-      this.handleConfirmBooking()
-    );
   }
 
-  updateTicketQuantity(change) {
-    const newQuantity = this.ticketQuantity + change;
-    if (newQuantity >= 1 && newQuantity <= 10) {
-      //Нэг удаадаа 10 хүртэлх тасалбар захиалах
-      this.ticketQuantity = newQuantity;
-      this.numTicketsInput.value = this.ticketQuantity;
-      if (this.seatSelector) {
-        this.seatSelector.setAttribute(
-          "allowed-seats",
-          this.ticketQuantity.toString()
-        );
-      }
-      // If current selected seats exceed new quantity, seat-selector's _enforceSeatLimit will handle it
-      // and fire a new 'seats-updated' event.
-    }
-  }
-
-  handleSeatsUpdated(detail) {
-    this.selectedSeats = detail.selectedSeats || [];
-    this.showtimeId = detail.showtimeId;
-    this.movieTitle = detail.movieTitle || "Кино";
-    this.moviePoster = detail.moviePoster || null;
-    this.seatTypes = detail.seatTypes || null;
-
-    if (Array.isArray(detail.seatTypes) && detail.seatTypes.length > 0) {
-      this.seatTypes = detail.seatTypes;
-      if (!this.initialSeatPickerRendered) {
-        this.renderInitialSeatPicker();
-        this.initialSeatPickerRendered = true;
-      }
-    } else if (!this.initialSeatPickerRendered) {
-      console.warn(
-        "OrderSteps: seatTypes not available or empty on initial seats-updated event."
-      );
-    }
-
-    // Format showtime details for display
-    const date = new Date(detail.day);
-    const options = { month: "short", day: "numeric" };
-    const formattedDate = date.toLocaleDateString("en-US", options);
-    this.showtimeDetailsText = `${formattedDate}, ${detail.hour} - ${detail.branchId} салбар, Танхим ${detail.hallId}`;
-
-    this.render();
-  }
-
-  calculateTotalPrice() {
-    return this.selectedSeats.reduce((total, seat) => total + seat.price, 0);
-  }
-
-  render() {
-    // Ensure order summary is hidden if initial picker is active
-    if (
-      this.initialSeatPickerRendered &&
-      this.orderSummaryContainer.style.display === "none"
-    ) {
-      const initialQuestionContainer =
-        this.container.querySelector(".initial-question");
-      if (initialQuestionContainer.style.display === "none") {
-        this.orderSummaryContainer.style.display = "block";
-      }
-    }
-
-    this.movieTitleDisplay.textContent = this.movieTitle;
-    this.showtimeDetailsDisplay.textContent = this.showtimeDetailsText;
-    this.numTicketsInput.value = this.ticketQuantity;
+  renderOrderSummary() {
+    this.initialQuestionContainer.style.display = "none";
+    this.orderSummaryContainer.style.display = "block";
+    this.numTicketsInput.textContent  = this.ticketQuantity;
 
     if (this.selectedSeats.length > 0) {
       this.selectedSeatsList.innerHTML = this.selectedSeats
@@ -500,6 +405,43 @@ export class OrderSteps extends HTMLElement {
 
     const totalPrice = this.calculateTotalPrice();
     this.totalPriceValue.textContent = totalPrice.toLocaleString();
+  }
+
+  updateTicketQuantity(change) {
+    const newQuantity = this.ticketQuantity + change;
+    if (newQuantity >= 1 && newQuantity <= 10) {
+      this.ticketQuantity = newQuantity;
+      this.numTicketsInput.textContent = this.ticketQuantity;
+      if (this.seatSelector) {
+        this.seatSelector.setAttribute(
+          "allowed-seats",
+          this.ticketQuantity.toString()
+        );
+      }
+    }
+  }
+
+  handleSeatsUpdated(detail) {
+    this.selectedSeats = detail.selectedSeats || [];
+    this.showtimeId = detail.showtimeId;
+    this.movieTitle = detail.movieTitle || "Кино";
+    this.moviePoster = detail.moviePoster || null;
+    this.seatTypes = detail.seatTypes || null;
+
+    if (Array.isArray(detail.seatTypes) && detail.seatTypes.length > 1) {
+      this.seatTypes = detail.seatTypes;
+      if (this.initialSeatPickerRendered === false) {
+        this.renderInitialSeatPicker();
+      } else {
+        this.renderOrderSummary();
+      }
+    } else {
+      this.renderOrderSummary();
+    }
+  }
+
+  calculateTotalPrice() {
+    return this.selectedSeats.reduce((total, seat) => total + seat.price, 0);
   }
 
   handleConfirmBooking() {

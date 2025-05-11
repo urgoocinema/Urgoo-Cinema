@@ -350,7 +350,7 @@ export class SeatSelector extends HTMLElement {
     this.formattedDay = null;
     this.formattedHour = null;
 
-    this.maxAllowedSeats = 1;
+    this.maxAllowedSeats = null;
     this.currentSelectedSeats = [];
 
     this.orderSteps = null;
@@ -367,6 +367,7 @@ export class SeatSelector extends HTMLElement {
       "day",
       "hour",
       "allowed-seats",
+      "auto-picker"
     ];
   }
 
@@ -383,6 +384,9 @@ export class SeatSelector extends HTMLElement {
         this.maxAllowedSeats = num;
         this.enforceSeatLimit(this.maxAllowedSeats);
       }
+    }
+    if(attr === "auto-picker") {
+      this.handleAutoSelection(2, newVal);
     }
   }
 
@@ -531,14 +535,102 @@ export class SeatSelector extends HTMLElement {
         console.log(this.currentSelectedSeats, this.maxAllowedSeats);
       }
     });
-    this.orderSteps = this.getRootNode().querySelector("order-steps");
-    this.orderSteps.addEventListener("auto-selected", (e) => {this.handleAutoSelection(e)});
   }
 
-  handleAutoSelection(e) {
-    const { selectedType, count } = e.detail;
-    const seatsContainer = this.container.querySelectorAll(`.seat:not(.hidden):not(.occupied).${selectedType}`);
-    
+  handleAutoSelection(count, type) {
+    if (!type || count <= 0) {
+      this.updatedSelectedSeatsDispatchEvent();
+      return;
+    }
+
+    // 1. Deselect any currently selected seats
+    this.currentSelectedSeats.forEach(seatInfo => {
+      const seatEl = this.container.querySelector(`[data-seat="${seatInfo.row}-${seatInfo.column}"]`);
+      if (seatEl) {
+        seatEl.classList.remove("selected");
+      }
+    });
+    this.currentSelectedSeats = [];
+
+    const rows = this.container.querySelectorAll(".row[data-row]");
+    const allPossibleBlocks = []; // Store all found adjacent blocks
+
+    for (const rowElement of rows) {
+      // 2. Get all candidate seats in this row of the specified type that are not occupied or hidden
+      const candidateSeatsInRow = Array.from(
+        rowElement.querySelectorAll(`.seat.${type}:not(.hidden):not(.occupied)`)
+      ).map(seatEl => {
+        const seatId = seatEl.getAttribute("data-seat");
+        const metaSeatId = seatEl.getAttribute("data-meta-seat");
+        // Ensure seat has valid data-seat and data-meta-seat attributes
+        if (!seatId || !metaSeatId) return null;
+        const [seatRow, seatCol] = seatId.split("-").map(Number);
+        const [metaSeatRow, metaSeatCol] = metaSeatId.split("-").map(Number);
+        return { element: seatEl, row: seatRow, col: seatCol, metaRow: metaSeatRow, metaCol: metaSeatCol };
+      }).filter(Boolean) // Remove any null entries
+      .sort((a, b) => a.col - b.col); // Sort by display column number
+
+      if (candidateSeatsInRow.length < count) {
+        continue; // Not enough available seats of this type in this row
+      }
+
+      // 3. Slide a window of size `count` across the sorted available seats in the row
+      for (let i = 0; i <= candidateSeatsInRow.length - count; i++) {
+        const potentialBlock = candidateSeatsInRow.slice(i, i + count);
+        
+        // Check for adjacency: display column numbers AND meta column numbers must be consecutive
+        let isAdjacent = true;
+        if (count > 1) { // Adjacency check only needed if count > 1
+          for (let j = 0; j < count - 1; j++) {
+            if (potentialBlock[j+1].col !== potentialBlock[j].col + 1 || 
+                potentialBlock[j+1].metaCol !== potentialBlock[j].metaCol + 1) {
+              isAdjacent = false;
+              break;
+            }
+          }
+        }
+
+        if (isAdjacent) {
+          // Add this valid block to our list of possibilities
+          allPossibleBlocks.push(potentialBlock);
+        }
+      }
+    }
+
+    // 4. If suitable blocks were found, randomly select one
+    if (allPossibleBlocks.length > 0) {
+      const randomIndex = Math.floor(Math.random() * allPossibleBlocks.length);
+      const selectedBlock = allPossibleBlocks[randomIndex];
+
+      // 5. Select these seats
+      selectedBlock.forEach(seatObj => {
+        const seatElement = seatObj.element;
+        seatElement.classList.add("selected");
+
+        const metaSeatAttr = seatElement.getAttribute("data-meta-seat");
+        if (!metaSeatAttr) {
+            return; // Skip this seat if meta info is missing
+        }
+        const [meta_row, meta_column] = metaSeatAttr.split("-").map(Number);
+        const details = this.getSeatDetails(meta_row, meta_column); 
+
+        this.currentSelectedSeats.push({
+          row: seatObj.row,       // Display row from data-seat
+          column: seatObj.col,    // Display column from data-seat
+          type: details.type,     // Actual type from getSeatDetails
+          price: details.price,
+          label: details.label,
+        });
+      });
+      
+      console.log(`${type} төрлийн суудлаас зэрэгцээ ${this.currentSelectedSeats.length}-г автоматаар сонгов.`, this.currentSelectedSeats);
+    } else {
+      console.log(`Таны сонгосон ${type} төрлийн суудлаас зэрэгцээ ${count} суудал үлдээгүй байна.`);
+      alert(`Тухайн суудлын төрлөөс зэрэгцээ суудал үлдээгүй байна. Та суудлаа гараар сонгоно уу.`);
+    }
+
+    // 6. Dispatch event with the newly selected seats (or empty if none found/selected)
+    this.updatedSelectedSeatsDispatchEvent();
   }
 
   renderSeats() {
