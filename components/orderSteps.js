@@ -21,7 +21,6 @@ template.innerHTML = `
       padding: 4rem;
     }
     .order-summary-container {
-
     }
     h3 {
       margin-top: 0;
@@ -39,7 +38,7 @@ template.innerHTML = `
       justify-content: space-between;
       gap: 10px;
     }
-            .button-group {
+    .button-group {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -47,7 +46,7 @@ template.innerHTML = `
       button {
         touch-action: manipulation;
       }
-      }
+    }
     .label {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
       color: transparent;
@@ -57,28 +56,19 @@ template.innerHTML = `
       font-size: 1.5rem;
       text-align: left;
     }
-      #num-tickets {
-        font-size: 1.15rem;
-        font-weight: bold;
-      }
+    #num-tickets {
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
     .ticket-quantity button {
       padding: 5px 10px;
-      background-color: transparent;;
+      background-color: transparent;
       color: black;
       border: 1px solid #d6d6d6;
       border-radius: 50%;
       cursor: pointer;
       width: 39px;
       height: 39px;
-    }
-    .selected-seats-list {
-      list-style: none;
-      padding: 0;
-      margin: 10px 0;
-      font-size: 0.85em;
-    }
-    .selected-seats-list li {
-      padding: 3px 0;
     }
     .total-price {
       font-weight: bold;
@@ -111,171 +101,215 @@ template.innerHTML = `
       margin-top: 0.5rem;
       margin-bottom: 1rem;
     }
-      //seat-category-container
-                p {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-          }
-          .seat-category-container {
-            display: flex;
-            flex-direction: column;
-          }
-          .button-item {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            border: 1px solid black;
-            border-left: 5.6px solid black;
-            border-radius: 5px;
-            background-color: transparent;
-            font-family: Roboto Condensed, sans-serif;
-            cursor: pointer;
-            padding: 12px;
-            margin-bottom: 1rem;
-            color: #272727;
-          }
-          .legend-heading {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            & .legend-seat-name {
-              text-align: left;
-              font-size: 1rem;
-            }
-            & .legend-price {
-              font-size: 1rem;
-              font-weight: bold;
-            }
-          }
-          .legend-caption {
-            font-size: 0.75rem;
-            font-weight: 300;
-            margin-top: 0.2rem;
-            text-align: left;
-          }
-          .legend-wrapper {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-          }
-          .legend-arrow {
-          }
-          .legend-icon.vip {
-          }
-          .regular {
-            border-left: 5.6px solid black;
-            & .legend-icon {
-              margin-top: 3px;
-              width: 20px;
-              height: 20px;
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: contain;
-              background-image: url("./pics/seat-icons/regular_seat_icon.svg");
-            }
-          }
-          .saver {
-          border: 1px solid #41d282;
-            border-left: 5.6px solid #41d282;
-            & .legend-icon {
-              margin-top: 3px;
-              width: 20px;
-              height: 20px;
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: contain;
-              background-image: url("./pics/seat-icons/saver_seat_icon.svg");
-            }
-          }
-          .super-saver {
-            border: 1px solid #c81919;
-            border-left: 5.6px solid #c81919;
-            & .legend-icon {
-              margin-top: 3px;
-              width: 20px;
-              height: 20px;
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: contain;
-              background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
-            }
-          }
-          .vip {
-            border-left: 5.6px solid black;
-            & .legend-icon {
-              margin-top: 3px;
-              width: 20px;
-              height: 20px;
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: contain;
-              background-image: url("./pics/seat-icons/vip_seat_icon.svg");
-            }
-          }
+    //seat-category-container
+    p {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    .seat-category-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .button-item {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      border: 1px solid black;
+      border-left: 5.6px solid black;
+      border-radius: 5px;
+      background-color: transparent;
+      font-family: Roboto Condensed, sans-serif;
+      cursor: pointer;
+      padding: 12px;
+      margin-bottom: 1rem;
+      color: #272727;
+    }
+    .legend-heading {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      & .legend-seat-name {
+        text-align: left;
+        font-size: 1rem;
+      }
+      & .legend-price {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+    .legend-caption {
+      font-size: 0.75rem;
+      font-weight: 300;
+      margin-top: 0.2rem;
+      text-align: left;
+    }
+    .legend-wrapper {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+    .legend-arrow {
+    }
+    .legend-icon.vip {
+    }
+    .regular {
+      border-left: 5.6px solid black;
+      & .legend-icon {
+        margin-top: 3px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url("./pics/seat-icons/regular_seat_icon.svg");
+      }
+    }
+    .saver {
+      border: 1px solid #41d282;
+      border-left: 5.6px solid #41d282;
+      & .legend-icon {
+        margin-top: 3px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url("./pics/seat-icons/saver_seat_icon.svg");
+      }
+    }
+    .super-saver {
+      border: 1px solid #c81919;
+      border-left: 5.6px solid #c81919;
+      & .legend-icon {
+        margin-top: 3px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
+      }
+    }
+    .vip {
+      border-left: 5.6px solid black;
+      & .legend-icon {
+        margin-top: 3px;
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: url("./pics/seat-icons/vip_seat_icon.svg");
+      }
+    }
 
     #selected-seats-list {
+      margin: 1rem 0;
+      padding: 0.5rem 0;
+      gap: 10px;
+      border-top: 1px solid hsla(0, 0%, 46%, 0.1);
+      border-bottom: 1px solid hsla(0, 0%, 46%, 0.1);
+    }
+    .selected-seats-table {
       display: flex;
       flex-wrap: wrap;
-      margin: 1rem 0;
       gap: 10px;
+    }
+    .selected-price-table {
+      margin-top: 1.2rem;
+    }
+    .selected-price-table div {
+      display: flex;
+      justify-content: space-between;
     }
     .selected-item {
       display: inline-flex;
       align-items: center;
       gap: 2px;
     }
-      .selected-icon {
-    width: 25px;
-    height: 25px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-        border: none;
-      }
+    .selected-icon {
+      width: 30px;
+      height: 30px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      border: none;
+    }
     .selected-text {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       display: flex;
       flex-direction: column;
     }
     .selected-row-span {
       opacity: 0.5;
     }
-      .selected-icon.vip {
-        background-image: url("./pics/seat-icons/selected_vip_seat_icon.svg");
+    .selected-icon.vip {
+      background-image: url("./pics/seat-icons/selected_vip_seat_icon.svg");
+    }
+    .selected-icon.regular {
+      background-image: url("./pics/seat-icons/selected_regular_seat_icon.svg");
+    }
+    .selected-icon.saver {
+      background-image: url("./pics/seat-icons/selected_saver_seat_icon.svg");
+    }
+    .selected-icon.super-saver {
+      background-image: url("./pics/seat-icons/selected_super_saver_seat_icon.svg");
+    }
+    .selected-icon.empty {
+      background-image: url("./pics/seat-icons/empty_seat_icon.svg");
+    }
+    .please-choose-seat {
+      position: relative;
+      width: 100%;
+      & .text {
+        display: inline-block;
+        background-color: #757575;
+        color: #fff;
+        width: 100%;
+        padding: 0.2rem 1.5rem;
+        text-align: center;
       }
-      .selected-icon.regular {
-        background-image: url("./pics/seat-icons/selected_regular_seat_icon.svg");
+    }
+    .triangle-up {
+      position: relative;
+      bottom: -18px;
+      right: 23px;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 6px solid #757575;
+    }
+    @media (max-width: 1250px) {
+      .container {
+        padding: 2rem;
       }
-      .selected-icon.saver {
-        background-image: url("./pics/seat-icons/selected_saver_seat_icon.svg");
+      .order-summary-container {
+        margin: 0 1rem;
       }
-      .selected-icon.super-saver {
-        background-image: url("./pics/seat-icons/selected_super_saver_seat_icon.svg");
+    }
+    @media (max-width: 1028px) {
+      .container {
+        padding: 1rem;
       }
-      @media (max-width: 1250px) {
-        .container {
-          padding: 2rem;
-        }
-        .order-summary-container {
-          margin: 0 1rem;
-        }
+      .initial-question h2,
+      .label {
+        font-size: 1.3rem;
       }
-      @media (max-width: 1028px) {
-        .container {
-          padding: 1rem;
-        }
-          .initial-question h2, .label {
-            font-size: 1.3rem;
-          }
+      .selected-icon {
+        width: 25px;
+        height: 25px;
       }
-      @media (max-width: 650px) {
-          .initial-question h2, .label {
-            font-size: 1.2rem;
-          }
+      .triangle-up {
+        right: 21px;
       }
-
+    }
+    @media (max-width: 650px) {
+      .initial-question h2,
+      .label {
+        font-size: 1.2rem;
+      }
+    }
   </style>
   <div class="initial-question">
     <h2>СУУДЛЫН ТӨРЛӨӨ СОНГОНО УУ</h2>
@@ -284,21 +318,22 @@ template.innerHTML = `
     </section>
   </div>
   <div class="order-summary-container">
-
     <div class="ticket-quantity">
       <div class="label">СУУДЛЫН ТОО</div>
       <div class="button-group">
-      <button id="decrement-tickets" aria-label="Decrease ticket count">
-        ➖
-      </button>
-      <span id="num-tickets"></span>
-      <button id="increment-tickets" aria-label="Increase ticket count">
-        ➕
-      </button>
+        <button id="decrement-tickets" aria-label="Decrease ticket count">
+          ➖
+        </button>
+        <span id="num-tickets"></span>
+        <button id="increment-tickets" aria-label="Increase ticket count">
+          ➕
+        </button>
       </div>
     </div>
 
     <div id="selected-seats-list">
+      <div class="selected-seats-table"></div>
+      <div class="selected-price-table"></div>
     </div>
 
     <div class="total-price">
@@ -344,8 +379,11 @@ export class OrderSteps extends HTMLElement {
     this.numTicketsInput = this.shadowRoot.getElementById("num-tickets");
     this.decrementButton = this.shadowRoot.getElementById("decrement-tickets");
     this.incrementButton = this.shadowRoot.getElementById("increment-tickets");
-    this.selectedSeatsList = this.shadowRoot.getElementById(
-      "selected-seats-list"
+    this.selectedSeatsTable = this.shadowRoot.querySelector(
+      ".selected-seats-table"
+    );
+    this.selectedPriceTable = this.shadowRoot.querySelector(
+      ".selected-price-table"
     );
     this.totalPriceValue = this.shadowRoot.getElementById("total-price-value");
     this.confirmButton = this.shadowRoot.getElementById("confirm-booking");
@@ -452,13 +490,13 @@ export class OrderSteps extends HTMLElement {
   renderOrderSummary() {
     this.initialQuestionContainer.style.display = "none";
     this.orderSummaryContainer.style.display = "block";
-    this.numTicketsInput.textContent  = this.ticketQuantity;
+    this.numTicketsInput.textContent = this.ticketQuantity;
 
     if (this.selectedSeats.length > 0) {
-      this.selectedSeatsList.innerHTML = this.selectedSeats
+      this.selectedSeatsTable.innerHTML = this.selectedSeats
         .map(
           (seat) =>
-          `<span class="selected-item">
+            `<span class="selected-item">
           <span class="selected-icon ${seat.type}"></span>
           <span class="selected-text">
             <span class="selected-row-span">Эгнээ ${seat.row}</span> <span class="selected-seat-span">Суудал ${seat.column}</span>
@@ -467,9 +505,67 @@ export class OrderSteps extends HTMLElement {
         `
         )
         .join("");
+      if (this.selectedSeats.length < this.ticketQuantity) {
+        let diff = this.ticketQuantity - this.selectedSeats.length;
+        while (diff > 1) {
+          diff--;
+          this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+            <span
+              class="selected-icon empty"
+              style="position: relative;"
+            ></span>
+          </span>`;
+        }
+        this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+          <span class="selected-icon empty" style="position: relative;"></span>
+          <div class="triangle-up"></div>
+        </span>`;
+        this.selectedSeatsTable.innerHTML += `
+          <div class="please-choose-seat">
+            <span class="text">Суудлаа сонгохын тулд зураг дээр дарна уу</span>
+          </div>
+        `;
+      }
+      const seatsOfTypeCount = this.selectedSeats.reduce((acc, seat) => {
+        if (!acc[seat.label]) {
+          acc[seat.label] = { price: seat.price, count: 0 };
+        }
+        acc[seat.label].count += 1;
+        return acc;
+      }, {});
+
+      this.selectedPriceTable.innerHTML = Object.entries(seatsOfTypeCount)
+        .map(
+          ([label, { price, count }]) =>
+            `<div>
+             <span>${count} x ${label}</span>
+             <span>₮${((count * price) / 1000).toFixed(1)}K</span>
+            </div>`
+        )
+        .join("");
       this.confirmButton.disabled = false;
     } else {
-      this.selectedSeatsList.innerHTML = "<li>Суудал сонгоогүй байна.</li>";
+      this.selectedSeatsTable.innerHTML = "";
+        let diff = this.ticketQuantity - this.selectedSeats.length;
+        while (diff > 1) {
+          diff--;
+          this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+            <span
+              class="selected-icon empty"
+              style="position: relative;"
+            ></span>
+          </span>`;
+        }
+        this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+          <span class="selected-icon empty" style="position: relative;"></span>
+          <div class="triangle-up"></div>
+        </span>`;
+        this.selectedSeatsTable.innerHTML += `
+          <div class="please-choose-seat">
+            <span class="text">Суудлаа сонгохын тулд зураг дээр дарна уу</span>
+          </div>
+        `;
+      this.selectedPriceTable.innerHTML = "";
       this.confirmButton.disabled = true;
     }
 
@@ -488,6 +584,9 @@ export class OrderSteps extends HTMLElement {
           this.ticketQuantity.toString()
         );
       }
+    }
+    if (this.selectedSeats.length <= this.ticketQuantity) {
+      this.renderOrderSummary();
     }
   }
 

@@ -80,15 +80,6 @@ export class MovieList extends HTMLElement {
     });
 
     window.location.href = `seat-page.html?${queryParams.toString()}`;
-    // seatSelector.setAttribute("movie_title", movieTitle);
-    // seatSelector.setAttribute("movie_id", movieId);
-    // seatSelector.setAttribute("branch_id", branch);
-    // seatSelector.setAttribute("hall_id", hall);
-    // seatSelector.setAttribute("day", day);
-    // seatSelector.setAttribute("hour", hour);
-
-    // this.shadowRoot.querySelector(".seat-selection").innerHTML = "";
-    // this.shadowRoot.querySelector(".seat-selection").appendChild(seatSelector);
   }
 
   disconnectedCallback() {}

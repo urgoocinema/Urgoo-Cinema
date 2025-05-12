@@ -750,10 +750,8 @@ export class SeatSelector extends HTMLElement {
 
       const legendText = document.createElement("span");
       legendText.classList.add("legend-text");
-      const formattedPrice = seat.price
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      legendText.innerHTML = `${seat.label} <span class="legend-price">${formattedPrice}₮</span>`;
+      const formattedPrice = (seat.price / 1000).toFixed(1);
+      legendText.innerHTML = `${seat.label} <span class="legend-price">₮${formattedPrice}К</span>`;
 
       legendItem.appendChild(legendIcon);
       legendItem.appendChild(legendText);
