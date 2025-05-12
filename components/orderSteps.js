@@ -46,6 +46,10 @@ template.innerHTML = `
       button {
         touch-action: manipulation;
       }
+      .disabled {
+        opacity: 0.2;
+        cursor: not-allowed;
+      }
     }
     .label {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
@@ -583,6 +587,14 @@ export class OrderSteps extends HTMLElement {
           "allowed-seats",
           this.ticketQuantity.toString()
         );
+      }
+      if(this.ticketQuantity == 1) {
+        this.decrementButton.classList.add("disabled");
+      } else if(this.ticketQuantity == 10) {
+        this.incrementButton.classList.add("disabled");
+      } else {
+        this.decrementButton.classList.remove("disabled");
+        this.incrementButton.classList.remove("disabled");
       }
     }
     if (this.selectedSeats.length <= this.ticketQuantity) {
