@@ -118,7 +118,7 @@ template.innerHTML = `
       justify-content: initial; /* Reset justify-content */
       grid-auto-flow: initial; /* Reset grid-auto-flow */
       grid-auto-columns: initial; /* Reset grid-auto-columns */
-      overflow: visible;
+      overflow-x: hidden;
       text-align: center; /* Center content like screen SVG and hall name */
     }
     .screen {
@@ -831,6 +831,7 @@ export class SeatSelector extends HTMLElement {
         caption: seatType.caption,
       });
     }
+    this.seatTypes.sort((a, b) => b.price - a.price);
   }
 
   disconnectedCallback() {}

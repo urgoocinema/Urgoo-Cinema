@@ -18,11 +18,10 @@ template.innerHTML = `
       width: 100%;
     }
     .container {
-      padding: 3rem;
+      padding: 4rem;
     }
     .order-summary-container {
-      margin: 2rem 1rem;
-      text-align: center;
+
     }
     h3 {
       margin-top: 0;
@@ -35,10 +34,9 @@ template.innerHTML = `
     }
 
     .ticket-quantity {
-      margin: 15px 0;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       gap: 10px;
     }
             .button-group {
@@ -47,7 +45,7 @@ template.innerHTML = `
       align-items: center;
       gap: 1rem;
       }
-    .ticket-quantity .label {
+    .label {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
       color: transparent;
       background-clip: text;
@@ -107,7 +105,7 @@ template.innerHTML = `
       background-clip: text;
       font-weight: 350;
       letter-spacing: 0.035em;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
       //seat-category-container
                 p {
@@ -139,15 +137,15 @@ template.innerHTML = `
             gap: 0.8rem;
             & .legend-seat-name {
               text-align: left;
-              font-size: 1.1rem;
+              font-size: 1rem;
             }
             & .legend-price {
-              font-size: 1.1rem;
+              font-size: 1rem;
               font-weight: bold;
             }
           }
           .legend-caption {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 300;
             margin-top: 0.2rem;
             text-align: left;
@@ -210,6 +208,69 @@ template.innerHTML = `
               background-image: url("./pics/seat-icons/vip_seat_icon.svg");
             }
           }
+
+    #selected-seats-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .selected-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+      .selected-icon {
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+        border: none;
+      }
+    .selected-text {
+      font-size: 0.7rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .selected-row-span {
+      opacity: 0.5;
+    }
+      .selected-icon.vip {
+        background-image: url("./pics/seat-icons/selected_vip_seat_icon.svg");
+      }
+      .selected-icon.regular {
+        background-image: url("./pics/seat-icons/selected_regular_seat_icon.svg");
+      }
+      .selected-icon.saver {
+        background-image: url("./pics/seat-icons/selected_saver_seat_icon.svg");
+      }
+      .selected-icon.super-saver {
+        background-image: url("./pics/seat-icons/selected_super_saver_seat_icon.svg");
+      }
+      @media (max-width: 1250px) {
+        .container {
+          padding: 2rem;
+        }
+        .order-summary-container {
+          margin: 0 1rem;
+        }
+      }
+      @media (max-width: 1028px) {
+        .container {
+          padding: 1rem;
+        }
+          .initial-question h2, .label {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+          }
+      }
+      @media (max-width: 650px) {
+          .initial-question h2, .label {
+            font-size: 1.2rem;
+          }
+      }
+
   </style>
   <div class="initial-question">
     <h2>СУУДЛЫН ТӨРЛӨӨ СОНГОНО УУ</h2>
@@ -220,7 +281,7 @@ template.innerHTML = `
   <div class="order-summary-container">
 
     <div class="ticket-quantity">
-      <div class="label">СУУДЛЫН ТООГ СОНГОНО УУ</div>
+      <div class="label">СУУДЛЫН ТОО</div>
       <div class="button-group">
       <button id="decrement-tickets" aria-label="Decrease ticket count">
         ➖
@@ -232,10 +293,8 @@ template.innerHTML = `
       </div>
     </div>
 
-    <h4>Сонгосон суудлууд:</h4>
-    <ul id="selected-seats-list">
-      <li>Суудал сонгоогүй байна.</li>
-    </ul>
+    <div id="selected-seats-list">
+    </div>
 
     <div class="total-price">
       Нийт дүн: <span id="total-price-value">0</span>₮
@@ -394,7 +453,13 @@ export class OrderSteps extends HTMLElement {
       this.selectedSeatsList.innerHTML = this.selectedSeats
         .map(
           (seat) =>
-            `<li>Эгнээ ${seat.row}, Суудал ${seat.column} (${seat.label} - ${seat.price}₮)</li>`
+          `<span class="selected-item">
+          <span class="selected-icon ${seat.type}"></span>
+          <span class="selected-text">
+            <span class="selected-row-span">Эгнээ ${seat.row}</span> <span class="selected-seat-span">Суудал ${seat.column}</span>
+          </span>
+        </span> 
+        `
         )
         .join("");
       this.confirmButton.disabled = false;
