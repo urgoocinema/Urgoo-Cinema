@@ -44,6 +44,9 @@ template.innerHTML = `
       justify-content: center;
       align-items: center;
       gap: 1rem;
+      button {
+        touch-action: manipulation;
+      }
       }
     .label {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
@@ -104,8 +107,9 @@ template.innerHTML = `
       color: transparent;
       background-clip: text;
       font-weight: 350;
-      letter-spacing: 0.035em;
-      margin-bottom: 2rem;
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
     }
       //seat-category-container
                 p {
@@ -173,6 +177,7 @@ template.innerHTML = `
             }
           }
           .saver {
+          border: 1px solid #41d282;
             border-left: 5.6px solid #41d282;
             & .legend-icon {
               margin-top: 3px;
@@ -185,6 +190,7 @@ template.innerHTML = `
             }
           }
           .super-saver {
+            border: 1px solid #c81919;
             border-left: 5.6px solid #c81919;
             & .legend-icon {
               margin-top: 3px;
@@ -212,7 +218,8 @@ template.innerHTML = `
     #selected-seats-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      margin: 1rem 0;
+      gap: 10px;
     }
     .selected-item {
       display: inline-flex;
@@ -260,8 +267,6 @@ template.innerHTML = `
           padding: 1rem;
         }
           .initial-question h2, .label {
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
             font-size: 1.3rem;
           }
       }
