@@ -78,7 +78,7 @@ template.innerHTML = `
       cursor: not-allowed;
     }
     .confirm-button {
-      border-width: 2px;
+      border-width: 2.3px;
       border-style: solid;
 
       background: none;
@@ -211,7 +211,7 @@ template.innerHTML = `
     }
     .legend-icon.vip {
     }
-    .regular {
+    .seat-category-container .regular {
       border-left: 5.6px solid black;
       & .legend-icon {
         margin-top: 3px;
@@ -223,7 +223,7 @@ template.innerHTML = `
         background-image: url("./pics/seat-icons/regular_seat_icon.svg");
       }
     }
-    .saver {
+    .seat-category-container .saver {
       border: 1px solid #41d282;
       border-left: 5.6px solid #41d282;
       & .legend-icon {
@@ -236,7 +236,7 @@ template.innerHTML = `
         background-image: url("./pics/seat-icons/saver_seat_icon.svg");
       }
     }
-    .super-saver {
+    .seat-category-container .super-saver {
       border: 1px solid #c81919;
       border-left: 5.6px solid #c81919;
       & .legend-icon {
@@ -249,7 +249,7 @@ template.innerHTML = `
         background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
       }
     }
-    .vip {
+    .seat-category-container .vip {
       border-left: 5.6px solid black;
       & .legend-icon {
         margin-top: 3px;
@@ -273,6 +273,55 @@ template.innerHTML = `
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
+    }
+    .auto-button-container {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .auto-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      color: black;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #BEBEBE;
+      border-radius: 2px 0 0 2px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      touch-action: manipulation;
+    }
+        .auto-button.regular, .auto-type.regular {
+          border-color: #black;
+        }
+        .auto-button.saver, .auto-type.saver {
+          border-color: #6FCE89;
+        }
+        .auto-button.super-saver, .auto-type.super-saver {
+          border-color: #B34C37;
+        }
+        .auto-button.vip, .auto-type.vip {
+          border-color: #F5A623;
+        }
+    .auto-type {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+      color: black;
+      border: 1px solid #BEBEBE;
+      border-radius: 0 2px 2px 0;
+      border-left: none;
+      padding: 0 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      touch-action: manipulation;
+      padding: 0.2rem 0.3rem;
+      & img {
+        width: 20px;
+      }
     }
     .selected-price-table {
       margin-top: 1.2rem;
@@ -337,6 +386,128 @@ template.innerHTML = `
       border-right: 7px solid transparent;
       border-bottom: 6px solid #757575;
     }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  max-width: 300px;
+  background: white;
+  padding: 2rem;
+  border-radius: 4px;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+.close-text {
+  cursor: pointer;
+  color: black;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+
+    width: max-content;
+    border-width: 2.4px;
+    border-style: solid;
+    background: none;
+    border-image-source: linear-gradient(to right, #b74d1c 0%, #f7941e 48%, #eec42a 100%);
+    border-image-slice: 1;
+    margin: 1.5rem auto 0;
+    padding: 0.7rem 2.6rem;
+    color: black;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    transition: all 0.27s ease;
+    &:hover {
+      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
+      text-shadow: 0 0 3px #fff;
+    }
+}
+.close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+.modal-content h2 {
+      background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
+      color: transparent;
+      background-clip: text;
+      font-weight: 350;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-weight: 350;
+      text-align: center;
+}
+.modal-content .seat-categories {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  width: max-content;
+  margin: 0 auto;
+}
+.modal-content .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-weight: 300;
+  padding: 0.35rem;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+  & .legend-icon {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  & .legend-icon.vip {
+    background-image: url("./pics/seat-icons/vip_seat_icon.svg");
+  }
+  & .legend-icon.regular {
+    background-image: url("./pics/seat-icons/regular_seat_icon.svg");
+  }
+  & .legend-icon.saver {
+    background-image: url("./pics/seat-icons/saver_seat_icon.svg");
+  }
+  & .legend-icon.super-saver {
+    background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
+  }
+}
+  .modal-content .legend-item.active {
+    background-color: #f0f0f0;
+  }
     @media (max-width: 1250px) {
       .container {
         padding: 2rem;
@@ -393,6 +564,15 @@ template.innerHTML = `
 
     <div id="selected-seats-list">
       <div class="selected-seats-table"></div>
+      <div class="auto-button-container">
+       <button class="auto-button">
+        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="12" height="12.5" viewBox="0 0 122.61 122.88"><title>update</title><path d="M111.9,61.57a5.36,5.36,0,0,1,10.71,0A61.3,61.3,0,0,1,17.54,104.48v12.35a5.36,5.36,0,0,1-10.72,0V89.31A5.36,5.36,0,0,1,12.18,84H40a5.36,5.36,0,1,1,0,10.71H23a50.6,50.6,0,0,0,88.87-33.1ZM106.6,5.36a5.36,5.36,0,1,1,10.71,0V33.14A5.36,5.36,0,0,1,112,38.49H84.44a5.36,5.36,0,1,1,0-10.71H99A50.6,50.6,0,0,0,10.71,61.57,5.36,5.36,0,1,1,0,61.57,61.31,61.31,0,0,1,91.07,8,61.83,61.83,0,0,1,106.6,20.27V5.36Z"/>
+        </svg>
+        Автомат сонгогч</button>
+       <button class="auto-type">
+        <img>
+       </button>
+      </div>
       <div class="selected-price-table"></div>
     </div>
 
@@ -418,6 +598,16 @@ template.innerHTML = `
         Захиалга баталгаажуулах
       </button>
     </div>
+    
+    <div id="modal" class="modal hidden">
+      <div class="modal-content">
+        <span id="close-modal" class="close hidden">&times;</span>
+        <h2>Суудлын төрлөө сонгоно уу</h2>
+        <div class="seat-categories"></div>
+        <div id="close-modal-text" class="close-text">Буцах</div>
+      </div>
+    </div>
+
   </div>
 `;
 
@@ -462,10 +652,21 @@ export class OrderSteps extends HTMLElement {
     );
     this.totalPriceValue = this.shadowRoot.getElementById("total-price-value");
     this.vatPriceValue = this.shadowRoot.getElementById("sub-vat-value");
-    this.ticketsPriceValue = this.shadowRoot.getElementById("sub-tickets-value");
+    this.ticketsPriceValue =
+      this.shadowRoot.getElementById("sub-tickets-value");
     this.serviceChargeValue = this.shadowRoot.getElementById(
-      "sub-service-charge-value");
+      "sub-service-charge-value"
+    );
     this.confirmButton = this.shadowRoot.getElementById("confirm-booking");
+
+    this.autoButton = this.shadowRoot.querySelector(".auto-button");
+    this.autoTypeBtn = this.shadowRoot.querySelector(".auto-type");
+    this.autoType = null;
+    this.autoTypeImg = this.shadowRoot.querySelector(".auto-type img");
+
+    this.modal = this.shadowRoot.getElementById("modal");
+    this.closeModalBtn = this.shadowRoot.getElementById("close-modal");
+    this.closeModalText = this.shadowRoot.getElementById("close-modal-text");
   }
 
   static get observedAttributes() {
@@ -507,6 +708,44 @@ export class OrderSteps extends HTMLElement {
     this.confirmButton.addEventListener("click", () =>
       this.handleConfirmBooking()
     );
+
+    this.autoButton.addEventListener("click", () => {
+      this.seatAutoPicker(this.ticketQuantity, this.autoType);
+      this.updateTicketQuantity(0);
+    });
+    this.autoTypeBtn.addEventListener("click", () => {
+      this.openModal();
+    });
+    this.closeModalBtn.addEventListener("click", () => {
+      this.hideModal();
+    });
+    this.closeModalText.addEventListener("click", () => {
+      this.hideModal();
+    });
+    this.modal.addEventListener("click", (e) => {
+      if (e.target === this.modal) {
+        this.hideModal();
+      }
+    });
+    this.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && this.modal.classList.contains("show")) {
+        this.hideModal();
+      }
+    });
+  }
+
+  openModal() {
+    this.modal.classList.remove("hidden");
+    setTimeout(() => {
+      this.modal.classList.add("show");
+    }, 100);
+    this.renderModalSeatPicker();
+  }
+  hideModal() {
+    this.modal.classList.remove("show");
+    setTimeout(() => {
+      this.modal.classList.add("hidden");
+    }, 300);
   }
 
   renderInitialSeatPicker() {
@@ -546,6 +785,9 @@ export class OrderSteps extends HTMLElement {
       `;
       container.appendChild(btn);
       btn.addEventListener("click", () => {
+        this.autoType = type.type;
+        this.autoButton.classList.add(type.type);
+        this.autoTypeBtn.classList.add(type.type);
         this.seatAutoPicker(2, type.type);
         this.updateTicketQuantity(0);
       });
@@ -553,12 +795,50 @@ export class OrderSteps extends HTMLElement {
     this.initialSeatPickerRendered = true;
   }
 
+  renderModalSeatPicker() {
+    const container = this.modal.querySelector(".seat-categories");
+    container.innerHTML = "";
+    this.seatTypes.forEach((type) => {
+      const span = document.createElement("span");
+      span.classList.add("legend-item");
+      if (this.autoType === type.type) {
+        span.classList.add("active");
+      }
+      span.innerHTML = `
+        <span class="legend-icon ${type.type}"></span>
+        <span class="legend-seat-name">${type.label} суудал</span>
+      `;
+      span.addEventListener("click", () => {
+        this.autoType = type.type;
+        this.autoTypeImg.src = `./pics/seat-icons/${type.type}_seat_icon.svg`;
+        this.autoButton.classList.remove(
+          "regular",
+          "saver",
+          "super-saver",
+          "vip"
+        );
+        this.autoButton.classList.add(type.type);
+        this.autoTypeBtn.classList.remove(
+          "regular",
+          "saver",
+          "super-saver",
+          "vip"
+        );
+        this.autoTypeBtn.classList.add(type.type);
+        this.seatAutoPicker(this.ticketQuantity, this.autoType);
+        this.updateTicketQuantity(0);
+        this.hideModal();
+      });
+      container.appendChild(span);
+    });
+  }
+
   seatAutoPicker(count, type) {
     const seatSelector = this.getRootNode().querySelector("seat-selector");
     if (seatSelector) {
       this.ticketQuantity = count;
       seatSelector.setAttribute("allowed-seats", count.toString());
-      seatSelector.setAttribute("auto-picker", type);
+      seatSelector.setAttribute("auto-picker", `${count},${type}`);
     } else {
       console.error("OrderSteps: seat-selector олдсонгүй.");
     }
@@ -646,11 +926,15 @@ export class OrderSteps extends HTMLElement {
       this.confirmButton.disabled = true;
     }
 
+    this.autoTypeImg.src = `./pics/seat-icons/${this.autoType}_seat_icon.svg`;
+
     const totalTicketsPrice = this.calculateTicketsPrice();
     const totalVatPrice = this.calculateVatPrice();
     const totalPrice = this.calculateTotalPrice();
-    this.ticketsPriceValue.textContent = totalTicketsPrice.toLocaleString() + "₮";
-    this.serviceChargeValue.textContent = this.calculateServiceChargePrice().toLocaleString() + "₮";
+    this.ticketsPriceValue.textContent =
+      totalTicketsPrice.toLocaleString() + "₮";
+    this.serviceChargeValue.textContent =
+      this.calculateServiceChargePrice().toLocaleString() + "₮";
     this.vatPriceValue.textContent = totalVatPrice.toLocaleString() + "₮";
     this.totalPriceValue.textContent = totalPrice.toLocaleString() + "₮";
   }
@@ -706,7 +990,9 @@ export class OrderSteps extends HTMLElement {
     return this.calculateTicketsPrice() * (percent / 100);
   }
   calculateVatPrice() {
-    return (this.calculateTicketsPrice() + this.calculateServiceChargePrice()) * 0.1;
+    return (
+      (this.calculateTicketsPrice() + this.calculateServiceChargePrice()) * 0.1
+    );
   }
   calculateTotalPrice() {
     return this.calculateTicketsPrice() + this.calculateServiceChargePrice();
@@ -728,7 +1014,6 @@ export class OrderSteps extends HTMLElement {
     console.log("VAT:", this.calculateVatPrice());
     console.log("Total Price:", this.calculateTotalPrice());
     alert("Захиалга баталгаажлаа! (Дэлгэрэнгүйг console дээр харах)");
-
   }
 
   disconnectedCallback() {

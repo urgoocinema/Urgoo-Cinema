@@ -289,6 +289,90 @@ template.innerHTML = `
     .hidden {
       visibility: hidden;
     }
+
+.modal {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  max-width: 380px;
+  background: white;
+  padding: 2rem;
+  border-radius: 4px;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.modal-hidden {
+  display: none;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+.notice {
+  margin-top: 1.3rem;
+  font-size: 1rem;
+  color: black;
+  font-weight: 300;
+  text-align: left;
+}
+  .close-text {
+  cursor: pointer;
+  color: black;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+
+    width: max-content;
+    border-width: 2.4px;
+    border-style: solid;
+    background: none;
+    border-image-source: linear-gradient(to right, #b74d1c 0%, #f7941e 48%, #eec42a 100%);
+    border-image-slice: 1;
+    margin: 1.5rem auto 0;
+    padding: 0.7rem 2.6rem;
+    color: black;
+    text-transform: uppercase;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+    transition: all 0.27s ease;
+    &:hover {
+      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
+      text-shadow: 0 0 3px #fff;
+    }
+  }
+.modal-content h2 {
+      background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
+      color: transparent;
+      background-clip: text;
+      font-size: 1.7rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-weight: 350;
+      text-align: center;
+}
     @media (max-width: 768px) {
       .seat-picker {
         width: 100%; /* Make seat picker take full width on small screens */
@@ -318,6 +402,14 @@ template.innerHTML = `
       </div>
     </div>
   </section>
+
+    <div id="modal" class="modal modal-hidden">
+      <div class="modal-content">
+        <h2>Суудлаа гараар сонгоно уу</h2>
+        <div class="notice"></div>
+        <div id="close-modal-text" class="close-text">Ойлголоо</div>
+      </div>
+    </div>
 `;
 
 export class SeatSelector extends HTMLElement {
@@ -356,6 +448,10 @@ export class SeatSelector extends HTMLElement {
     this.orderSteps = null;
 
     this.isLightMode = null;
+
+    this.modal = this.parent.querySelector("#modal");
+    this.modalText = this.parent.querySelector(".notice");
+    this.closeModalText = this.parent.querySelector("#close-modal-text");
   }
 
   static get observedAttributes() {
@@ -367,7 +463,7 @@ export class SeatSelector extends HTMLElement {
       "day",
       "hour",
       "allowed-seats",
-      "auto-picker"
+      "auto-picker",
     ];
   }
 
@@ -385,8 +481,11 @@ export class SeatSelector extends HTMLElement {
         this.enforceSeatLimit(this.maxAllowedSeats);
       }
     }
-    if(attr === "auto-picker") {
-      this.handleAutoSelection(2, newVal);
+    if (attr === "auto-picker") {
+      this.handleAutoSelection(
+        Number(newVal.split(",")[0]),
+        newVal.split(",")[1]
+      );
     }
   }
 
@@ -444,18 +543,19 @@ export class SeatSelector extends HTMLElement {
     await this.helperFetch();
     this.prepareData();
 
-    const lightSchemeMediaQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+    const lightSchemeMediaQuery = window.matchMedia
+      ? window.matchMedia("(prefers-color-scheme: light)")
+      : null;
 
     if (lightSchemeMediaQuery) {
       this.isLightMode = lightSchemeMediaQuery.matches;
-      lightSchemeMediaQuery.addEventListener('change', (e) => {
+      lightSchemeMediaQuery.addEventListener("change", (e) => {
         this.isLightMode = e.matches;
         this.renderSeats();
       });
     } else {
       this.isLightMode = false; // Default to dark mode if media query is not supported
     }
-
 
     this.renderSeats();
     this.renderPriceLegend();
@@ -535,6 +635,35 @@ export class SeatSelector extends HTMLElement {
         console.log(this.currentSelectedSeats, this.maxAllowedSeats);
       }
     });
+
+    this.closeModalText.addEventListener("click", () => {
+      this.hideModal();
+    });
+    this.modal.addEventListener("click", (e) => {
+      if (e.target === this.modal) {
+        this.hideModal();
+      }
+    });
+    this.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && this.modal.classList.contains("show")) {
+        this.hideModal();
+      }
+    });
+  }
+
+  openModal(count, label) {
+    this.modal.classList.remove("modal-hidden");
+    setTimeout(() => {
+      this.modal.classList.add("show");
+    }, 100);
+    this.modalText.innerHTML = "";
+    this.modalText.innerHTML = `Таны сонгосон ${label.toUpperCase()} төрлийн суудлаас зэрэгцээ ${count}ш суудал үлдээгүй байна.`;
+  }
+  hideModal() {
+    this.modal.classList.remove("show");
+    setTimeout(() => {
+      this.modal.classList.add("modal-hidden");
+    }, 300);
   }
 
   handleAutoSelection(count, type) {
@@ -544,8 +673,10 @@ export class SeatSelector extends HTMLElement {
     }
 
     // 1. Deselect any currently selected seats
-    this.currentSelectedSeats.forEach(seatInfo => {
-      const seatEl = this.container.querySelector(`[data-seat="${seatInfo.row}-${seatInfo.column}"]`);
+    this.currentSelectedSeats.forEach((seatInfo) => {
+      const seatEl = this.container.querySelector(
+        `[data-seat="${seatInfo.row}-${seatInfo.column}"]`
+      );
       if (seatEl) {
         seatEl.classList.remove("selected");
       }
@@ -559,16 +690,24 @@ export class SeatSelector extends HTMLElement {
       // 2. Get all candidate seats in this row of the specified type that are not occupied or hidden
       const candidateSeatsInRow = Array.from(
         rowElement.querySelectorAll(`.seat.${type}:not(.hidden):not(.occupied)`)
-      ).map(seatEl => {
-        const seatId = seatEl.getAttribute("data-seat");
-        const metaSeatId = seatEl.getAttribute("data-meta-seat");
-        // Ensure seat has valid data-seat and data-meta-seat attributes
-        if (!seatId || !metaSeatId) return null;
-        const [seatRow, seatCol] = seatId.split("-").map(Number);
-        const [metaSeatRow, metaSeatCol] = metaSeatId.split("-").map(Number);
-        return { element: seatEl, row: seatRow, col: seatCol, metaRow: metaSeatRow, metaCol: metaSeatCol };
-      }).filter(Boolean) // Remove any null entries
-      .sort((a, b) => a.col - b.col); // Sort by display column number
+      )
+        .map((seatEl) => {
+          const seatId = seatEl.getAttribute("data-seat");
+          const metaSeatId = seatEl.getAttribute("data-meta-seat");
+          // Ensure seat has valid data-seat and data-meta-seat attributes
+          if (!seatId || !metaSeatId) return null;
+          const [seatRow, seatCol] = seatId.split("-").map(Number);
+          const [metaSeatRow, metaSeatCol] = metaSeatId.split("-").map(Number);
+          return {
+            element: seatEl,
+            row: seatRow,
+            col: seatCol,
+            metaRow: metaSeatRow,
+            metaCol: metaSeatCol,
+          };
+        })
+        .filter(Boolean) // Remove any null entries
+        .sort((a, b) => a.col - b.col); // Sort by display column number
 
       if (candidateSeatsInRow.length < count) {
         continue; // Not enough available seats of this type in this row
@@ -577,13 +716,16 @@ export class SeatSelector extends HTMLElement {
       // 3. Slide a window of size `count` across the sorted available seats in the row
       for (let i = 0; i <= candidateSeatsInRow.length - count; i++) {
         const potentialBlock = candidateSeatsInRow.slice(i, i + count);
-        
+
         // Check for adjacency: display column numbers AND meta column numbers must be consecutive
         let isAdjacent = true;
-        if (count > 1) { // Adjacency check only needed if count > 1
+        if (count > 1) {
+          // Adjacency check only needed if count > 1
           for (let j = 0; j < count - 1; j++) {
-            if (potentialBlock[j+1].col !== potentialBlock[j].col + 1 || 
-                potentialBlock[j+1].metaCol !== potentialBlock[j].metaCol + 1) {
+            if (
+              potentialBlock[j + 1].col !== potentialBlock[j].col + 1 ||
+              potentialBlock[j + 1].metaCol !== potentialBlock[j].metaCol + 1
+            ) {
               isAdjacent = false;
               break;
             }
@@ -603,30 +745,32 @@ export class SeatSelector extends HTMLElement {
       const selectedBlock = allPossibleBlocks[randomIndex];
 
       // 5. Select these seats
-      selectedBlock.forEach(seatObj => {
+      selectedBlock.forEach((seatObj) => {
         const seatElement = seatObj.element;
         seatElement.classList.add("selected");
 
         const metaSeatAttr = seatElement.getAttribute("data-meta-seat");
         if (!metaSeatAttr) {
-            return; // Skip this seat if meta info is missing
+          return; // Skip this seat if meta info is missing
         }
         const [meta_row, meta_column] = metaSeatAttr.split("-").map(Number);
-        const details = this.getSeatDetails(meta_row, meta_column); 
+        const details = this.getSeatDetails(meta_row, meta_column);
 
         this.currentSelectedSeats.push({
-          row: seatObj.row,       // Display row from data-seat
-          column: seatObj.col,    // Display column from data-seat
-          type: details.type,     // Actual type from getSeatDetails
+          row: seatObj.row, // Display row from data-seat
+          column: seatObj.col, // Display column from data-seat
+          type: details.type, // Actual type from getSeatDetails
           price: details.price,
           label: details.label,
         });
       });
-      
-      console.log(`${type} төрлийн суудлаас зэрэгцээ ${this.currentSelectedSeats.length}-г автоматаар сонгов.`, this.currentSelectedSeats);
+
+      console.log(
+        `${type} төрлийн суудлаас зэрэгцээ ${this.currentSelectedSeats.length}-г автоматаар сонгов.`,
+        this.currentSelectedSeats
+      );
     } else {
-      console.log(`Таны сонгосон ${type} төрлийн суудлаас зэрэгцээ ${count} суудал үлдээгүй байна.`);
-      alert(`Тухайн суудлын төрлөөс зэрэгцээ суудал үлдээгүй байна. Та суудлаа гараар сонгоно уу.`);
+      this.openModal(count, this.seatTypes.find((seat) => seat.type === type).label);
     }
 
     // 6. Dispatch event with the newly selected seats (or empty if none found/selected)
@@ -635,8 +779,10 @@ export class SeatSelector extends HTMLElement {
 
   renderSeats() {
     this.container.innerHTML = "";
-   // Determine color scheme and select appropriate screen template
-    const currentScreenTemplate = this.isLightMode ? templateScreenLightMode : templateScreen;
+    // Determine color scheme and select appropriate screen template
+    const currentScreenTemplate = this.isLightMode
+      ? templateScreenLightMode
+      : templateScreen;
     this.container.appendChild(currentScreenTemplate.content.cloneNode(true));
 
     this.container.querySelector(".hall-name").textContent = `ТАНХИМ ${
@@ -700,17 +846,18 @@ export class SeatSelector extends HTMLElement {
     }
 
     //row number
-    const rowsContainerForRowNumber = this.container.querySelectorAll(`[data-row]`);
+    const rowsContainerForRowNumber =
+      this.container.querySelectorAll(`[data-row]`);
     for (let i = 0; i < rowsContainerForRowNumber.length; i++) {
       const rowNumber = document.createElement("div");
       rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${i+1}`;
+      rowNumber.textContent = `${i + 1}`;
       rowsContainerForRowNumber[i].prepend(rowNumber);
     }
     for (let i = 0; i < rowsContainerForRowNumber.length; i++) {
       const rowNumber = document.createElement("div");
       rowNumber.classList.add("row-number");
-      rowNumber.textContent = `${i+1}`;
+      rowNumber.textContent = `${i + 1}`;
       rowsContainerForRowNumber[i].append(rowNumber);
     }
 
