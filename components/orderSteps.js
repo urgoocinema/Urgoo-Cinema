@@ -18,9 +18,12 @@ template.innerHTML = `
       width: 100%;
     }
     .container {
+      height: 100%;
       padding: 4rem;
     }
     .order-summary-container {
+      position: relative;
+      height: 100%;
     }
     h3 {
       margin-top: 0;
@@ -43,12 +46,8 @@ template.innerHTML = `
       justify-content: center;
       align-items: center;
       gap: 1rem;
-      button {
+      & button {
         touch-action: manipulation;
-      }
-      .disabled {
-        opacity: 0.2;
-        cursor: not-allowed;
       }
     }
     .label {
@@ -74,27 +73,81 @@ template.innerHTML = `
       width: 39px;
       height: 39px;
     }
-    .total-price {
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-top: 15px;
-    }
-    .total-price span {
-      color: #ffa500;
+    .ticket-quantity button:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
     }
     .confirm-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #4caf50; /* Green for confirm */
-      color: white;
-      border: none;
-      border-radius: 5px;
+      border-width: 2px;
+      border-style: solid;
+
+      background: none;
+      border-image-source: linear-gradient(
+        to right,
+        #b74d1c 0%,
+        #f7941e 48%,
+        #eec42a 100%
+      );
+
+      border-image-slice: 1;
+
+      width: 100%;
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+      color: black;
+      text-transform: uppercase;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 1em;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      transition: all 0.27s ease;
+    }
+    .confirm-button:hover {
+      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
+      text-shadow: 0 0 3px #fff;
+    }
+    #confirmation {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+    }
+    .total-price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.2rem;
+      margin-top: 0.3rem;
+    }
+    .sub-tickets {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+    .sub-service-charge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+    .sub-vat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
     }
     .confirm-button:disabled {
-      background-color: #ccc;
+      opacity: 0.5;
+      border: 2px solid #d6d6d6;
       cursor: not-allowed;
+      &:hover {
+        box-shadow: none;
+      }
     }
     .initial-question h2 {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
@@ -307,6 +360,9 @@ template.innerHTML = `
       .triangle-up {
         right: 21px;
       }
+      #confirmation {
+        position: static;
+      }
     }
     @media (max-width: 650px) {
       .initial-question h2,
@@ -340,13 +396,28 @@ template.innerHTML = `
       <div class="selected-price-table"></div>
     </div>
 
-    <div class="total-price">
-      Нийт дүн: <span id="total-price-value">0</span>₮
+    <div id="confirmation">
+      <div class="sub-prices">
+        <div class="sub-tickets">
+          <span>Тасалбар</span>
+          <span id="sub-tickets-value">0₮</span>
+        </div>
+        <div class="sub-service-charge">
+          <span>Үйлчилгээний хөлс (2%)</span>
+          <span id="sub-service-charge-value">0₮</span>
+        </div>
+        <div class="sub-vat">
+          <span>НӨАТ</span>
+          <span id="sub-vat-value">0₮</span>
+        </div>
+      </div>
+      <div class="total-price">
+        <span>Төлөх дүн:</span><span id="total-price-value">0₮</span>
+      </div>
+      <button id="confirm-booking" class="confirm-button" disabled>
+        Захиалга баталгаажуулах
+      </button>
     </div>
-
-    <button id="confirm-booking" class="confirm-button" disabled>
-      Захиалга баталгаажуулах
-    </button>
   </div>
 `;
 
@@ -390,6 +461,10 @@ export class OrderSteps extends HTMLElement {
       ".selected-price-table"
     );
     this.totalPriceValue = this.shadowRoot.getElementById("total-price-value");
+    this.vatPriceValue = this.shadowRoot.getElementById("sub-vat-value");
+    this.ticketsPriceValue = this.shadowRoot.getElementById("sub-tickets-value");
+    this.serviceChargeValue = this.shadowRoot.getElementById(
+      "sub-service-charge-value");
     this.confirmButton = this.shadowRoot.getElementById("confirm-booking");
   }
 
@@ -440,9 +515,7 @@ export class OrderSteps extends HTMLElement {
     const container = this.container.querySelector(".seat-category-container");
     container.innerHTML = "";
     this.seatTypes.forEach((type) => {
-      const formattedPrice = type.price
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const formattedPrice = type.price.toLocaleString();
 
       const btn = document.createElement("button");
       btn.classList.add("button-item", type.type);
@@ -474,7 +547,7 @@ export class OrderSteps extends HTMLElement {
       container.appendChild(btn);
       btn.addEventListener("click", () => {
         this.seatAutoPicker(2, type.type);
-        this.renderOrderSummary();
+        this.updateTicketQuantity(0);
       });
     });
     this.initialSeatPickerRendered = true;
@@ -550,21 +623,21 @@ export class OrderSteps extends HTMLElement {
       this.confirmButton.disabled = false;
     } else {
       this.selectedSeatsTable.innerHTML = "";
-        let diff = this.ticketQuantity - this.selectedSeats.length;
-        while (diff > 1) {
-          diff--;
-          this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+      let diff = this.ticketQuantity - this.selectedSeats.length;
+      while (diff > 1) {
+        diff--;
+        this.selectedSeatsTable.innerHTML += `<span class="selected-item">
             <span
               class="selected-icon empty"
               style="position: relative;"
             ></span>
           </span>`;
-        }
-        this.selectedSeatsTable.innerHTML += `<span class="selected-item">
+      }
+      this.selectedSeatsTable.innerHTML += `<span class="selected-item">
           <span class="selected-icon empty" style="position: relative;"></span>
           <div class="triangle-up"></div>
         </span>`;
-        this.selectedSeatsTable.innerHTML += `
+      this.selectedSeatsTable.innerHTML += `
           <div class="please-choose-seat">
             <span class="text">Суудлаа сонгохын тулд зураг дээр дарна уу</span>
           </div>
@@ -573,8 +646,13 @@ export class OrderSteps extends HTMLElement {
       this.confirmButton.disabled = true;
     }
 
+    const totalTicketsPrice = this.calculateTicketsPrice();
+    const totalVatPrice = this.calculateVatPrice();
     const totalPrice = this.calculateTotalPrice();
-    this.totalPriceValue.textContent = totalPrice.toLocaleString();
+    this.ticketsPriceValue.textContent = totalTicketsPrice.toLocaleString() + "₮";
+    this.serviceChargeValue.textContent = this.calculateServiceChargePrice().toLocaleString() + "₮";
+    this.vatPriceValue.textContent = totalVatPrice.toLocaleString() + "₮";
+    this.totalPriceValue.textContent = totalPrice.toLocaleString() + "₮";
   }
 
   updateTicketQuantity(change) {
@@ -588,13 +666,13 @@ export class OrderSteps extends HTMLElement {
           this.ticketQuantity.toString()
         );
       }
-      if(this.ticketQuantity == 1) {
-        this.decrementButton.classList.add("disabled");
-      } else if(this.ticketQuantity == 10) {
-        this.incrementButton.classList.add("disabled");
+      if (this.ticketQuantity == 1) {
+        this.decrementButton.disabled = true;
+      } else if (this.ticketQuantity == 10) {
+        this.incrementButton.disabled = true;
       } else {
-        this.decrementButton.classList.remove("disabled");
-        this.incrementButton.classList.remove("disabled");
+        this.decrementButton.disabled = false;
+        this.incrementButton.disabled = false;
       }
     }
     if (this.selectedSeats.length <= this.ticketQuantity) {
@@ -614,15 +692,24 @@ export class OrderSteps extends HTMLElement {
       if (this.initialSeatPickerRendered === false) {
         this.renderInitialSeatPicker();
       } else {
-        this.renderOrderSummary();
+        this.updateTicketQuantity(0);
       }
     } else {
-      this.renderOrderSummary();
+      this.updateTicketQuantity(0);
     }
   }
 
-  calculateTotalPrice() {
+  calculateTicketsPrice() {
     return this.selectedSeats.reduce((total, seat) => total + seat.price, 0);
+  }
+  calculateServiceChargePrice(percent = 2) {
+    return this.calculateTicketsPrice() * (percent / 100);
+  }
+  calculateVatPrice() {
+    return (this.calculateTicketsPrice() + this.calculateServiceChargePrice()) * 0.1;
+  }
+  calculateTotalPrice() {
+    return this.calculateTicketsPrice() + this.calculateServiceChargePrice();
   }
 
   handleConfirmBooking() {
