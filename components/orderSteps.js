@@ -886,6 +886,10 @@ export class OrderSteps extends HTMLElement {
     );
 
     this.autoButton.addEventListener("click", () => {
+      if (this.autoType === null) {
+        this.openModal();
+        return;
+      }
       this.seatAutoPicker(this.ticketQuantity, this.autoType);
       this.updateTicketQuantity(0);
     });
