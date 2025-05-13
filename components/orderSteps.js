@@ -264,7 +264,7 @@ template.innerHTML = `
 
     #selected-seats-list {
       margin: 1rem 0;
-      padding: 0.5rem 0;
+      padding: 1rem 0;
       gap: 10px;
       border-top: 1px solid hsla(0, 0%, 46%, 0.1);
       border-bottom: 1px solid hsla(0, 0%, 46%, 0.1);
@@ -717,19 +717,21 @@ export class OrderSteps extends HTMLElement {
       alert("Та эхлээд суудлаа сонгоно уу!");
       return;
     }
-    // Here you would proceed with the booking
-    console.log("Booking Confirmed (Placeholder):");
+
+    console.log("Захиалга баталгаажлаа:");
     console.log("Showtime ID:", this.showtimeId);
     console.log("Movie:", this.movieTitle);
     console.log("Showtime:", this.showtimeDetailsText);
     console.log("Selected Seats:", this.selectedSeats);
+    console.log("Tickets Price:", this.calculateTicketsPrice());
+    console.log("Service Charge:", this.calculateServiceChargePrice());
+    console.log("VAT:", this.calculateVatPrice());
     console.log("Total Price:", this.calculateTotalPrice());
     alert("Захиалга баталгаажлаа! (Дэлгэрэнгүйг console дээр харах)");
-    // Potentially navigate to a confirmation page or show a modal
+
   }
 
   disconnectedCallback() {
-    // Clean up event listeners if seatSelector might be removed/re-added, though less common here
     if (this.seatSelector) {
       this.seatSelector.removeEventListener(
         "seats-updated",
