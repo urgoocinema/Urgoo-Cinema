@@ -518,6 +518,8 @@ template.innerHTML = `
       max-width: 300px;
       background: var(--modal-content-bg);
       padding: 2rem;
+      border: 3px rgb(228, 155, 15) solid;
+      border-left: 7px rgb(228, 155, 15) dashed;
       border-radius: 4px;
       transform: scale(0.95);
       transition: transform 0.3s ease;

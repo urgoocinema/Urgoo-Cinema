@@ -5,7 +5,8 @@ template.innerHTML = `
   <style>
    :host {
       /* Default Dark Mode Variables */
-      --main-background: #28282B;
+      /*--main-background: #28282B; */
+      --main-background: rgb(22, 22, 22);
       --primary-text: #fff;
       --secondary-text: #555; /* For row numbers, etc. */
       --hall-name-text: #fff;
@@ -332,6 +333,8 @@ template.innerHTML = `
   max-width: 380px;
   background: var(--ss-modal-content-bg);
   padding: 2rem;
+  border: 3px rgb(228, 155, 15) solid;
+  border-left: 7px rgb(228, 155, 15) dashed;
   border-radius: 4px;
   transform: scale(0.95);
   transition: transform 0.3s ease;
