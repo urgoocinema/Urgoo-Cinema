@@ -965,14 +965,14 @@ export class OrderSteps extends HTMLElement {
       `;
       container.appendChild(btn);
       btn.addEventListener("click", () => {
-        this.autoType = type.type;
-        if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-          this.autoTypeImg.src = `./pics/seat-icons/${type.type}_seat_icon.svg`;
-        } else {
-          this.autoTypeImg.src = `./pics/seat-icons-dark/${type.type}_seat_icon.svg`;
-        }
-        this.autoButton.classList.add(type.type);
-        this.autoTypeBtn.classList.add(type.type);
+        // this.autoType = type.type;
+        // if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+        //   this.autoTypeImg.src = `./pics/seat-icons/${type.type}_seat_icon.svg`;
+        // } else {
+        //   this.autoTypeImg.src = `./pics/seat-icons-dark/${type.type}_seat_icon.svg`;
+        // }
+        // this.autoButton.classList.add(type.type);
+        // this.autoTypeBtn.classList.add(type.type);
         this.seatAutoPicker(2, type.type);
         this.updateTicketQuantity(0);
       });
