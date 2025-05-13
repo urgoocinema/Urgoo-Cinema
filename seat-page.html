@@ -65,9 +65,16 @@
       seat-selector {
         width: 66%;
         min-width: 335px;
+        background-color: black;
       }
       order-steps {
         width: 34%;
+      }
+      footer {
+        background-color: black;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
       }
 
       @media (max-width: 1280px) {
@@ -107,6 +114,22 @@
       <seat-selector></seat-selector>
       <order-steps></order-steps>
     </main>
+    <footer>
+      <div class="footer">
+        <div class="footer-logo">
+          <img
+            src="pics/logo-urgoo.webp"
+            alt="Urgoo logo"
+            class="logo"
+            width="50"
+            height="55"
+          />
+        </div>
+        <div class="footer-text">
+          <p>© 2025 Urgoo Cinema. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
     <script type="module">
       import { SeatSelector } from "./components/seatSelector.js";
       import { OrderSteps } from "./components/orderSteps.js";

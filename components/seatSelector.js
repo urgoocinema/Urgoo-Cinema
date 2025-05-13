@@ -32,6 +32,13 @@ template.innerHTML = `
       --icon-selected-saver-seat: url("../pics/seat-icons-dark/selected_saver_seat_icon.svg");
       --icon-selected-super-saver-seat: url("../pics/seat-icons-dark/selected_super_saver_seat_icon.svg");
       --icon-selected-vip-seat: url("../pics/seat-icons-dark/selected_vip_seat_icon.svg");
+    
+      /* Modal Styles - Dark Mode */
+      --ss-modal-overlay-bg: rgba(0, 0, 0, 0.7);
+      --ss-modal-content-bg: #2c2c2c;
+      --ss-modal-text-color: #e0e0e0;
+      --ss-modal-close-button-hover-box-shadow: 0 0 50px 0 rgba(247, 149, 30, 0.55), inset 0 0 20px 0 rgba(247, 149, 30, 0.45);
+      --ss-modal-close-button-hover-text-shadow: 0 0 4px rgba(255, 220, 180, 0.75);
     }
 
     @media (prefers-color-scheme: light) {
@@ -64,6 +71,13 @@ template.innerHTML = `
         --icon-selected-saver-seat: url("../pics/seat-icons/selected_saver_seat_icon.svg");
         --icon-selected-super-saver-seat: url("../pics/seat-icons/selected_super_saver_seat_icon.svg");
         --icon-selected-vip-seat: url("../pics/seat-icons/selected_vip_seat_icon.svg");
+      
+        /* Modal Styles - Light Mode */
+        --ss-modal-overlay-bg: rgba(0, 0, 0, 0.5);
+        --ss-modal-content-bg: #fff;
+        --ss-modal-text-color: #272727;
+        --ss-modal-close-button-hover-box-shadow: 0 0 50px 0 rgba(247, 149, 30, 0.35), inset 0 0 20px 0 rgba(247, 149, 30, 0.3);
+        --ss-modal-close-button-hover-text-shadow: 0 0 3px #fff;
       }
     }
 
@@ -72,11 +86,14 @@ template.innerHTML = `
       margin: 0;
       padding: 0;
     }
+    .container {
+      height: 100%;
+    }
     /* Seat picker wrapper */
     .seat-picker {
+      height: 100%;
       width: 100%;
       background-color: var(--main-background);
-      border-radius: 8px;
       padding-bottom: 1rem;
     }
     /* A simple screen representation */
@@ -300,7 +317,7 @@ template.innerHTML = `
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.5);
+  background: var(--ss-modal-overlay-bg);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -313,7 +330,7 @@ template.innerHTML = `
 
 .modal-content {
   max-width: 380px;
-  background: white;
+  background: var(--ss-modal-content-bg);
   padding: 2rem;
   border-radius: 4px;
   transform: scale(0.95);
@@ -330,13 +347,13 @@ template.innerHTML = `
 .notice {
   margin-top: 1.3rem;
   font-size: 1rem;
-  color: black;
+  color: var(--ss-modal-text-color);
   font-weight: 300;
   text-align: left;
 }
   .close-text {
   cursor: pointer;
-  color: black;
+  color: var(--ss-modal-text-color);
     font-weight: 400;
     text-align: center;
     text-transform: uppercase;
@@ -350,16 +367,14 @@ template.innerHTML = `
     border-image-slice: 1;
     margin: 1.5rem auto 0;
     padding: 0.7rem 2.6rem;
-    color: black;
     text-transform: uppercase;
     border-radius: 4px;
-    cursor: pointer;
     font-size: 0.9rem;
     letter-spacing: 0.08em;
     transition: all 0.27s ease;
     &:hover {
-      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
-      text-shadow: 0 0 3px #fff;
+      box-shadow: var(--ss-modal-close-button-hover-box-shadow);
+      text-shadow: var(--ss-modal-close-button-hover-text-shadow);
     }
   }
 .modal-content h2 {
