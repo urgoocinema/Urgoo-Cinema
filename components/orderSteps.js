@@ -103,7 +103,8 @@ template.innerHTML = `
       transition: all 0.27s ease;
     }
     .confirm-button:hover {
-      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
+      box-shadow: 0 0 50px 0 rgba(247, 149, 30, 0.35),
+        inset 0 0 20px 0 rgba(247, 149, 30, 0.3);
       text-shadow: 0 0 3px #fff;
     }
     #confirmation {
@@ -287,31 +288,35 @@ template.innerHTML = `
       background: none;
       color: black;
       padding: 0.5rem 0.8rem;
-      border: 1px solid #BEBEBE;
+      border: 1px solid #bebebe;
       border-radius: 2px 0 0 2px;
       cursor: pointer;
       font-size: 0.8rem;
       touch-action: manipulation;
     }
-        .auto-button.regular, .auto-type.regular {
-          border-color: #black;
-        }
-        .auto-button.saver, .auto-type.saver {
-          border-color: #6FCE89;
-        }
-        .auto-button.super-saver, .auto-type.super-saver {
-          border-color: #B34C37;
-        }
-        .auto-button.vip, .auto-type.vip {
-          border-color: #F5A623;
-        }
+    .auto-button.regular,
+    .auto-type.regular {
+      border-color: #black;
+    }
+    .auto-button.saver,
+    .auto-type.saver {
+      border-color: #6fce89;
+    }
+    .auto-button.super-saver,
+    .auto-type.super-saver {
+      border-color: #b34c37;
+    }
+    .auto-button.vip,
+    .auto-type.vip {
+      border-color: #f5a623;
+    }
     .auto-type {
       display: flex;
       justify-content: center;
       align-items: center;
       background: none;
       color: black;
-      border: 1px solid #BEBEBE;
+      border: 1px solid #bebebe;
       border-radius: 0 2px 2px 0;
       border-left: none;
       padding: 0 0.2rem;
@@ -386,78 +391,84 @@ template.innerHTML = `
       border-right: 7px solid transparent;
       border-bottom: 6px solid #757575;
     }
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0,0,0,0.5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.modal.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.modal-content {
-  max-width: 300px;
-  background: white;
-  padding: 2rem;
-  border-radius: 4px;
-  transform: scale(0.95);
-  transition: transform 0.3s ease;
-}
-
-.hidden {
-  display: none;
-}
-
-.modal.show .modal-content {
-  transform: scale(1);
-}
-.close-text {
-  cursor: pointer;
-  color: black;
-    font-weight: 400;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-
-    width: max-content;
-    border-width: 2.4px;
-    border-style: solid;
-    background: none;
-    border-image-source: linear-gradient(to right, #b74d1c 0%, #f7941e 48%, #eec42a 100%);
-    border-image-slice: 1;
-    margin: 1.5rem auto 0;
-    padding: 0.7rem 2.6rem;
-    color: black;
-    text-transform: uppercase;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-    transition: all 0.27s ease;
-    &:hover {
-      box-shadow: 0 0 50px 0 rgba(247, 149, 30, .35), inset 0 0 20px 0 rgba(247, 149, 30, .3);
-      text-shadow: 0 0 3px #fff;
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
-}
-.close {
-  position: absolute;
-  top: 8px;
-  right: 12px;
-  cursor: pointer;
-  font-size: 1.5rem;
-}
-.modal-content h2 {
+
+    .modal.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      max-width: 300px;
+      background: white;
+      padding: 2rem;
+      border-radius: 4px;
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal.show .modal-content {
+      transform: scale(1);
+    }
+    .close-text {
+      cursor: pointer;
+      color: black;
+      font-weight: 400;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+
+      width: max-content;
+      border-width: 2.4px;
+      border-style: solid;
+      background: none;
+      border-image-source: linear-gradient(
+        to right,
+        #b74d1c 0%,
+        #f7941e 48%,
+        #eec42a 100%
+      );
+      border-image-slice: 1;
+      margin: 1.5rem auto 0;
+      padding: 0.7rem 2.6rem;
+      color: black;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      transition: all 0.27s ease;
+      &:hover {
+        box-shadow: 0 0 50px 0 rgba(247, 149, 30, 0.35),
+          inset 0 0 20px 0 rgba(247, 149, 30, 0.3);
+        text-shadow: 0 0 3px #fff;
+      }
+    }
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    .modal-content h2 {
       background-image: linear-gradient(90deg, #dc6a1a, #eec42a);
       color: transparent;
       background-clip: text;
@@ -467,47 +478,47 @@ template.innerHTML = `
       text-transform: uppercase;
       font-weight: 350;
       text-align: center;
-}
-.modal-content .seat-categories {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
-  width: max-content;
-  margin: 0 auto;
-}
-.modal-content .legend-item {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  font-weight: 300;
-  padding: 0.35rem;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-  & .legend-icon {
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-  }
-  & .legend-icon.vip {
-    background-image: url("./pics/seat-icons/vip_seat_icon.svg");
-  }
-  & .legend-icon.regular {
-    background-image: url("./pics/seat-icons/regular_seat_icon.svg");
-  }
-  & .legend-icon.saver {
-    background-image: url("./pics/seat-icons/saver_seat_icon.svg");
-  }
-  & .legend-icon.super-saver {
-    background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
-  }
-}
-  .modal-content .legend-item.active {
-    background-color: #f0f0f0;
-  }
+    }
+    .modal-content .seat-categories {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1rem;
+      width: max-content;
+      margin: 0 auto;
+    }
+    .modal-content .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-weight: 300;
+      padding: 0.35rem;
+      &:hover {
+        background-color: #f0f0f0;
+      }
+      & .legend-icon {
+        width: 20px;
+        height: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+      & .legend-icon.vip {
+        background-image: url("./pics/seat-icons/vip_seat_icon.svg");
+      }
+      & .legend-icon.regular {
+        background-image: url("./pics/seat-icons/regular_seat_icon.svg");
+      }
+      & .legend-icon.saver {
+        background-image: url("./pics/seat-icons/saver_seat_icon.svg");
+      }
+      & .legend-icon.super-saver {
+        background-image: url("./pics/seat-icons/super_saver_seat_icon.svg");
+      }
+    }
+    .modal-content .legend-item.active {
+      background-color: #f0f0f0;
+    }
     @media (max-width: 1250px) {
       .container {
         padding: 2rem;
@@ -565,13 +576,25 @@ template.innerHTML = `
     <div id="selected-seats-list">
       <div class="selected-seats-table"></div>
       <div class="auto-button-container">
-       <button class="auto-button">
-        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="12" height="12.5" viewBox="0 0 122.61 122.88"><title>update</title><path d="M111.9,61.57a5.36,5.36,0,0,1,10.71,0A61.3,61.3,0,0,1,17.54,104.48v12.35a5.36,5.36,0,0,1-10.72,0V89.31A5.36,5.36,0,0,1,12.18,84H40a5.36,5.36,0,1,1,0,10.71H23a50.6,50.6,0,0,0,88.87-33.1ZM106.6,5.36a5.36,5.36,0,1,1,10.71,0V33.14A5.36,5.36,0,0,1,112,38.49H84.44a5.36,5.36,0,1,1,0-10.71H99A50.6,50.6,0,0,0,10.71,61.57,5.36,5.36,0,1,1,0,61.57,61.31,61.31,0,0,1,91.07,8,61.83,61.83,0,0,1,106.6,20.27V5.36Z"/>
-        </svg>
-        Автомат сонгогч</button>
-       <button class="auto-type">
-        <img>
-       </button>
+        <button class="auto-button">
+          <svg
+            id="Layer_1"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12.5"
+            viewBox="0 0 122.61 122.88"
+          >
+            <title>update</title>
+            <path
+              d="M111.9,61.57a5.36,5.36,0,0,1,10.71,0A61.3,61.3,0,0,1,17.54,104.48v12.35a5.36,5.36,0,0,1-10.72,0V89.31A5.36,5.36,0,0,1,12.18,84H40a5.36,5.36,0,1,1,0,10.71H23a50.6,50.6,0,0,0,88.87-33.1ZM106.6,5.36a5.36,5.36,0,1,1,10.71,0V33.14A5.36,5.36,0,0,1,112,38.49H84.44a5.36,5.36,0,1,1,0-10.71H99A50.6,50.6,0,0,0,10.71,61.57,5.36,5.36,0,1,1,0,61.57,61.31,61.31,0,0,1,91.07,8,61.83,61.83,0,0,1,106.6,20.27V5.36Z"
+            />
+          </svg>
+          Автомат сонгогч
+        </button>
+        <button class="auto-type">
+          <img />
+        </button>
       </div>
       <div class="selected-price-table"></div>
     </div>
@@ -598,7 +621,7 @@ template.innerHTML = `
         Захиалга баталгаажуулах
       </button>
     </div>
-    
+
     <div id="modal" class="modal hidden">
       <div class="modal-content">
         <span id="close-modal" class="close hidden">&times;</span>
@@ -607,7 +630,6 @@ template.innerHTML = `
         <div id="close-modal-text" class="close-text">Буцах</div>
       </div>
     </div>
-
   </div>
 `;
 
