@@ -34,15 +34,6 @@ body {
   color: var(--text-primary);
   font-family: "Roboto Condensed";
 }
-
-.logo {
-  aspect-ratio: 10 / 11;
-}
-
-.active {
-  color: orange;
-}
-
 .section-title {
   margin: clamp(3.2rem, 5vw, 4rem) 0.5rem;
   text-align: center;
@@ -57,39 +48,6 @@ body {
     border-radius: 0.5em;
     backdrop-filter: blur(10px);
     font-size: clamp(1.2rem, 4vw, 1.6rem);
-  }
-}
-
-nav ul {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  list-style: none;
-  padding: 1rem;
-  background-color: var(--bg-color);
-
-  transition: border-bottom 1s ease;
-
-  & a {
-    text-decoration: none;
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-    color: var(--text-primary);
-    padding: 1rem;
-  }
-
-  & a:hover {
-    color: orange;
-  }
-}
-
-.phone-nav {
-  background-color: hsl(210, 100%, 10%);
-
-  & .phone-collapse {
-    position: absolute;
-    top: 5px;
-    right: 0;
-    font-size: 2.1rem;
   }
 }
 .featured {
@@ -319,105 +277,6 @@ nav ul {
     gap: 1rem;
   }
 }
-
-.quickbook {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
-  background-color: var(--primary-color);
-  border-radius: 10px;
-  margin-top: 2rem;
-  min-height: 40px;
-  width: 100vw;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-
-  & * {
-    color: var(--quickbook-element);
-  }
-
-  & select,
-  input[type="date"],
-  input[type="time"] {
-    padding: 10px;
-    border: 1px solid var(--gray-text);
-    border-radius: 4px;
-    background-color: var(--bg-color);
-    color: var(--white-text);
-    font-size: 1rem;
-    cursor: pointer;
-  }
-
-  & select option {
-    color: var(--black-text);
-    background-color: white;
-  }
-
-  & select option:hover,
-  & select option:checked {
-    background-color: #f0f0f0;
-    color: #333;
-  }
-
-  & button[type="submit"] {
-    padding: 10px 15px;
-    background-color: var(--black-text);
-    color: var(--primary-color);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
-  }
-
-  & button[type="submit"]:hover {
-    background-color: var(--lighter-black);
-  }
-
-  & button[type="submit"] svg {
-    fill: var(--primary-color);
-  }
-}
-footer {
-  background-color: var(--footer-background);
-  padding: 1.5vw;
-  text-align: center;
-  min-height: 20vh;
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 85px;
-}
-
-footer section {
-  display: flex;
-  flex-direction: column;
-  gap: 1vh;
-
-  h2 {
-    border-bottom: 1px solid white;
-  }
-
-  font-size: 2vh;
-}
-
-footer section ul {
-  margin-top: 1vh;
-  list-style: none;
-  text-decoration: none;
-  line-height: 2rem;
-}
-
-ul li a {
-  text-decoration: none;
-  color: white;
-}
-
 @media (max-width: 400px) {
   .button-featured {
     font-size: clamp(0.6rem, 2vw, 0.8rem);
