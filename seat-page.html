@@ -181,6 +181,7 @@
         display: flex;
         justify-content: center;
         min-width: 335px;
+        min-height: 100vh
       }
       seat-selector {
         width: 66%;
@@ -239,6 +240,9 @@
     </style>
   </head>
   <body>
+    <header>
+      <booking-info-banner></booking-info-banner>
+    </header>
     <main class="main-container">
       <seat-selector></seat-selector>
       <order-steps></order-steps>
@@ -262,8 +266,11 @@
     <script type="module">
       import { SeatSelector } from "./components/seatSelector.js";
       import { OrderSteps } from "./components/orderSteps.js";
+      import { BookingInfoBanner } from "./components/bookingInfoBanner.js";
 
       document.addEventListener("DOMContentLoaded", () => {
+        const bookingInfoBannerElement =
+          document.querySelector("booking-info-banner");
         const seatSelectorElement = document.querySelector("seat-selector");
         const orderStepsElement = document.querySelector("order-steps");
         const queryParams = new URLSearchParams(window.location.search);
@@ -275,6 +282,18 @@
         const hallId = queryParams.get("hall_id");
         const day = queryParams.get("day");
         const hour = queryParams.get("hour");
+
+        if (bookingInfoBannerElement) {
+          bookingInfoBannerElement.setAttribute("movie_id", movieId);
+          bookingInfoBannerElement.setAttribute("movie_title", movieTitle);
+          bookingInfoBannerElement.setAttribute("img_url", moviePoster);
+          bookingInfoBannerElement.setAttribute("branch_id", branchId);
+          bookingInfoBannerElement.setAttribute("hall_id", hallId);
+          bookingInfoBannerElement.setAttribute("day", day);
+          bookingInfoBannerElement.setAttribute("hour", hour);
+        } else {
+          console.error("booking-info-banner элемент олдсонгүй!");
+        }
 
         if (seatSelectorElement) {
           if (movieTitle)

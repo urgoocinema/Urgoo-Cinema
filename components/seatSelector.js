@@ -122,8 +122,8 @@ template.innerHTML = `
     .row {
       display: grid;
       grid-auto-flow: column; /* Arrange seats horizontally */
-      /* Define auto column size: try to be 22px, shrink to 6.35px minimum */
-      grid-auto-columns: minmax(6.35px, 22px);
+      /* Define auto column size: try to be 25px, shrink to 6.35px minimum */
+      grid-auto-columns: minmax(6.35px, 25px);
       gap: 5px;
       justify-content: center; /* Center the block of seats horizontally */
       max-width: 100%; /* Prevent row from exceeding parent width */
@@ -156,7 +156,7 @@ template.innerHTML = `
     }
     /* Base style for seats using SVG icons */
     .seat {
-      /* width: clamp(6.35px, 5vw, 22px); Let the grid column control the width */
+      /* width: clamp(6.35px, 5vw, 25px); Let the grid column control the width */
       aspect-ratio: 1; /* Maintain square shape based on width */
       background-repeat: no-repeat;
       background-position: center;
