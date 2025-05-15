@@ -96,12 +96,14 @@ class Quickbook extends HTMLElement {
            <section class="quickbook">
       <h1>Quickbook</h1>
       <select name="theather" id="theather">
+      <option value="default"></option>
         <option value="theater1">Urguu 1</option>
         <option value="theater2">Urguu 2</option>
         <option value="theater3">Urguu 3</option>
         <option value="theater4">Urguu 4</option>
       </select>
       <select name="movie" id="movie">
+        <option value="default"></option>
         <option value="movie1">The snow white</option>
         <option value="movie2">The minecraft movie</option>
         <option value="movie3">The onclave</option>
