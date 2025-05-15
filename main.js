@@ -6,6 +6,7 @@ import './components/countdownLive.js';
 import './components/seatSelector.js';
 import './components/Header.js';
 import './components/Footer.js';
+import './components/Quickbook.js';
 
 document.querySelector(".prev").addEventListener("click", () => {
     plusSlides(-1);

@@ -42,8 +42,9 @@ class Quickbook extends HTMLElement {
   padding: 20px;
   background-color: var(--primary-color);
   border-radius: 10px;
-  margin-top: 2rem;
-  min-height: 40px;
+  margin-top: 1rem;
+  min-height: 50px;
+  max-height: 2.5vh;
   width: 100vw;
   position: fixed;
   left: 0;
@@ -53,7 +54,9 @@ class Quickbook extends HTMLElement {
   .quickbook select,
   .quickbook input[type="date"],
   .quickbook input[type="time"] {
-  padding: 10px;
+    height:100%;
+    padding: 10px;
+    padding-top:0;
     border: 1px solid var(--gray-text);
     border-radius: 4px;
     background-color: var(--bg-color);
