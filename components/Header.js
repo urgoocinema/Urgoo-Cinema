@@ -114,7 +114,7 @@ class Header extends HTMLElement {
           <li><a href="../upcoming/upcoming.html" class = "${pageNameAtt === 'upcoming' ? 'active' : ''}">УДАХГҮЙ ДЭЛГЭЦНЭЭ</a></li>
           <li><a href="../services/services.html" class = "${pageNameAtt === 'services' ? 'active' : ''}">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
           <li><a href="#" class = "${pageNameAtt === 'giftCard' ? 'active' : ''}">БЭЛГИЙН КАРТ</a></li>
-          <li><a href="../login/login.html" class = "${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
+          <li><a href="../login/profile.html" class = "${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
         </ul>
       </nav>
     </header>
