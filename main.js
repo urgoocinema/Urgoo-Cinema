@@ -4,6 +4,8 @@ import './components/movieCard.js';
 import './components/movieList.js';
 import './components/countdownLive.js';
 import './components/seatSelector.js';
+import './components/Header.js';
+import './components/Footer.js';
 
 document.querySelector(".prev").addEventListener("click", () => {
     plusSlides(-1);
