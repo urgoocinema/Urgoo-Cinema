@@ -1,3 +1,4 @@
+import { durationConverter } from "../../utils/duration-converter.js";
 class SliderElement extends HTMLElement {
     constructor() {
       super();
@@ -190,7 +191,7 @@ class SliderElement extends HTMLElement {
                 <div class="featured-details">
                 <h2 class="featured-name">${movieData.title}</h2>
                 <p>
-                ${movieData.duration} • ${movieData.genres}
+                ${durationConverter(movieData.duration)} • ${movieData.genres}
                 <span class="${getAgeRatingClass(movieData.age_rating)}">${movieData.age_rating}</span>
                 </p>
                 </div>
