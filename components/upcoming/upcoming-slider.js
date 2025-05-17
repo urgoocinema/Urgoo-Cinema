@@ -2,12 +2,11 @@ class UpcomingMovieSlider extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
-      this.slideIndex = 1; // To keep track of the current slide
+      this.slideIndex = 1; 
     }
 
     connectedCallback() {
       this.render().then(() => {
-        // Ensure elements are in the DOM before trying to access them
         this.initSlider();
       });
     }
@@ -20,27 +19,25 @@ class UpcomingMovieSlider extends HTMLElement {
         const prevButton = this.shadowRoot.querySelector(".prev");
         const nextButton = this.shadowRoot.querySelector(".next");
 
-        if (prevButton) { // Check if button exists
+        if (prevButton) { 
             prevButton.addEventListener("click", () => this.plusSlides(-1));
         }
-        if (nextButton) { // Check if button exists
+        if (nextButton) { 
             nextButton.addEventListener("click", () => this.plusSlides(1));
         }
       }
     }
 
-    // Next/previous controls
     plusSlides(n) {
       this.showSlides(this.slideIndex += n);
     }
 
-    // Thumbnail image controls (if you add them later)
     currentSlide(n) {
       this.showSlides(this.slideIndex = n);
     }
 
     showSlides(n) {
-      if (!this.slides || this.slides.length === 0) return; // Guard clause
+      if (!this.slides || this.slides.length === 0) return;
       let i;
       if (n > this.slides.length) { this.slideIndex = 1 }
       if (n < 1) { this.slideIndex = this.slides.length }
@@ -48,7 +45,6 @@ class UpcomingMovieSlider extends HTMLElement {
         this.slides[i].style.display = "none";
       }
       this.slides[this.slideIndex - 1].style.display = "block";
-      // The 'fade' animation is handled within upcoming-slider-element when it becomes visible
     }
 
     async render() {
@@ -57,12 +53,11 @@ class UpcomingMovieSlider extends HTMLElement {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        // We don't need allMoviesData here if upcoming-slider-element fetches its own.
-        // However, for 4 slides, it's creating them statically.
 
         let sliderHTML = `
           <style>
             .slideshow-container {
+            
               width: 100%;
               position: relative; /* Crucial for positioning prev/next buttons */
               margin: auto;
@@ -104,7 +99,7 @@ class UpcomingMovieSlider extends HTMLElement {
         for(let i = 0 ; i < 4 ; i++){
           sliderHTML += `<upcoming-slider-element movie-id = "${i+1}"></upcoming-slider-element>`;
         }
-        // Add navigation buttons
+        
         sliderHTML += `
             <a class="prev">&#10094;</a>
             <a class="next">&#10095;</a>

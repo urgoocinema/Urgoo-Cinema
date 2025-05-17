@@ -17,7 +17,7 @@ class AccountOverview extends HTMLElement {
     }
   }
   async render() {
-    const userIdAtt = this.getAttribute("user-id") || this._userID;
+    const userIdAtt = this.getAttribute("user-id") || this._userId;
 
     if (!userIdAtt) {
       this.shadowRoot.innerHTML = `<p>cant load user profile.</p>`;
@@ -114,6 +114,18 @@ class AccountOverview extends HTMLElement {
       } else {
         this.shadowRoot.innerHTML = `<p>User with ID ${userID} not found in the data.</p>`;
       }
+      const editButton = this.shadowRoot.querySelector('button');
+      if(editButton){
+        editButton.addEventListener('click', ()=>{
+          const componentWrapper = document.querySelector('.componentWrapper');
+          if(componentWrapper){
+            componentWrapper.innerHTML='';
+
+            const remindersComponent = document.createElement('reminders-component');
+            componentWrapper.appendChild(remindersComponent);
+          }
+        })
+      }
     } catch (error) {
       console.error(
         "Error in render method of account overview component:",
@@ -124,3 +136,4 @@ class AccountOverview extends HTMLElement {
   }
 }
 customElements.define("account-overview", AccountOverview);
+

@@ -62,8 +62,9 @@ class UpcomingSliderElement extends HTMLElement {
         if (movieData) {
           this.shadowRoot.innerHTML = `
             <style>
+            @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
               :host {
-                display: none; /* Hidden by default, parent controls visibility */
+                display: none;
                 width: 100%;
               }
 
@@ -74,41 +75,47 @@ class UpcomingSliderElement extends HTMLElement {
               }
 
               .mySlides img {
-                width: 100%;    /* Make the image element span the full width */
-                height: 37.5em; /* Define a fixed height for the image's viewport */
-                
+                width: 100%;
+                height: 70vh;
+                max-height: 37.5em;
+                aspect-ratio: 16 / 9;
                 object-fit: cover;
-                display: block; /* remove extra space below image */
               }
 
               .featured-info {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background: rgba(0, 0, 0, 0.5);
-                padding: 20px;
-                text-align: left;
-                gap: 0.8rem;
-                max-height: 30%;
+               position: absolute;
+              bottom: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: rgba(0, 0, 0, 0.5);
+              padding: 20px;
+              text-align: left;
+              gap: 0.8rem;
+              width: 100%;
+              max-height: 30%;
               }
+              .play-icon {
+    font-size: clamp(3.2rem, 5vw, 4rem);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    animation: pulsing 1s infinite;
+  }
+    .play-icon:hover {
+    text-shadow: 0 0 10px #f08000, 0 0 10px orange;
+  }
 
               .featured-details {
                 width: 50%;
               }
 
               .featured-details .featured-name {
-                font-size: clamp(1rem, 4vw, 2rem);
+                font-size: clamp(1rem, 4vw, 1.5rem);
                 letter-spacing: 0.3rem;
-                margin: 0 0 0.5em 0;
-
               }
 
               .featured-details p {
-                font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+                font-size: clamp(0.8rem, 2.5vw, 1rem);
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
@@ -128,9 +135,7 @@ class UpcomingSliderElement extends HTMLElement {
                 border-radius: 0.4em;
                 border: 1px solid orange;
                 transition: 0.3s ease-in-out;
-                display: flex;
-                align-items: center;
-                gap: 0.5em;
+            
               }
               
               .button-featured img {
@@ -144,9 +149,7 @@ class UpcomingSliderElement extends HTMLElement {
                 backdrop-filter: brightness(0.8) blur(2px);
               }
               
-              .button-featured.glow-active {
-                /* Add specific glow styles if needed, or ensure .glow-active class has its own animation */
-              }
+            
 
               @keyframes pulsing {
                 0% { color: white; }
@@ -154,7 +157,7 @@ class UpcomingSliderElement extends HTMLElement {
                 100% { color: white; } /* Ensure smooth loop */
               }
 
-              /* @keyframes glow { ... } */ /* Define if .glow-active needs it */
+        
 
               .age-pg13, .PG-13, .age-pg, .PG, .age-g, .G, .age-r, .R {
                 display: inline-block;
@@ -180,6 +183,9 @@ class UpcomingSliderElement extends HTMLElement {
             </style>
             <article class="mySlides fade">
                 <div class="featured-info">
+                <span class="material-symbols-outlined play-icon">
+                play_circle
+                </span>
                 <div class="featured-details">
                 <h2 class="featured-name">${movieData.name}</h2>
                 <p>

@@ -73,18 +73,17 @@ class UpcomingMovie extends HTMLElement {
     }
 
                         .upcoming-movie-container {
-                            height: 60vh;
                             display: flex;
-                            gap:1.5em;
+                            gap:1.2em;
                             margin-bottom: 20px;
-                            padding: 1.5rem 0.8rem;
+                            padding: 1.2rem;
                             border: 1px solid #333; /* Darker border for a cinema feel */
                             border-radius: 1em;
                             overflow: hidden;
                             background-color: #1a1a1a; /* Dark background */
                             color: #f5f5f5; /* Light text color */
                             font-family: 'Roboto Condensed', sans-serif;
-                            font-size:1.4rem;
+                            font-size:1rem;
                             transition: all 0.3s ease;
       box-shadow: 0 0 15px rgb(228, 155, 15), 0 0 40px rgba(255, 255, 255, 0.1),
         0 8px 16px rgba(255, 255, 255, 0.08);
@@ -95,26 +94,28 @@ class UpcomingMovie extends HTMLElement {
         0 8px 16px rgba(255, 255, 255, 0.08);
     
                         }
-                        .upcoming-movie-container img {
-                            height:100%
-                            min-width: 180px;
-                            width: auto;
+                        .poster {
+                            width:200px;
+                            height:auto;
+                            max-height:300px;
                             object-fit: cover;
                             border-radius:1em;
                             box-shadow: 0 0 10px rgba(255, 255, 255, 0.4),
                             0 0 80px rgba(255, 255, 255, 0.2), 0 12px 24px rgba(255, 255, 255, 0.1);
                         }
                         .information {
-                            padding: 20px;
+                      
                             flex-grow: 1;
-                        }
+                            display:flex;
+                            flex-direction:column;
+                            }
                         .information h1 {
                             margin-top: 0;
                             font-size: 1.8em;
                             color: #f0ad4e; /* Accent color for title */
                         }
                         .information p {
-                            font-size: 0.95em;
+                            font-size: 1em;
                             line-height: 1.6;
                         }
                         .detail-container {
@@ -124,15 +125,15 @@ class UpcomingMovie extends HTMLElement {
                         .detail-row {
                             display: flex;
                             margin-bottom: 8px;
-                            font-size: 0.9em;
+                            font-size: 0.95em;
                         }
                         .detail-white {
                             font-weight: bold;
-                            min-width: 200px;
+                            min-width: 150px;
                             color: #ccc; /* Lighter gray for labels */
                         }
                         .detail-gray {
-                            min-width: 180px;
+                            min-width: 150px;
                             color: #aaa; /* Slightly darker gray for values */
                         }
                         button {
@@ -174,9 +175,27 @@ class UpcomingMovie extends HTMLElement {
               .age-pg13, .PG-13 { background-color: rgba(255, 238, 0, 0.98); color:black;}
               .age-pg, .PG, .age-g, .G { background-color: rgba(27, 233, 0, 0.5); }
               .age-r, .R { background-color: rgba(255, 5, 5, 0.5); }
+              @media(max-width: 768px){
+                .upcoming-movie-container{
+                  flex-direction: column;
+                  align-items: center;
+                  font-size:0.95rem;
+                }
+                .poster{
+                  width:70%;
+                  max-width:250px;
+                  height:auto;
+                  margin-bottom:1em;
+                }
+                .information{
+                  width:100%;
+                }
+                .detail-white, .detail-gray{
+                min-width: 110px;}
+              }
                     </style>
                     <div class="upcoming-movie-container">
-                        <img src="${movieData.imageSrc}" alt="${movieData.altText}" />
+                        <img src="${movieData.imageSrc}" alt="${movieData.altText}" class="poster"/>
                         <div class="information">
                             <h1>${movieData.name}</h1>
                             <p>${movieData.description}</p>

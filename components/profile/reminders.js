@@ -16,7 +16,19 @@ class Reminders extends HTMLElement {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-        this.shadowRoot.innerHTML = `this is reminders.js`;
+        this.shadowRoot.innerHTML = `
+          <style>
+          .upcomingMovieContainer{
+            overflow-y: scroll;
+          }
+          </style>
+          <div class="reminderWrapper">
+            <h1>Your Reminders:</h1>
+            <div class="upcomingMovieContainer">
+              
+            </div>
+          </div>
+        `;
 
     } catch (error) {
       console.error(
