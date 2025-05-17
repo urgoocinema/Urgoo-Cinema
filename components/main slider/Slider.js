@@ -1,4 +1,4 @@
-class UpcomingMovieSlider extends HTMLElement {
+class MovieSlider extends HTMLElement {
     constructor() {
       super();
       this.attachShadow({ mode: "open" });
@@ -12,7 +12,7 @@ class UpcomingMovieSlider extends HTMLElement {
     }
 
     initSlider() {
-      this.slides = this.shadowRoot.querySelectorAll("upcoming-slider-element");
+      this.slides = this.shadowRoot.querySelectorAll("slider-element");
       if (this.slides.length > 0) {
         this.showSlides(this.slideIndex);
 
@@ -49,7 +49,7 @@ class UpcomingMovieSlider extends HTMLElement {
 
     async render() {
       try {
-        const response = await fetch("../data/upcoming/upcoming.json");
+        const response = await fetch("../data/ongoing/movies-list.json");
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -97,7 +97,7 @@ class UpcomingMovieSlider extends HTMLElement {
         `;
 
         for(let i = 0 ; i < 4 ; i++){
-          sliderHTML += `<upcoming-slider-element movie-id = "${i+1}"></upcoming-slider-element>`;
+          sliderHTML += `<slider-element movie-id = "${i+1}"></slider-element>`;
         }
         
         sliderHTML += `
@@ -108,11 +108,11 @@ class UpcomingMovieSlider extends HTMLElement {
         this.shadowRoot.innerHTML = sliderHTML;
       } catch (error) {
         console.error(
-          "Error in render method of UpcomingMovie component:",
+          "Error in render method of Slider-element component:",
           error
         );
         this.shadowRoot.innerHTML = `<p>Error loading movie data. ${error.message}</p>`;
       }
     }
   }
-  customElements.define("upcoming-movie-slider", UpcomingMovieSlider);
+  customElements.define("movie-slider", MovieSlider);
