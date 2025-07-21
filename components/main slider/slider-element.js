@@ -68,12 +68,13 @@ class SliderElement extends HTMLElement {
               :host {
                 display: none;
                 width: 100%;
+                
               }
 
               .mySlides {
                 position: relative; /* For positioning .featured-info */
                 width: 100%;
-                box-shadow: 0 0 20px rgb(228, 155, 15); /* Moved from .featured */
+                
               }
 
               .mySlides img {
@@ -82,6 +83,7 @@ class SliderElement extends HTMLElement {
                 max-height: 37.5em;
                 aspect-ratio: 16 / 9;
                 object-fit: cover;
+                border-radius: 1em;
               }
 
               .featured-info {

@@ -56,9 +56,14 @@ class MovieSlider extends HTMLElement {
 
         let sliderHTML = `
           <style>
+            .background{
+              background: linear-gradient(180deg, #e7250b36 10%, #232526 99%);
+              padding: 20px;
+            
+            }
             .slideshow-container {
             
-              width: 100%;
+              width: 80%;
               position: relative; /* Crucial for positioning prev/next buttons */
               margin: auto;
               overflow: hidden; /* Recommended for sliders */
@@ -93,6 +98,7 @@ class MovieSlider extends HTMLElement {
               color: orange;
             }
           </style>
+          <div class="background">
           <div class="slideshow-container">
         `;
 
@@ -103,6 +109,7 @@ class MovieSlider extends HTMLElement {
         sliderHTML += `
             <a class="prev">&#10094;</a>
             <a class="next">&#10095;</a>
+          </div>
           </div>
         `;
         this.shadowRoot.innerHTML = sliderHTML;

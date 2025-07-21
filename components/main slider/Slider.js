@@ -56,12 +56,17 @@ class MovieSlider extends HTMLElement {
 
         let sliderHTML = `
           <style>
+            .background {
+              background: linear-gradient(180deg, #e7880b36 10%, #232526 99%);
+              padding: 20px;
+              
+            }
             .slideshow-container {
             
-              width: 100%;
-              position: relative; /* Crucial for positioning prev/next buttons */
+              width: 80%;
+              position: relative; 
               margin: auto;
-              overflow: hidden; /* Recommended for sliders */
+              overflow: hidden;
             }
 
             /* Styles for prev/next buttons */
@@ -71,15 +76,15 @@ class MovieSlider extends HTMLElement {
               position: absolute;
               top: 50%;
               width: auto;
-              margin-top: -22px; /* Adjust based on font size or button height */
+              margin-top: -22px;
               padding: 16px;
               color: white;
               font-weight: bold;
               font-size: 2.5em; /* Adjust as needed */
               transition: 0.3s ease-out;
               border-radius: 0 3px 3px 0;
-              user-select: none; /* Prevents text selection on click */
-              z-index: 10; /* Ensure buttons are above slides */
+              user-select: none; 
+              z-index: 10; 
             }
 
             .next {
@@ -93,6 +98,7 @@ class MovieSlider extends HTMLElement {
               color: orange;
             }
           </style>
+          <div class="background">
           <div class="slideshow-container">
         `;
 
@@ -103,6 +109,7 @@ class MovieSlider extends HTMLElement {
         sliderHTML += `
             <a class="prev">&#10094;</a>
             <a class="next">&#10095;</a>
+          </div>
           </div>
         `;
         this.shadowRoot.innerHTML = sliderHTML;

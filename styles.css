@@ -51,7 +51,6 @@ body {
   }
 }
 .featured {
-  box-shadow: 0 0 20px rgb(228, 155, 15);
   height: 70vh;
   max-height: 37.5em;
 }
