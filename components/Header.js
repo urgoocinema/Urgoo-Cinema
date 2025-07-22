@@ -23,101 +23,98 @@ class Header extends HTMLElement {
         return;
     }
     this.shadowRoot.innerHTML = `
-          <style>
-            .logo {
-                aspect-ratio: 10 / 11;
-            }
+      <style>
+    .desktop-nav {
+        height: 5em;
+        display: flex;
+        align-items: center;
+      }
 
-            .active {
-                color: orange;
-            }
-            nav ul {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                list-style: none;
-                padding: 1rem;
-                background-color: var(--bg-color);
+    .logo {
+        aspect-ratio: 10 / 11;
+    }
 
-                transition: border-bottom 1s ease;
+    .active {
+        color: orange;
+    }
 
-                & a {
-                    text-decoration: none;
-                    font-size: clamp(0.8rem, 1.5vw, 1rem);
-                    color: var(--text-primary);
-                    padding: 1rem;
-                }
+    nav ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        background-color: var(--bg-color);
 
-                & a:hover {
-                    color: orange;
-                }
-            }
-                .phone-nav {
-  background-color: hsl(210, 100%, 10%);
+        transition: border-bottom 1s ease;
 
-  & .phone-collapse {
-    position: absolute;
-    top: 5px;
-    right: 0;
-    font-size: 2.1rem;
-  }
-}
-  @media (min-width: 681px) {
-  .phone-nav {
-    display: none;
-  }
+        & a {
+            text-decoration: none;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            color: var(--text-primary);
+            padding: 1rem;
+        }
 
-  .desktop-nav {
-    display: block;
-  }
-}
+        & a:hover {
+            color: orange;
+        }
+    }
 
-@media (max-width: 680px) and (orientation: portrait) {
-  .desktop-nav {
-    display: none;
-  }
+    .phone-nav {
+        background-color: hsl(210, 100%, 10%);
 
-  .phone-nav {
-    display: block;
-  }
-}
-          </style>
-          <header>
-      <nav class="phone-nav">
+        & .phone-collapse {
+            position: absolute;
+            top: 5px;
+            right: 0;
+            font-size: 2.1rem;
+        }
+    }
+
+    @media (min-width: 681px) {
+        .phone-nav {
+            display: none;
+        }
+
+        .desktop-nav {
+            display: block;
+        }
+    }
+
+    @media (max-width: 680px) and (orientation: portrait) {
+        .desktop-nav {
+            display: none;
+        }
+
+        .phone-nav {
+            display: block;
+        }
+    }
+</style>
+<header>
+    <nav class="phone-nav">
         <ul>
-          <li>
-            <a href="#"
-              ><img
-                src="pics/logo-urgoo.webp"
-                alt="Urgoo logo"
-                class="logo"
-                width="50"
-                height="55"
-            /></a>
-          </li>
-          <li><a class="phone-collapse" href="#">☰</a></li>
+            <li>
+                <a href="#"><img src="pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50" height="55" /></a>
+            </li>
+            <li><a class="phone-collapse" href="#">☰</a></li>
         </ul>
-      </nav>
-      <nav class="desktop-nav">
+    </nav>
+    <nav class="desktop-nav">
         <ul>
-          <li>
-            <a href="#"
-              ><img
-                src="../pics/logo-urgoo.webp"
-                alt="Urgoo logo"
-                class="logo"
-                width="50"
-                height="55"
-            /></a>
-          </li>
-          <li><a href="../index.html" class = "${pageNameAtt === 'index' ? 'active' : ''}">НҮҮР</a></li>
-          <li><a href="../upcoming/upcoming.html" class = "${pageNameAtt === 'upcoming' ? 'active' : ''}">УДАХГҮЙ ДЭЛГЭЦНЭЭ</a></li>
-          <li><a href="../services/services.html" class = "${pageNameAtt === 'services' ? 'active' : ''}">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
-          <li><a href="../login/profile.html" class = "${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
+            <li>
+                <a href="#"><img src="../pics/logo-urgoo.webp" alt="Urgoo logo" class="logo" width="50"
+                        height="55" /></a>
+            </li>
+            <li><a href="../index.html" class="${pageNameAtt === 'index' ? 'active' : ''}">НҮҮР</a></li>
+            <li><a href="../upcoming/upcoming.html" class="${pageNameAtt === 'upcoming' ? 'active' : ''}">УДАХГҮЙ
+                    ДЭЛГЭЦНЭЭ</a></li>
+            <li><a href="../services/services.html"
+                    class="${pageNameAtt === 'services' ? 'active' : ''}">ҮЙЛЧИЛГЭЭНҮҮД</a></li>
+            <li><a href="../login/profile.html" class="${pageNameAtt === 'profile' ? 'active' : ''}">ПРОФАЙЛ</a></li>
         </ul>
-      </nav>
-    </header>
-            `;
+    </nav>
+</header>
+    `;
   }
 }
 customElements.define("custom-header", Header);

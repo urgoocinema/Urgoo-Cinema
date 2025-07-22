@@ -16,19 +16,18 @@ class Footer extends HTMLElement {
           <style>
             footer {
               background-color: var(--footer-background);
-              padding: 1.5vw;
+              padding: 0.5vw;
               text-align: center;
-              min-height: 20vh;
+              min-height: 1vh;
               display: flex;
               justify-content: space-around;
-              padding-bottom: 85px;
             }
 
             footer section {
               display: flex;
               flex-direction: column;
               gap: 1vh;
-              font-size: 2vh; 
+              font-size: 1em; 
             }     
 
             footer section h2 {
@@ -43,7 +42,7 @@ class Footer extends HTMLElement {
               padding-left: 0; 
               margin-top: 0; 
               margin-bottom: 0;
-              line-height: 2rem;
+              line-height: 1.5rem;
             }
 
             ul li a { 

@@ -57,7 +57,7 @@ class MovieSlider extends HTMLElement {
         let sliderHTML = `
           <style>
             .background{
-              background: linear-gradient(180deg, #e7250b36 10%, #232526 99%);
+              background: linear-gradient(180deg, #ec79566b 10%, #2122225b 99%);
               padding: 20px;
             
             }
