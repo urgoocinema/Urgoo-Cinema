@@ -63,10 +63,11 @@ class MovieSlider extends HTMLElement {
             }
             .slideshow-container {
             
-              width: 80%;
+              width: 85%;
               position: relative; 
               margin: auto;
               overflow: hidden;
+              
             }
 
             /* Styles for prev/next buttons */

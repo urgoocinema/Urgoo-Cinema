@@ -84,6 +84,7 @@ class SliderElement extends HTMLElement {
                 aspect-ratio: 16 / 9;
                 object-fit: cover;
                 border-radius: 1em;
+                
               }
 
               .featured-info {

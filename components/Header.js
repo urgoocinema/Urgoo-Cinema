@@ -52,6 +52,7 @@ class Header extends HTMLElement {
             font-size: clamp(0.8rem, 1.5vw, 1rem);
             color: var(--text-primary);
             padding: 1rem;
+            transition: color 0.4s ease;
         }
 
         & a:hover {
