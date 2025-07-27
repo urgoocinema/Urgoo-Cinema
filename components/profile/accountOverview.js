@@ -121,7 +121,7 @@ class AccountOverview extends HTMLElement {
           if(componentWrapper){
             componentWrapper.innerHTML='';
 
-            const remindersComponent = document.createElement('reminders-component');
+            const remindersComponent = document.createElement('personal-details');
             componentWrapper.appendChild(remindersComponent);
           }
         })

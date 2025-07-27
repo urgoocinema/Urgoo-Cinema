@@ -16,7 +16,20 @@ class Tickets extends HTMLElement {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-        this.shadowRoot.innerHTML = `this is tickets.js`;
+        this.shadowRoot.innerHTML = `
+          <style>
+          .upcomingMovieContainer{
+            overflow-y: scroll;
+          }
+          </style>
+          <div class="reminderWrapper">
+            <h1>Your tickets:</h1>
+            <div class="upcomingMovieContainer">
+              
+            </div>
+          </div>
+        `;
+        
 
     } catch (error) {
       console.error(
