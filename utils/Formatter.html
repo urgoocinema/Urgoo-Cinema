@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .filter-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .days-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .day {
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .day:hover {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="filter-container">
+        <select name="theather" id="theather">
+            <option value="default"></option>
+            <option value="theater1">Urguu 1</option>
+            <option value="theater2">Urguu 2</option>
+            <option value="theater3">Urguu 3</option>
+            <option value="theater4">Urguu 4</option>
+        </select>
+        <div class="days-container">
+            <div class="day">
+                Today
+            </div>
+            <div class="day">
+                Tomorrow
+            </div>
+            <div class="day">
+                Tuesday
+            </div>
+            <div class="day">
+                Wednesday
+            </div>
+            <div class="day">
+                Thursday
+            </div>
+            <div class="day">
+                Friday
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

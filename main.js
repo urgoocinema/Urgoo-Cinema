@@ -7,3 +7,4 @@ import './components/Footer.js';
 import './components/Quickbook.js';
 import './components/main slider/slider-element.js';
 import './components/main slider/Slider.js';
+import './components/Filter.js';
