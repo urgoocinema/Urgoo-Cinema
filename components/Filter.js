@@ -121,12 +121,19 @@ class Filter extends HTMLElement {
 
       this.shadowRoot.querySelectorAll(".day").forEach((e1) => {
         e1.addEventListener("click", (e) => {
-          this.shadowRoot
-            .querySelectorAll(".day")
-            .forEach((dayEl) => dayEl.classList.remove("active"));
-          e.target.classList.add("active");
-          this._day_of_week = e.target.textContent.trim();
-          const day = e.target.textContent.trim();
+          let day = "";
+          if (e.target.classList.contains("active")) {
+            e.target.classList.remove("active");
+            day = "all-times";
+          } else {
+            this.shadowRoot
+              .querySelectorAll(".day")
+              .forEach((dayEl) => dayEl.classList.remove("active"));
+            day = e.target.textContent.trim();
+            e.target.classList.add("active");
+          }
+
+          this._day_of_week = day;
           this.setAttribute("day-of-week", day);
           this.dispatchEvent(
             new CustomEvent("filter-changed", {
