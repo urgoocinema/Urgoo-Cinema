@@ -23,11 +23,19 @@ export class MovieList extends HTMLElement {
 
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
+    this._isFiltered = false;
+    this._selectedBranch = "";
+    this._selectedDayofWeek = "all-times";
+    this._selectedTime = "";
   }
 
   static get observedAttributes() {}
 
-  attributeChangedCallback(attr, oldVal, newVal) {}
+  attributeChangedCallback(attr, oldVal, newVal) {
+    if (attr === "_isFiltered") {
+      this.render();
+    }
+  }
 
   connectedCallback() {
     this.render();
@@ -37,9 +45,14 @@ export class MovieList extends HTMLElement {
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
     console.log("Filter changed:", branch, dayOfWeek, startTime);
+    this._selectedBranch = branch;
+    console.log("Selected branch:", this._selectedBranch);
+    this._isFiltered = true;
+    this.render();
   }
 
   async render() {
+    this.container.innerHTML = ""; // Clear previous content
     const movieData = await fetchMovies();
     const branchData = await fetchBranches();
 
@@ -62,9 +75,15 @@ export class MovieList extends HTMLElement {
       movieCard.startDate = new Date(movie.start_date);
       movieCard.endDate = new Date(movie.end_date);
 
-      for (let i = 0; i < branchData.branches.length; i++) {
-        const branch = branchData.branches[i];
-        movieCard.branches.push(branch);
+      if (this._isFiltered) {
+        movieCard.branches = branchData.branches.filter(
+          (branch) => branch.id === this._selectedBranch
+        );
+      } else {
+        for (let i = 0; i < branchData.branches.length; i++) {
+          const branch = branchData.branches[i];
+          movieCard.branches.push(branch);
+        }
       }
 
       this.container.appendChild(movieCard);
