@@ -32,6 +32,11 @@ export class MovieList extends HTMLElement {
   connectedCallback() {
     this.render();
     this.addEventListener("time-selected", (e) => this.onTimeSelected(e));
+    document.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
+  }
+  onFilterChanged(e) {
+    const { branch, dayOfWeek, startTime } = e.detail;
+    console.log("Filter changed:", branch, dayOfWeek, startTime);
   }
 
   async render() {
@@ -67,7 +72,8 @@ export class MovieList extends HTMLElement {
   }
 
   onTimeSelected(e) {
-    const { movieTitle, movieId, moviePoster, branch, hall, day, hour } = e.detail;
+    const { movieTitle, movieId, moviePoster, branch, hall, day, hour } =
+      e.detail;
 
     const queryParams = new URLSearchParams({
       movie_title: movieTitle,
@@ -82,7 +88,9 @@ export class MovieList extends HTMLElement {
     window.location.href = `seat-page.html?${queryParams.toString()}`;
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() {
+    document.removeEventListener("filter-changed", this.onFilterChangedBound);
+  }
 }
 
 customElements.define("movie-list", MovieList);
