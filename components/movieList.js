@@ -29,7 +29,7 @@ export class MovieList extends HTMLElement {
     this._selectedTime = "";
   }
 
-  static get observedAttributes() {}
+  static get observedAttributes() { }
 
   attributeChangedCallback(attr, oldVal, newVal) {
     if (attr === "_isFiltered") {
@@ -47,12 +47,12 @@ export class MovieList extends HTMLElement {
     console.log("Filter changed:", branch, dayOfWeek, startTime);
     this._selectedBranch = branch;
     console.log("Selected branch:", this._selectedBranch);
-    this._isFiltered = true;
+    this._isFiltered = false;
     this.render();
   }
 
   async render() {
-    this.container.innerHTML = ""; // Clear previous content
+    // this.container.innerHTML = ""; // Clear previous content
     const movieData = await fetchMovies();
     const branchData = await fetchBranches();
 
