@@ -47,11 +47,13 @@ export class MovieList extends HTMLElement {
     this._selectedTime = startTime;
     console.log("Selected branch:", this._selectedBranch);
     if (
-      this._selectedBranch != "" &&
-      this._selectedDayofWeek != "all-times" &&
+      this._selectedBranch != "" ||
+      this._selectedDayofWeek != "all-times" ||
       this._selectedTime != ""
     ) {
       this._isFiltered = true;
+    } else {
+      this._isFiltered = false;
     }
     this.render();
   }
@@ -84,17 +86,27 @@ export class MovieList extends HTMLElement {
       movieCard.startDate = new Date(movie.start_date);
       movieCard.endDate = new Date(movie.end_date);
 
-      if (this._isFiltered) {
-        movieCard.branches = branchData.branches.filter(
-          (branch) => branch.id === this._selectedBranch
-        );
-      } else {
-        for (let i = 0; i < branchData.branches.length; i++) {
-          const branch = branchData.branches[i];
+      // if (this._isFiltered) {
+      //   movieCard.branches = branchData.branches.filter(
+      //     (branch) => branch.id === this._selectedBranch
+      //   );
+      // } else {
+      //   for (let i = 0; i < branchData.branches.length; i++) {
+      //     const branch = branchData.branches[i];
+      //     movieCard.branches.push(branch);
+      //   }
+      // }
+
+      for (let i = 0; i < branchData.branches.length; i++) {
+        const branch = branchData.branches[i];
+        if (this._isFiltered) {
+          if (branch.id.toString() === this._selectedBranch) {
+            movieCard.branches.push(branch);
+          }
+        } else {
           movieCard.branches.push(branch);
         }
       }
-
       this.container.appendChild(movieCard);
     }
   }

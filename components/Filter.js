@@ -69,7 +69,7 @@ class Filter extends HTMLElement {
             ${branches.branches
               .map(
                 (branch) => `
-                <option value = "branch${branch.id}">${branch.name} (${branch.location})</option>
+                <option value = "${branch.id}">${branch.name} (${branch.location})</option>
               `
               )
               .join("")}
