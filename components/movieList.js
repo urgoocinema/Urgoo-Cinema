@@ -24,6 +24,7 @@ export class MovieList extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
     this._isFiltered = false;
+
     this._selectedBranch = "";
     this._selectedDayofWeek = "all-times";
     this._selectedTime = "";
@@ -31,11 +32,7 @@ export class MovieList extends HTMLElement {
 
   static get observedAttributes() {}
 
-  attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === "_isFiltered") {
-      this.render();
-    }
-  }
+  attributeChangedCallback(attr, oldVal, newVal) {}
 
   connectedCallback() {
     this.render();
@@ -46,15 +43,27 @@ export class MovieList extends HTMLElement {
     const { branch, dayOfWeek, startTime } = e.detail;
     console.log("Filter changed:", branch, dayOfWeek, startTime);
     this._selectedBranch = branch;
+    this._selectedDayofWeek = dayOfWeek;
+    this._selectedTime = startTime;
     console.log("Selected branch:", this._selectedBranch);
-    this._isFiltered = true;
+    if (
+      this._selectedBranch != "" &&
+      this._selectedDayofWeek != "all-times" &&
+      this._selectedTime != ""
+    ) {
+      this._isFiltered = true;
+    }
     this.render();
   }
 
   async render() {
-    this.container.innerHTML = ""; // Clear previous content
+    this.container.innerHTML = "";
+    this.container.appendChild(template.content.cloneNode(true));
     const movieData = await fetchMovies();
     const branchData = await fetchBranches();
+
+    if (this._isFiltered) {
+    }
 
     for (let i = 0; i < movieData.movies.length; i++) {
       const movie = movieData.movies[i];
