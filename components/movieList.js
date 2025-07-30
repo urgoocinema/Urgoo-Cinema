@@ -24,18 +24,19 @@ export class MovieList extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
     this._isFiltered = false;
+
     this._selectedBranch = "";
     this._selectedDayofWeek = "all-times";
     this._selectedTime = "";
+
+    this._isFilteredbyBranch = false;
+    this._isFilteredbyDay = false;
+    this._isFilteredbyTime = false;
   }
 
   static get observedAttributes() { }
 
-  attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === "_isFiltered") {
-      this.render();
-    }
-  }
+  attributeChangedCallback(attr, oldVal, newVal) { }
 
   connectedCallback() {
     this.render();
@@ -46,15 +47,38 @@ export class MovieList extends HTMLElement {
     const { branch, dayOfWeek, startTime } = e.detail;
     console.log("Filter changed:", branch, dayOfWeek, startTime);
     this._selectedBranch = branch;
+    this._selectedDayofWeek = dayOfWeek;
+    this._selectedTime = startTime;
     console.log("Selected branch:", this._selectedBranch);
-    this._isFiltered = false;
+    if (this._selectedBranch !== "") {
+      this._isFilteredbyBranch = true;
+    }
+    else {
+      this._isFilteredbyBranch = false;
+    }
+    if (this._selectedDayofWeek !== "all-times") {
+      this._isFilteredbyDay = true;
+    }
+    else {
+      this._isFilteredbyDay = false;
+    }
+    if (this._selectedTime !== "") {
+      this._isFilteredbyTime = true;
+    }
+    else {
+      this._isFilteredbyTime = false;
+    }
     this.render();
   }
 
   async render() {
-    // this.container.innerHTML = ""; // Clear previous content
+    this.container.innerHTML = "";
+    this.container.appendChild(template.content.cloneNode(true));
     const movieData = await fetchMovies();
     const branchData = await fetchBranches();
+
+    if (this._isFiltered) {
+    }
 
     for (let i = 0; i < movieData.movies.length; i++) {
       const movie = movieData.movies[i];
@@ -75,17 +99,16 @@ export class MovieList extends HTMLElement {
       movieCard.startDate = new Date(movie.start_date);
       movieCard.endDate = new Date(movie.end_date);
 
-      if (this._isFiltered) {
-        movieCard.branches = branchData.branches.filter(
-          (branch) => branch.id === this._selectedBranch
-        );
-      } else {
-        for (let i = 0; i < branchData.branches.length; i++) {
-          const branch = branchData.branches[i];
+      for (let i = 0; i < branchData.branches.length; i++) {
+        const branch = branchData.branches[i];
+        if (this._isFilteredbyBranch) {
+          if (branch.id.toString() === this._selectedBranch) {
+            movieCard.branches.push(branch);
+          }
+        } else {
           movieCard.branches.push(branch);
         }
       }
-
       this.container.appendChild(movieCard);
     }
   }
