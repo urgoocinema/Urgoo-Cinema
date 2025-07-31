@@ -34,9 +34,9 @@ export class MovieList extends HTMLElement {
     this._isFilteredbyTime = false;
   }
 
-  static get observedAttributes() { }
+  static get observedAttributes() {}
 
-  attributeChangedCallback(attr, oldVal, newVal) { }
+  attributeChangedCallback(attr, oldVal, newVal) {}
 
   connectedCallback() {
     this.render();
@@ -46,26 +46,25 @@ export class MovieList extends HTMLElement {
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
     console.log("Filter changed:", branch, dayOfWeek, startTime);
+
     this._selectedBranch = branch;
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
     console.log("Selected branch:", this._selectedBranch);
+
     if (this._selectedBranch !== "") {
       this._isFilteredbyBranch = true;
-    }
-    else {
+    } else {
       this._isFilteredbyBranch = false;
     }
     if (this._selectedDayofWeek !== "all-times") {
       this._isFilteredbyDay = true;
-    }
-    else {
+    } else {
       this._isFilteredbyDay = false;
     }
     if (this._selectedTime !== "") {
       this._isFilteredbyTime = true;
-    }
-    else {
+    } else {
       this._isFilteredbyTime = false;
     }
     this.render();
@@ -77,9 +76,6 @@ export class MovieList extends HTMLElement {
     const movieData = await fetchMovies();
     const branchData = await fetchBranches();
 
-    if (this._isFiltered) {
-    }
-
     for (let i = 0; i < movieData.movies.length; i++) {
       const movie = movieData.movies[i];
       const movieCard = document.createElement("movie-card");
@@ -88,6 +84,7 @@ export class MovieList extends HTMLElement {
       movieCard.setAttribute("description", movie.description);
       movieCard.setAttribute("duration", movie.duration);
       movieCard.setAttribute("poster_url", movie.poster_url);
+      movieCard.setAttribute("startDate", this._selectedDayofWeek);
       movieCard.setAttribute("age_rating", movie.age_rating);
       movieCard.setAttribute("cc", movie.cc);
       movieCard.setAttribute("imdb_rating", movie.imdb_rating);
