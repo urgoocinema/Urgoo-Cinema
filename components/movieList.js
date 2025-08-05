@@ -23,6 +23,7 @@ export class MovieList extends HTMLElement {
 
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
+
     this._isFiltered = false;
 
     this._selectedBranch = "";
@@ -50,7 +51,6 @@ export class MovieList extends HTMLElement {
     this._selectedBranch = branch;
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
-    console.log("Selected branch:", this._selectedBranch);
 
     if (this._selectedBranch !== "") {
       this._isFilteredbyBranch = true;
@@ -68,6 +68,7 @@ export class MovieList extends HTMLElement {
       this._isFilteredbyTime = false;
     }
     this.render();
+    console.log("Re-rendered");
   }
 
   async render() {

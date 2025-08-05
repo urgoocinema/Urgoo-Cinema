@@ -554,7 +554,13 @@ export class MovieCard extends HTMLElement {
     this.shadowRoot.appendChild(this.container);
     this.container.appendChild(template.content.cloneNode(true));
 
+    this._isFiltered = false;
     this._isFilteredByDay = false;
+    this._isFilteredByTime = false;
+
+    this._selectedBranch = "";
+    this._selectedDayofWeek = "all-times";
+    this._selectedTime = "";
 
     this.cast = [];
     this.genres = [];
@@ -613,9 +619,8 @@ export class MovieCard extends HTMLElement {
         .classList.add(`${newVal}`);
     }
     if (attr === "cc") {
-      this.container.querySelector(".lang span").textContent = `${
-        newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
-      }`;
+      this.container.querySelector(".lang span").textContent = `${newVal === "mongolian" ? "Монгол хэл" : "Англи хэл"
+        }`;
       // this.container.querySelector(".lang .flag-container").innerHTML = `<img src="./pics/mongolia-flag.png" alt="flag of mongolia" height="20px" width="20px">`;
     }
   }
@@ -677,7 +682,10 @@ export class MovieCard extends HTMLElement {
   }
   onFilterChanged(e) {
     console.log("Filter changed in moviecard");
-    this._isFilteredByDay = true;
+    console.log(e.detail);
+    const { branch, dayOfWeek, startTime } = e.detail;
+    console.log(branch, dayOfWeek, startTime);
+    this._isFiltered = true;
   }
 
   renderCast() {
@@ -721,17 +729,16 @@ export class MovieCard extends HTMLElement {
       if (isSameDay(currentDay, today)) {
         branch.querySelector(".schedule").innerHTML = showtimes
           ? showtimes
-              .map((time) =>
-                /^[0-2][0-9]:[0-5][0-9]$/.test(time) &&
+            .map((time) =>
+              /^[0-2][0-9]:[0-5][0-9]$/.test(time) &&
                 convertToMinutes(time) >= currentTime + 30
-                  ? `<a href="#" class="time" data-day="${currentDay
-                      .toISOString()
-                      .slice(0, 10)}" data-hour="${time}" data-branch="${
-                      i + 1
-                    }" data-hall="${hall}">${time}</a>`
-                  : ``
-              )
-              .join("")
+                ? `<a href="#" class="time" data-day="${currentDay
+                  .toISOString()
+                  .slice(0, 10)}" data-hour="${time}" data-branch="${i + 1
+                }" data-hall="${hall}">${time}</a>`
+                : ``
+            )
+            .join("")
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
         if (branch.querySelector(".schedule").innerHTML === "") {
           branch.remove();
@@ -739,15 +746,14 @@ export class MovieCard extends HTMLElement {
       } else {
         branch.querySelector(".schedule").innerHTML = showtimes
           ? showtimes
-              .map(
-                (time) =>
-                  `<a href="#" class="time" data-day="${currentDay
-                    .toISOString()
-                    .slice(0, 10)}" data-hour="${time}" data-branch="${
-                    i + 1
-                  }" data-hall="${hall}">${time}</a>`
-              )
-              .join("")
+            .map(
+              (time) =>
+                `<a href="#" class="time" data-day="${currentDay
+                  .toISOString()
+                  .slice(0, 10)}" data-hour="${time}" data-branch="${i + 1
+                }" data-hall="${hall}">${time}</a>`
+            )
+            .join("")
           : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
         if (branch.querySelector(".schedule").innerHTML === "") {
           branch.remove();
@@ -773,12 +779,10 @@ export class MovieCard extends HTMLElement {
     const selectedDateMoDay = selectedDate.querySelector(".mo-day");
     const selectedDateGarig = selectedDate.querySelector(".garig");
 
-    selectedDateMoDay.innerHTML = `${
-      currentDay.getMonth() + 1
-    }/${currentDay.getDate()}`;
-    selectedDateGarig.innerHTML = `${
-      this.mongolianWeekdays[currentDay.getDay()]
-    }`;
+    selectedDateMoDay.innerHTML = `${currentDay.getMonth() + 1
+      }/${currentDay.getDate()}`;
+    selectedDateGarig.innerHTML = `${this.mongolianWeekdays[currentDay.getDay()]
+      }`;
   }
 
   renderButtons(activeChangeIndex = -1) {
@@ -793,7 +797,7 @@ export class MovieCard extends HTMLElement {
       this.timeButtons.forEach((button) => {
         button.classList.remove("active");
       });
-      this.timeButtons[activeChangeIndex].classList.add("active");
+      this.timeButtons[0].classList.add("active");
       this.renderShowtimes(activeChangeIndex);
     }
 
@@ -813,9 +817,12 @@ export class MovieCard extends HTMLElement {
       }
     }
 
+
+
+    /*Choosing the active button*/
     let activeButton =
       this.container.querySelector(".time-button.active") ||
-      this.timeButtons[0];
+      this.timeButtons[1];
     this.timeButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
         if (e.target.closest(".time-button") !== activeButton) {
@@ -877,11 +884,9 @@ export class MovieCard extends HTMLElement {
       nextDayBtn.id = `day-${i + 2}`;
       const daysAfterTomorrow = new Date();
       daysAfterTomorrow.setDate(daysAfterTomorrow.getDate() + (i + 2));
-      nextDayBtn.innerHTML = `<span class="colored">${
-        daysAfterTomorrow.getMonth() + 1
-      }/${daysAfterTomorrow.getDate()}</span> ${
-        this.mongolianWeekdays[daysAfterTomorrow.getDay()]
-      }`;
+      nextDayBtn.innerHTML = `<span class="colored">${daysAfterTomorrow.getMonth() + 1
+        }/${daysAfterTomorrow.getDate()}</span> ${this.mongolianWeekdays[daysAfterTomorrow.getDay()]
+        }`;
       btnGrp.appendChild(nextDayBtn);
     }
 
@@ -972,7 +977,7 @@ export class MovieCard extends HTMLElement {
     }
   }
 
-  disconnectedCallback() {}
+  disconnectedCallback() { }
 }
 
 customElements.define("movie-card", MovieCard);

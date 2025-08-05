@@ -17,11 +17,6 @@ class Filter extends HTMLElement {
     }
   }
   async render() {
-    const dayAtt = this.getAttribute("day-of-week") || this._day_of_week;
-    if (!dayAtt) {
-      this.shadowRoot.innerHTML = `<p>Day of week attribute is missing.</p>`;
-      return;
-    }
     try {
       const response = await fetch("../data/ongoing/movies-list.json");
       if (!response.ok) {
