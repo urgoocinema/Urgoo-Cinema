@@ -35,9 +35,9 @@ export class MovieList extends HTMLElement {
     this._isFilteredbyTime = false;
   }
 
-  static get observedAttributes() {}
+  static get observedAttributes() { }
 
-  attributeChangedCallback(attr, oldVal, newVal) {}
+  attributeChangedCallback(attr, oldVal, newVal) { }
 
   connectedCallback() {
     this.render();
@@ -47,6 +47,7 @@ export class MovieList extends HTMLElement {
   onFilterChanged(e) {
     const { branch, dayOfWeek, startTime } = e.detail;
     console.log("Filter changed:", branch, dayOfWeek, startTime);
+    this.container.querySelector(".movie").innerHTML = ``;
 
     this._selectedBranch = branch;
     this._selectedDayofWeek = dayOfWeek;
@@ -68,7 +69,6 @@ export class MovieList extends HTMLElement {
       this._isFilteredbyTime = false;
     }
     this.render();
-    console.log("Re-rendered");
   }
 
   async render() {
@@ -99,13 +99,7 @@ export class MovieList extends HTMLElement {
 
       for (let i = 0; i < branchData.branches.length; i++) {
         const branch = branchData.branches[i];
-        if (this._isFilteredbyBranch) {
-          if (branch.id.toString() === this._selectedBranch) {
-            movieCard.branches.push(branch);
-          }
-        } else {
-          movieCard.branches.push(branch);
-        }
+        movieCard.branches.push(branch);
       }
       this.container.appendChild(movieCard);
     }

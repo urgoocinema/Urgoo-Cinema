@@ -1,6 +1,7 @@
 import { durationConverter } from "../utils/duration-converter.js";
 import { convertToMinutes } from "../utils/getMinutes.js";
 import { isSameDay } from "../utils/isSameDay.js";
+import { day_to_number } from "../utils/day-to-number.js";
 
 const template = document.createElement("template");
 template.innerHTML = `
@@ -631,7 +632,7 @@ export class MovieCard extends HTMLElement {
     this.renderShowtimes(0);
     this.renderButtons();
     this.noTouchScreenHandler();
-    document.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
+
 
     if (this.container.querySelector(".timetable-container .branch") === null) {
       if (
@@ -679,14 +680,54 @@ export class MovieCard extends HTMLElement {
           })
         );
       });
+    document.addEventListener("filter-changed", (e) => this.onFilterChanged(e));
   }
   onFilterChanged(e) {
-    console.log("Filter changed in moviecard");
-    console.log(e.detail);
     const { branch, dayOfWeek, startTime } = e.detail;
-    console.log(branch, dayOfWeek, startTime);
+    this._selectedBranch = branch;
+    this._selectedDayofWeek = dayOfWeek;
+    this._selectedTime = startTime;
     this._isFiltered = true;
+    console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
+
+    if (this._selectedDayofWeek != "all-times") {
+      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
+      if (detailsEl) {
+        detailsEl.innerHTML = '';
+        let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
+        console.log(day_offset);
+        this.container.querySelector(".button-group").innerHTML = `${this._selectedDayofWeek}`;
+        this.renderShowtimes(day_offset);
+      } else {
+        console.warn('showtime-details not found in DOM');
+      }
+    }
+
+    if (this._selectedBranch == "" && this._selectedDayofWeek == "all-times" && this._selectedTime == "") {
+      this.container.querySelector(".button-group").innerHTML = ``;
+
+      this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
+        <button class="time-button" id="day-1">МАРГААШ</button>
+        <button class="show-all-times">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            viewBox="0 -960 960 960"
+            width="20px"
+            fill="currentColor"
+          >
+            <path
+              d="M421-421H206v-118h215v-215h118v215h215v118H539v215H421v-215Z"
+            />
+          </svg>
+          БҮХ ЦАГ (<span></span>)
+        </button>`;
+      this.renderButtons();
+      this.renderShowtimes(0);
+    }
+
   }
+
 
   renderCast() {
     this.container.querySelector(".cast .gray").textContent =
