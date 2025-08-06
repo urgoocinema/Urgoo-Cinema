@@ -696,7 +696,7 @@ export class MovieCard extends HTMLElement {
         detailsEl.innerHTML = '';
         let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
         console.log(day_offset);
-        this.container.querySelector(".button-group").innerHTML = `${this._selectedDayofWeek}`;
+        this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
         this.renderShowtimes(day_offset);
       } else {
         console.warn('showtime-details not found in DOM');
