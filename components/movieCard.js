@@ -691,16 +691,18 @@ export class MovieCard extends HTMLElement {
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
     if (this._selectedDayofWeek != "all-times") {
+
       const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
-      if (detailsEl) {
-        detailsEl.innerHTML = '';
-        let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
-        console.log(day_offset);
-        this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
-        this.renderShowtimes(day_offset);
-      } else {
-        console.warn('showtime-details not found in DOM');
-      }
+      detailsEl.innerHTML = '';
+      let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
+      console.log(day_offset);
+      this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
+      this.renderShowtimes(day_offset);
+
+    }
+    if (this._selectedBranch != "") {
+      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
+      detailsEl.innerHTML = '';
     }
 
     if (this._selectedBranch == "" && this._selectedDayofWeek == "all-times" && this._selectedTime == "") {
@@ -736,9 +738,6 @@ export class MovieCard extends HTMLElement {
 
   renderShowtimes(day) {
     const today = new Date();
-    // console.log(this.startDate);
-    // const today = this.startDate;
-
     const currentDay = new Date(today);
     currentDay.setDate(currentDay.getDate() + day);
     const currentTime = today.getHours() * 60 + today.getMinutes();
