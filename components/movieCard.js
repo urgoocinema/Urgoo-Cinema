@@ -155,6 +155,7 @@ export class MovieCard extends HTMLElement {
     const currentDayName = currentDay
       .toLocaleDateString("en-US", { weekday: "long" })
       .toLowerCase();
+    console.log("currentDayName:" + currentDayName);
     const currentTime = today.getHours() * 60 + today.getMinutes();
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
@@ -217,6 +218,7 @@ export class MovieCard extends HTMLElement {
           branch.remove();
         }
       }
+
     }
 
     if (this._selectedBranch == "" && this._selectedDayofWeek == "all-times" && this._selectedTime == "") {
