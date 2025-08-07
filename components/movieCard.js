@@ -688,6 +688,12 @@ export class MovieCard extends HTMLElement {
     this._selectedDayofWeek = dayOfWeek;
     this._selectedTime = startTime;
     this._isFiltered = true;
+    const today = new Date();
+    const currentDay = new Date(today);
+    const currentDayName = currentDay
+      .toLocaleDateString("en-US", { weekday: "long" })
+      .toLowerCase();
+    const currentTime = today.getHours() * 60 + today.getMinutes();
     console.log(this._selectedBranch, this._selectedDayofWeek, this._selectedTime);
 
     if (this._selectedDayofWeek != "all-times") {
@@ -701,8 +707,54 @@ export class MovieCard extends HTMLElement {
 
     }
     if (this._selectedBranch != "") {
+      const todayShowtimes = this.container.querySelector(
+        ".showtime-details .timetable-container"
+      );
       const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
       detailsEl.innerHTML = '';
+      const i = this._selectedBranch - 1;
+      const branchConstructor = document.createElement("div");
+      branchConstructor.classList.add("branch", `branch-${i + 1}`);
+      branchConstructor.innerHTML = `<p>${this.branches[i].name} <span class="location">${this.branches[i].location}</span></p><div class="schedule"></div>`;
+      const branch = todayShowtimes.appendChild(branchConstructor);
+      const hall = this.showtimes[`branch${i + 1}`]?.hallId;
+      const showtimes =
+        this.showtimes?.[`branch${i + 1}`]?.schedule?.[currentDayName];
+      console.log(showtimes);
+
+      if (isSameDay(currentDay, today)) {
+        branch.querySelector(".schedule").innerHTML = showtimes
+          ? showtimes
+            .map((time) =>
+              /^[0-2][0-9]:[0-5][0-9]$/.test(time) &&
+                convertToMinutes(time) >= currentTime + 30
+                ? `<a href="#" class="time" data-day="${currentDay
+                  .toISOString()
+                  .slice(0, 10)}" data-hour="${time}" data-branch="${i + 1
+                }" data-hall="${hall}">${time}</a>`
+                : ``
+            )
+            .join("")
+          : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
+        if (branch.querySelector(".schedule").innerHTML === "") {
+          branch.remove();
+        }
+      } else {
+        branch.querySelector(".schedule").innerHTML = showtimes
+          ? showtimes
+            .map(
+              (time) =>
+                `<a href="#" class="time" data-day="${currentDay
+                  .toISOString()
+                  .slice(0, 10)}" data-hour="${time}" data-branch="${i + 1
+                }" data-hall="${hall}">${time}</a>`
+            )
+            .join("")
+          : `<span class="time" style="opacity: 0.6; cursor: not-allowed">Цаг тавигдаагүй</span>`;
+        if (branch.querySelector(".schedule").innerHTML === "") {
+          branch.remove();
+        }
+      }
     }
 
     if (this._selectedBranch == "" && this._selectedDayofWeek == "all-times" && this._selectedTime == "") {
@@ -1017,7 +1069,9 @@ export class MovieCard extends HTMLElement {
     }
   }
 
-  disconnectedCallback() { }
+  disconnectedCallback() {
+    document.removeEventListener("filter-changed");
+  }
 }
 
 customElements.define("movie-card", MovieCard);
