@@ -155,7 +155,18 @@ export class MovieCard extends HTMLElement {
 
     if (this._selectedDayofWeek != "all-times") {
     }
-
+    if (this._selectedBranch != "" || this._selectedDayofWeek != "all-times" || this._selectedTime != "") {
+      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
+      detailsEl.innerHTML = '';
+      let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
+      this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
+      if (this._selectedBranch == "") {
+        this.renderShowtimes(day_offset, this._selectedBranch);
+      }
+      else {
+        this.renderShowtimes(day_offset, parseInt(this._selectedBranch) - 1);
+      }
+    }
 
     if (this._selectedDayofWeek == "all-times") {
       this.container.querySelector(".button-group").innerHTML = ``;
@@ -179,18 +190,7 @@ export class MovieCard extends HTMLElement {
       this.renderButtons();
       this.renderShowtimes(0, this._selectedBranch);
     }
-    else {
-      const detailsEl = this.container.querySelector('.showtime-details .timetable-container');
-      detailsEl.innerHTML = '';
-      let day_offset = day_to_number(this._selectedDayofWeek) - new Date().getDay();
-      this.container.querySelector(".button-group").innerHTML = `<div class="time-button active" > ${this._selectedDayofWeek}</div>`;
-      if (this._selectedBranch == "") {
-        this.renderShowtimes(day_offset, this._selectedBranch);
-      }
-      else {
-        this.renderShowtimes(day_offset, this._selectedBranch - 1);
-      }
-    }
+
 
   }
 
@@ -221,7 +221,7 @@ export class MovieCard extends HTMLElement {
 
     const renderBranch = (branchData, branchIndex) => {
       const branchConstructor = document.createElement("div");
-      branchConstructor.classList.add("branch", `branch-${branchIndex + 1}`);
+      branchConstructor.classList.add("branch", `branch-${branchIndex}`);
       branchConstructor.innerHTML = `<p>${branchData.name} <span class="location">${branchData.location}</span></p><div class="schedule"></div>`;
       const branch = todayShowtimes.appendChild(branchConstructor);
 
@@ -262,10 +262,9 @@ export class MovieCard extends HTMLElement {
       });
     } else {
       const branchIndex = parseInt(v_branch);
-      // Basic validation for the branch index
-      if (!isNaN(branchIndex) && branchIndex >= 0 && branchIndex < this.branches.length) {
-        renderBranch(this.branches[branchIndex], branchIndex);
-      }
+      console.log(branchIndex);
+      renderBranch(this.branches[branchIndex], branchIndex);
+
     }
   }
   renderButtons(activeChangeIndex = -1) {
