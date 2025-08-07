@@ -157,7 +157,7 @@ export class MovieCard extends HTMLElement {
     }
 
 
-    if (this._selectedBranch == "" && this._selectedDayofWeek == "all-times" && this._selectedTime == "") {
+    if (this._selectedDayofWeek == "all-times") {
       this.container.querySelector(".button-group").innerHTML = ``;
 
       this.container.querySelector(".button-group").innerHTML = `<button class="time-button active" id="day-0">ӨНӨӨДӨР</button>
